@@ -4,7 +4,7 @@
 //! onto each component.
 //!
 //! The inputs are the *conformance* fixtures at
-//! `spec/v0.1/conformance/supersession/<name>.ics` — the behavior family
+//! `spec/v1.0/conformance/supersession/<name>.ics` — the behavior family
 //! mints no `.ics` of its own, so a port that already loads the
 //! conformance corpus gets this table keyed by the same file names.
 //!

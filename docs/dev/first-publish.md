@@ -44,8 +44,8 @@ interactively, from the maintainer's machine — and then downgraded.
 
 **A version number, once published, can never be reused.** npm, PyPI
 and crates.io all refuse to re-upload a version even after a yank,
-unpublish or delete. If `1.0.0-alpha.1` goes out with a broken build,
-that number is burned; the fix ships as `1.0.0-alpha.2`.
+unpublish or delete. If `alpha.1` goes out with a broken build, that
+number is burned; the fix ships as `alpha.2`.
 
 Concretely, the points of no return are:
 

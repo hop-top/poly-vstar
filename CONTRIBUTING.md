@@ -18,7 +18,7 @@ reference implementation in `go/`, and the four ports in `ts/`,
 - [`rs/`](rs/) — Rust port, MIT.
 - [`php/`](php/) — PHP port, MIT.
 - [`go/testdata/`](go/testdata/) — generated mirror of
-  [`spec/v0.1/conformance/`](spec/v0.1/conformance/), committed so the
+  [`spec/v1.0/conformance/`](spec/v1.0/conformance/), committed so the
   published Go module stays self-contained.
 - [`docs/`](docs/) — contributor guides and reference docs.
 
@@ -173,7 +173,7 @@ and a note in this section.
 ## Shared conformance corpus
 
 Conformance fixtures are authored in
-[`spec/v0.1/conformance/`](spec/v0.1/conformance/) — one source for
+[`spec/v1.0/conformance/`](spec/v1.0/conformance/) — one source for
 both the spec text and the fixtures that pin it.
 [`go/testdata/`](go/testdata/) is a generated mirror of that
 directory, committed so the `hop-top/vstar` module mirror (which
@@ -192,8 +192,8 @@ not spec content, and survives the mirror untouched.
 
 A fixture change now lands as one PR in this repository:
 
-1. Add or modify a fixture under `spec/v0.1/conformance/`.
-2. Update the relevant section of [`spec/v0.1/`](spec/v0.1/) to
+1. Add or modify a fixture under `spec/v1.0/conformance/`.
+2. Update the relevant section of [`spec/v1.0/`](spec/v1.0/) to
    describe the new behaviour.
 3. Update every implementation — the Go reference and all four ports
    — to handle it; add tests that consume the new fixture. A fixture

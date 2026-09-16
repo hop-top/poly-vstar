@@ -38,7 +38,7 @@ use HopTop\Vstar\Vstar;
  * - Sub-components pair by (type, UID) when both sides carry a UID.
  *   Those without one -- a VALARM, typically -- pair **positionally** by
  *   index within their type bucket, so reordering UID-less children
- *   surfaces as add + remove rather than a change. That is a known v0.1
+ *   surfaces as add + remove rather than a change. That is a known
  *   limitation, not a defect.
  * - Multiple instances of one property name pair in order, the i-th
  *   against the i-th, with the surplus on either side becoming add or
@@ -125,7 +125,7 @@ final class Diff
      * Whether two components are semantically equal -- their canonical
      * bytes are identical.
      *
-     * This routes through full canonical-byte comparison: v0.1 prioritizes
+     * This routes through full canonical-byte comparison: the design prioritizes
      * correctness over per-property short-circuiting.
      *
      * A component carrying TZID-tagged datetimes has no VTIMEZONE registry

@@ -6,7 +6,7 @@ import "time"
 
 // timeFormatUTC is RFC 5545 §3.3.5 form #2 ("date with UTC time"),
 // e.g. "20260504T183045Z". All V* on-the-wire timestamps use this
-// form; floating local times are not supported in v0.1.
+// form; floating local times are not supported.
 const timeFormatUTC = "20060102T150405Z"
 
 // timeFormatLocal is RFC 5545 §3.3.5 form #1 ("date with local
@@ -42,7 +42,7 @@ func FormatTime(t time.Time) string {
 //
 //   - form #1 (`YYYYMMDDTHHMMSS`, local) — handled by
 //     ParseTimeWithTZID when accompanied by a TZID parameter; bare
-//     local times have no zone and are unsupported in v0.1.
+//     local times have no zone and are unsupported.
 //   - RFC 3339 / ISO 8601 layouts (`2026-05-04T18:30:45Z` etc.) —
 //     V* readers should see torn data instead of silently coercing.
 //   - Date-only values (`YYYYMMDD`) — DATE value type is a separate

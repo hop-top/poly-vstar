@@ -12,7 +12,7 @@ use HopTop\Vstar\Time;
 
 /**
  * RFC 5545 §3.3.10 RRULE value parsing, for the scope
- * `spec/v0.1/03-canonicalization.md` §RRULE parsing scope fixes.
+ * `spec/v1.0/03-canonicalization.md` §RRULE parsing scope fixes.
  *
  * Two failure classes, and the `rrule/rejected/` fixtures distinguish
  * them:
@@ -246,7 +246,7 @@ final class Parser
             case 'RSCALE':
                 // RFC 7529, non-Gregorian calendars -- deferred
                 // indefinitely; not on the V* roadmap.
-                self::unsupported('rule-part ' . $key . ': outside the v0.1 scope');
+                self::unsupported('rule-part ' . $key . ': outside the RRULE parsing scope');
 
                 // no break -- unsupported() never returns.
             default:
@@ -277,8 +277,8 @@ final class Parser
 
             case 'SECONDLY':
                 // Syntactically valid, deliberately deferred: extreme
-                // expansion, with no realistic agentic use case in v0.2.
-                self::unsupported('FREQ=' . $v . ': outside the v0.1 scope');
+                // expansion, with no realistic agentic use case.
+                self::unsupported('FREQ=' . $v . ': outside the RRULE parsing scope');
 
                 // no break -- unsupported() never returns.
             default:

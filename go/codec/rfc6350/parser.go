@@ -10,7 +10,7 @@ import (
 	vstar "hop.top/vstar"
 )
 
-// supportedVersion is the only VERSION value accepted in v0.1 per
+// supportedVersion is the only VERSION value accepted per
 // the codec-rfc6350 plan. The spec/03 open question on accepting 3.0
 // on read is parked: until the spec resolves it, we reject anything
 // other than 4.0 with ErrUnsupportedVersion.

@@ -135,10 +135,15 @@ final class HelpersTest extends TestCase
         $construct();
     }
 
+    /**
+     * The default PRODID is version-free and language-free: it is part of
+     * the hashed canonical form, so every port emits the same literal and
+     * no release changes it.
+     */
     public function testNewCalendarDefaultsTheProdId(): void
     {
         self::assertSame('-//V*//Custom//EN', Helpers::newCalendar('-//V*//Custom//EN')->prodId);
-        self::assertNotSame('', Helpers::newCalendar('')->prodId);
+        self::assertSame('-//hop-top//vstar//EN', Helpers::newCalendar('')->prodId);
     }
 
     /**

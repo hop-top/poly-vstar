@@ -29,7 +29,7 @@ var malformedSentinelsRFC6350 = map[string]error{
 // `<stem>.error`.
 //
 // Most fixtures fail at parse-time. ErrMissingUID is encoder-only
-// in v0.1 — for that sentinel the test parses successfully and
+// at v1.0 — for that sentinel the test parses successfully and
 // then asserts the encoder refuses with the expected error.
 func TestMalformed_RFC6350(t *testing.T) {
 	t.Parallel()

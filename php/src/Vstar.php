@@ -81,7 +81,7 @@ final class Vstar
     /**
      * Resolve an RFC 5545 form #1 local value against a VTIMEZONE carried
      * by `$cal` itself, or null when the zone is absent or outside the
-     * v0.1 subset.
+     * spec's VTIMEZONE subset.
      *
      * @see Time::parseTimeWithTzid() for the subset and why no IANA
      *                                database is ever consulted

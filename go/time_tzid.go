@@ -22,7 +22,8 @@ import (
 //   - the value isn't form #1 (15 octets, exactly one 'T' at index
 //     8, no Z suffix);
 //   - the calendar carries an RRULE pattern this implementation
-//     doesn't recognize. v0.1 supports STANDARD-only (no RRULE,
+//     doesn't recognize. The spec's VTIMEZONE subset covers
+//     STANDARD-only (no RRULE,
 //     trivial fixed offset) and STANDARD+DAYLIGHT with
 //     `FREQ=YEARLY` rules. RDATE-only zones, multiple STANDARD
 //     entries, and any non-yearly RRULE return (zero, false).
@@ -117,7 +118,7 @@ func loadTZRules(tz Component) (tzRuleSet, bool) {
 	}
 	if len(standards) > 1 || len(daylights) > 1 {
 		// Multiple STANDARD/DAYLIGHT entries (historical timezones)
-		// outside v0.1 scope.
+		// outside the spec's VTIMEZONE subset.
 		return tzRuleSet{}, false
 	}
 
@@ -359,7 +360,7 @@ func parseYearlyRRULE(s string, r *tzRule) bool {
 		default:
 			// Unknown RRULE part — fail closed rather than silently
 			// applying a partial rule. A producer including UNTIL,
-			// COUNT, BYWEEKNO, etc. is outside the v0.1 subset.
+			// COUNT, BYWEEKNO, etc. is outside the spec's VTIMEZONE subset.
 			return false
 		}
 	}

@@ -13,7 +13,7 @@ V\* extensions live in three tiers of `X-*` properties.
 | `X-EXP-*` | Experimental / unstable | No guarantees |
 
 `X-VSTAR-HASH` (defined in `02-component-mapping.md`) is the only
-mandatory `X-VSTAR-*` property in v0.1.
+mandatory `X-VSTAR-*` property in v1.0.
 
 ## Examples
 
@@ -47,8 +47,9 @@ systems implement the same extension with compatible semantics.
 
 ## Registration
 
-There is no central registry yet. v0.2 will define a registration
-process (likely a `EXTENSIONS.md` manifest in this repo, PR-driven).
+There is no central registry yet. A later version will define a
+registration process (likely a `EXTENSIONS.md` manifest in this
+repo, PR-driven).
 For now, system maintainers SHOULD document their `X-<SYSTEM>-*`
 extensions in their own repos and cross-link.
 

@@ -18,7 +18,7 @@ import type { Calendar, Component } from "../src/types.js";
 import { type TzidCase, loadBehaviorJson } from "./behavior.js";
 import { CONFORMANCE_DIR } from "./fixtures.js";
 
-/** Load `spec/v0.1/conformance/time/<name>.ics` as a parsed calendar. */
+/** Load `spec/v1.0/conformance/time/<name>.ics` as a parsed calendar. */
 function timeCalendar(name: string): Calendar {
   return parseIcs(new Uint8Array(readFileSync(join(CONFORMANCE_DIR, "time", `${name}.ics`))));
 }

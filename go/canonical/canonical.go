@@ -98,14 +98,14 @@ func Component(c vstar.Component) []byte {
 //     vstar.FormatTime UTC form (`YYYYMMDDTHHMMSSZ`) and DROP the
 //     TZID parameter from the canonical property.
 //   - If TZID resolution fails (matching VTIMEZONE missing or
-//     outside the v0.1 VTIMEZONE subset — see spec/03
+//     outside the spec's VTIMEZONE subset — see spec/03
 //     §VTIMEZONE subset for TZID resolution), the
 //     value AND the TZID parameter are emitted verbatim. Canonical
 //     bytes for such Components are NOT deterministic across
 //     calendars carrying different VTIMEZONE definitions; the
 //     producer is expected to ship a self-contained calendar with
 //     all referenced VTIMEZONE components present and inside the
-//     v0.1 RRULE subset.
+//     spec's VTIMEZONE RRULE subset.
 //
 // Datetime values already in UTC form #2 (`Z`-suffixed) and values
 // without a TZID parameter pass through verbatim — there is
@@ -292,7 +292,7 @@ func prepareComponent(c vstar.Component, cal vstar.Calendar) vstar.Component {
 // is re-emitted as vstar.FormatTime UTC form #2 and the TZID
 // parameter is dropped from the canonical Params slice. On failure
 // (TZID resolution returns false — no matching VTIMEZONE in cal,
-// or the VTIMEZONE is outside the v0.1 VTIMEZONE subset of spec/03
+// or the VTIMEZONE is outside the VTIMEZONE subset of spec/03
 // §Datetime resolution), the value AND TZID parameter pass through
 // verbatim. Datetime values without a TZID parameter, and values
 // already in UTC form #2, pass through unchanged.

@@ -35,7 +35,7 @@ export function checkRRule(c: Component, path: string): Diagnostic[] {
         : CODES.CodeRRuleMalformed;
     const detail =
       code === CODES.CodeRRuleUnsupported
-        ? `RRULE uses a feature outside the v0.2 rrule scope (spec/03 §RRULE parsing scope): ${String(err)}`
+        ? `RRULE uses a feature outside the RRULE parsing scope (spec/03 §RRULE parsing scope): ${String(err)}`
         : `RRULE is malformed (RFC 5545 §3.3.10): ${String(err)}`;
     out.push(diagnostic(code, detail, `${path}.${RRULE}`));
   }

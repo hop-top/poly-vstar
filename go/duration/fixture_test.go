@@ -27,7 +27,7 @@ func openFixture(t *testing.T, name string) *os.File {
 
 // TestFixture_VEventValarmRelativeTrigger closes the loop the audit
 // opened: vstar has shipped testdata/rfc5545/vevent_valarm.ics —
-// carrying TRIGGER:-PT15M — since v0.1 without being able to
+// carrying TRIGGER:-PT15M — from its first release without being able to
 // interpret it. This test parses the shipped fixture and asserts the
 // alarm resolves to 15 minutes before the event's DTSTART.
 //

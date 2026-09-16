@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // RFC 5545 §3.3.10 RRULE value parsing, for the scope
-// spec/v0.1/03 §RRULE parsing scope fixes.
+// spec/v1.0/03 §RRULE parsing scope fixes.
 //
 // Two failure classes, and the fixtures under `rrule/rejected/`
 // distinguish them:
@@ -151,7 +151,7 @@ function applyRulePart(d: Draft, key: string, value: string): void {
       return;
     case "RSCALE":
       // RFC 7529, non-Gregorian calendars — deferred indefinitely.
-      unsupported(`rule-part ${key}: outside the v0.1 scope`);
+      unsupported(`rule-part ${key}: outside the RRULE parsing scope`);
       return;
     default:
       malformed(`unknown rule-part ${JSON.stringify(key)}`);
@@ -170,7 +170,7 @@ function parseFreq(v: string): Freq {
       return v;
     case "SECONDLY":
       // Syntactically valid, deliberately deferred: extreme expansion.
-      unsupported(`FREQ=${v}: outside the v0.1 scope`);
+      unsupported(`FREQ=${v}: outside the RRULE parsing scope`);
       break;
     default:
       malformed(`invalid FREQ value ${JSON.stringify(v)}`);

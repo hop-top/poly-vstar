@@ -2,7 +2,7 @@
 
 // Command fixtures-gen-supersession generates the five supersession
 // edge-case .ics fixtures under the conformance corpus'
-// supersession/ directory — spec/v0.1/conformance/supersession/ in
+// supersession/ directory — spec/v1.0/conformance/supersession/ in
 // the poly-vstar monorepo, testdata/supersession/ on the
 // hop-top/vstar mirror (see corpusRoot). The `.canonical` and `.hash`
 // regeneration, and the mirroring of the corpus into the module's

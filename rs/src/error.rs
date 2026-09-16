@@ -33,7 +33,7 @@ pub enum Error {
     UnsupportedVersion(String),
     /// A component that requires `UID` has none.
     ///
-    /// Encoder-only in v0.1: the RFC 6350 parser accepts a UID-less
+    /// Encoder-only: the RFC 6350 parser accepts a UID-less
     /// VCARD by design and the encoder is what refuses it.
     MissingUid(String),
     /// Syntactically valid but outside the RRULE parsing scope.

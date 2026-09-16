@@ -16,7 +16,7 @@ import (
 
 // specDirName is the spec tree's directory, relative to the
 // repository root. The behavior fixtures live under
-// <spec>/behavior/ — a sibling of <spec>/v0.1/conformance/ rather
+// <spec>/behavior/ — a sibling of <spec>/v1.0/conformance/ rather
 // than a member of it, because they are version-independent
 // behavior tables rather than wire-format conformance inputs.
 const specDirName = "spec"

@@ -328,7 +328,7 @@ func parseCases() []parseCase {
 		},
 
 		// ─────────────────────────────────────────────────────────
-		// Rejected: ErrUnsupportedRRule (out of v0.2 scope)
+		// Rejected: ErrUnsupportedRRule (outside the RRULE parsing scope)
 		// ─────────────────────────────────────────────────────────
 		{
 			name:    "freq_secondly",

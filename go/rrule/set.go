@@ -232,13 +232,13 @@ func containsInstant(ts []time.Time, t time.Time) bool {
 // carry multiple comma-separated values; every value accumulates.
 //
 // Value-type support is limited to RFC 5545 form #2 (UTC,
-// Z-suffixed) datetimes: spec/03 §Recurrence sets fixes v0.1
+// Z-suffixed) datetimes: spec/03 §Recurrence sets fixes
 // recurrence sets as UTC-only, matching vstar.ParseTime's strict
 // posture and the UTC-only rule for RRULE bounds. Returns a wrapped
 // ErrUnsupportedRRule when an EXDATE/RDATE carries:
 //
-//   - VALUE=DATE — date-only values are outside the v0.1
-//     recurrence-set scope by spec; resolving one to an instant
+//   - VALUE=DATE — date-only values are outside the spec's
+//     recurrence-set scope; resolving one to an instant
 //     would mean guessing a time-of-day.
 //   - TZID — EXDATE and RDATE are not on spec/03's datetime
 //     resolution allow-list, so a zoned value reaches this
@@ -319,7 +319,7 @@ func parseDateListProperty(p vstar.Property) ([]time.Time, error) {
 //
 // Returns a wrapped vstar.ErrMalformed for an empty input or any
 // value that is not form #2 — including date-only (VALUE=DATE)
-// values, which v0.1 recurrence sets exclude (see
+// values, which the spec's recurrence sets exclude (see
 // SetFromComponent).
 func ParseDateTimeList(s string) ([]time.Time, error) {
 	if s == "" {

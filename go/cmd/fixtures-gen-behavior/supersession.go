@@ -12,7 +12,7 @@ import (
 // supersessionInputs are the conformance-corpus fixtures the
 // effective-status family projects. They are NOT regenerated here:
 // they are authored by fixtures-gen-supersession under
-// spec/v0.1/conformance/supersession/ and carry their own
+// spec/v1.0/conformance/supersession/ and carry their own
 // .canonical/.hash siblings and hand-written .notes.md.
 //
 // Reusing them rather than minting parallel inputs keeps one .ics
@@ -42,7 +42,7 @@ func writeSupersessionFamily(dir string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	corpus := filepath.Join(filepath.Dir(module), specDirName, "v0.1", "conformance", "supersession")
+	corpus := filepath.Join(filepath.Dir(module), specDirName, "v1.0", "conformance", "supersession")
 	n := 0
 	for _, name := range supersessionInputs {
 		cal, err := readCalendar(filepath.Join(corpus, name+".ics"))

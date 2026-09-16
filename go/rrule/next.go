@@ -81,10 +81,10 @@ var ErrIterationCap = errors.New("rrule: iteration cap exceeded")
 //     that treat this as ordinary completion will silently drop
 //     occurrences, so match it with errors.Is and surface it.
 //   - (zero, false, ErrUnsupportedRRule) — guard against future
-//     parser/evaluator skew. v0.2 ships parser scope == evaluator
-//     scope, so this branch is unreachable from valid inputs at
-//     ship; it is kept as the published failure mode for any
-//     future v0.2.x patch that surfaces an evaluator gap.
+//     parser/evaluator skew. The RRULE parsing scope fixes parser
+//     scope == evaluator scope, so this branch is unreachable from
+//     valid inputs; it is kept as the published failure mode for
+//     any later patch that surfaces an evaluator gap.
 //
 // Time-zone semantics: the evaluator operates on time.Time and
 // uses its native arithmetic. The caller's `dtstart` zone carries

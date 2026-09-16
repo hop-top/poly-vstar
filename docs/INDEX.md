@@ -31,7 +31,7 @@ another language that must agree byte-for-byte with the Go reference.
   compute `X-VSTAR-HASH`, run `validate.Validate`, interpret diagnostic
   codes.
 - [How-to: parse and evaluate RRULE](user/how-to-recurrence.md) —
-  v0.2 recurrence parser + `NextOccurrence` evaluator with the
+  the recurrence parser + `NextOccurrence` evaluator with the
   common patterns (DAILY, BYDAY, BYSETPOS).
 - [How-to: build a sister vstar implementation](user/how-to-implement-vstar.md) —
   cross-validate against the Go reference using the conformance
@@ -47,7 +47,7 @@ Audience-agnostic — any reader can link in.
   restating a range here only goes stale.
 - [Specification](../spec/) — V* normative text, CC-BY-4.0, authored in
   this repo.
-- [Conformance corpus](../spec/v0.1/conformance/) — the canonical
+- [Conformance corpus](../spec/v1.0/conformance/) — the canonical
   fixtures shared by every implementation;
   [`../go/testdata/`](../go/testdata/) is its generated mirror.
 
@@ -80,10 +80,10 @@ constraints — is stated normatively in the spec. Read it when you
 need the rule behind a canonical-form behaviour or a parser scope
 boundary.
 
-- [spec/03 — canonicalization](../spec/v0.1/03-canonicalization.md)
+- [spec/03 — canonicalization](../spec/v1.0/03-canonicalization.md)
   — rules 1–10, datetime resolution, VTIMEZONE subset, RRULE
   parsing scope.
-- [spec/04 — extensions](../spec/v0.1/04-extensions.md)
+- [spec/04 — extensions](../spec/v1.0/04-extensions.md)
   — `X-*` namespace tiers.
 
 ## Release process

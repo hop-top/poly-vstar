@@ -320,7 +320,7 @@ The four ports each publish a `VSTAR-CONFORMANCE.md` attesting which
 gates are green. This module has none, because it does not attest to
 conformance — it defines it. An implementation is conformant when it
 meets every MUST in
-[spec/05](https://github.com/hop-top/poly-vstar/blob/main/spec/v0.1/05-conformance.md)
+[spec/05](https://github.com/hop-top/poly-vstar/blob/main/spec/v1.0/05-conformance.md)
 *and* reproduces this module's canonical bytes and hashes over the
 whole corpus. The cross-language parity harness diffs every port's
 output against this one's on every push; a value wrong here is
@@ -332,7 +332,7 @@ make test-parity   # from the repository root
 
 `testdata/` is a generated, committed mirror of the corpus authored
 at
-[`spec/v0.1/conformance/`](https://github.com/hop-top/poly-vstar/tree/main/spec/v0.1/conformance),
+[`spec/v1.0/conformance/`](https://github.com/hop-top/poly-vstar/tree/main/spec/v1.0/conformance),
 so the published module is self-contained: every test reads its
 fixtures from there, and `go test ./...` passes without the monorepo
 present. Nobody hand-edits it; `cmd/fixtures-verify` regenerates
@@ -361,7 +361,7 @@ for the development loop.
 ## Links
 
 - [Quickstart](https://github.com/hop-top/poly-vstar/blob/main/docs/user/quickstart.md) — parse your first VCALENDAR, then the [how-tos](https://github.com/hop-top/poly-vstar/blob/main/docs/INDEX.md) for validation, hashing and recurrence
-- [Specification](https://github.com/hop-top/poly-vstar/tree/main/spec) — normative text and the conformance corpus; [spec/03](https://github.com/hop-top/poly-vstar/blob/main/spec/v0.1/03-canonicalization.md) is every canonical-form rule
+- [Specification](https://github.com/hop-top/poly-vstar/tree/main/spec) — normative text and the conformance corpus; [spec/03](https://github.com/hop-top/poly-vstar/blob/main/spec/v1.0/03-canonicalization.md) is every canonical-form rule
 - [Diagnostic codes](https://github.com/hop-top/poly-vstar/blob/main/docs/validate-codes.md) — the `VS***` catalog
 - [API mapping](https://github.com/hop-top/poly-vstar/blob/main/docs/dev/api-mapping.md) — this module's exported surface and each port's spelling of it
 - [Porting guide](https://github.com/hop-top/poly-vstar/blob/main/docs/dev/porting-guide.md) — writing a sister implementation

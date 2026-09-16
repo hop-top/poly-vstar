@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// The `Rule` class: the parsed fields, plus the wire form spec/v0.1/03
+// The `Rule` class: the parsed fields, plus the wire form spec/v1.0/03
 // §RRULE wire form fixes for emitters.
 
 import type { Property } from "../types.js";

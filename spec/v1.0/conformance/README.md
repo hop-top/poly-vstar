@@ -1,7 +1,7 @@
 # V\* conformance corpus
 
 > [!NOTE]
-> The corpus is **authored** at `spec/v0.1/conformance/`, alongside
+> The corpus is **authored** at `spec/v1.0/conformance/`, alongside
 > the specification text it pins. The Go module carries a generated,
 > committed copy at `go/testdata/` so the published module stays
 > self-contained — if you are reading this file there, edit the
@@ -112,7 +112,7 @@ these fixtures.
 Spec text, corpus and implementation live in one repository, so
 changing a fixture is a **single PR** covering:
 
-1. Spec text — the section of `spec/v0.1/` that motivates the new
+1. Spec text — the section of `spec/v1.0/` that motivates the new
    behavior.
 2. The fixture itself, under this directory.
 3. Implementation (the codec / canonical / hashing change).

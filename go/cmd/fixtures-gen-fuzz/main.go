@@ -2,7 +2,7 @@
 
 // Command fixtures-gen-fuzz writes the canonical fuzz seed corpora
 // under the conformance corpus' fuzz-seed/rfc5545/ and
-// fuzz-seed/rfc6350/ directories — spec/v0.1/conformance/ in the
+// fuzz-seed/rfc6350/ directories — spec/v1.0/conformance/ in the
 // poly-vstar monorepo, testdata/ on the hop-top/vstar mirror (see
 // corpusRoot). Each seed is a raw byte file; fixtures-verify mirrors
 // them into the go-fuzz convention dirs at

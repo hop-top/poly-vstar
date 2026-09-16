@@ -121,9 +121,9 @@ impl Draft {
             // Deferred by spec §RRULE parsing scope — syntactically
             // valid, and a different answer from "unknown".
             "RSCALE" => {
-                return Err(Error::UnsupportedRRule(
-                    "rrule: rule-part RSCALE (RFC 7529)".to_owned(),
-                ))
+                return Err(Error::UnsupportedRRule(format!(
+                    "rrule: rule-part {key}: outside the RRULE parsing scope"
+                )))
             }
 
             _ => {
@@ -193,7 +193,9 @@ fn parse_freq(v: &str) -> Result<Freq> {
         "WEEKLY" => Ok(Freq::Weekly),
         "MONTHLY" => Ok(Freq::Monthly),
         "YEARLY" => Ok(Freq::Yearly),
-        "SECONDLY" => Err(Error::UnsupportedRRule(format!("rrule: FREQ={v}"))),
+        "SECONDLY" => Err(Error::UnsupportedRRule(format!(
+            "rrule: FREQ={v}: outside the RRULE parsing scope"
+        ))),
         _ => Err(Error::Malformed(format!("rrule: invalid FREQ value {v:?}"))),
     }
 }

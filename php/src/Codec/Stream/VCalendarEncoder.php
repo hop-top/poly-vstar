@@ -35,9 +35,11 @@ final class VCalendarEncoder
     /**
      * The PRODID emitted when {@see self::setHeader()} was not called. It
      * mirrors the batch encoder's default so batch and stream output for
-     * the same logical calendar stay byte-comparable.
+     * the same logical calendar stay byte-comparable. Version-free and
+     * language-free: PRODID survives canonicalization and is hashed, so
+     * the default must not change across releases or differ between ports.
      */
-    private const DEFAULT_PROD_ID = '-//hop-top//vstar-php v0.1.0//EN';
+    private const DEFAULT_PROD_ID = '-//hop-top//vstar//EN';
 
     private const SUPPORTED_VERSION = '2.0';
 
@@ -58,7 +60,7 @@ final class VCalendarEncoder
     /**
      * Configure the header emitted on the next {@see self::encode()}.
      *
-     * Only `prodId` is consulted: VERSION is fixed at 2.0 by the v0.1
+     * Only `prodId` is consulted: VERSION is fixed at 2.0 by the spec's
      * supported-version contract.
      *
      * @throws HeaderLockedException the first encode already wrote the header

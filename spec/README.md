@@ -17,13 +17,13 @@ documents comparable byte-for-byte.
 > publish. File issues and pull requests against
 > [`hop-top/poly-vstar`](https://github.com/hop-top/poly-vstar/issues).
 >
-> **Pin a version directory.** Cite and implement against `v0.1/`, not
+> **Pin a version directory.** Cite and implement against `v1.0/`, not
 > `main`. Versions are independent directories and a breaking change
 > opens a new one; see [Versions](#versions).
 
 This directory ships no code and nothing to install. It is a document
 with three parts every implementation consumes: the numbered sections
-under `v0.1/`, the fixtures under `v0.1/conformance/` and `behavior/`,
+under `v1.0/`, the fixtures under `v1.0/conformance/` and `behavior/`,
 and the enumerations under `registry/`.
 
 ## What the specification pins down
@@ -33,11 +33,11 @@ properties in any order, parameters in any order, datetimes in local
 or UTC form, lines folded at any column. A generic parser accepts all
 of them and cannot say whether two documents mean the same thing.
 
-V\* removes the choice. [`03-canonicalization.md`](v0.1/03-canonicalization.md)
+V\* removes the choice. [`03-canonicalization.md`](v1.0/03-canonicalization.md)
 defines one byte sequence per logical content — folding, for
 instance, happens at a 75-**octet** boundary, and a multi-byte UTF-8
 sequence that straddles it is split — and
-[`X-VSTAR-HASH`](v0.1/03-canonicalization.md#hashing) is `sha256:`
+[`X-VSTAR-HASH`](v1.0/03-canonicalization.md#hashing) is `sha256:`
 followed by the hex SHA-256 of that canonical form with the hash
 property itself removed. Equality is then a string comparison, and
 the conformance corpus asserts the bytes.
@@ -52,14 +52,18 @@ and what "conformant" means for a document and for an implementation.
 
 | Version | Directory | Release tag | Change history |
 |---------|-----------|-------------|----------------|
-| v0.1 | [`v0.1/`](v0.1/) | `vstar-v0.1/v*` | [`v0.1/CHANGELOG.md`](v0.1/CHANGELOG.md) |
+| v1.0 | [`v1.0/`](v1.0/) | `vstar-spec/v*` | [`v1.0/CHANGELOG.md`](v1.0/CHANGELOG.md) |
 
 Versions are independent directories. A breaking change opens a new
 version directory; it never bumps within an existing one. CI enforces
 both halves of that rule with
 [`.github/scripts/validate_spec_commits.py`](.github/scripts/validate_spec_commits.py):
 a commit may touch only one `vX.Y/` directory, and a commit touching
-one may not carry Conventional Commits breaking-change syntax.
+one may not carry Conventional Commits breaking-change syntax. The
+one admitted shape across two directories is a whole-directory
+rename: every file moves byte-identical to the same relative path
+and nothing is left behind, so the commit counts as touching only
+the destination.
 
 The `**Status:**` line at the top of this file and of each version's
 documents is written by release automation
@@ -68,50 +72,50 @@ from the release channel: `alpha` is Draft, `beta` is Pre-release,
 `rc` is Release Candidate, and an unsuffixed version is General
 Availability.
 
-## How to read v0.1
+## How to read v1.0
 
 The sections are numbered and normative in this order. Each states
 its own status at the top.
 
-1. [`01-overview.md`](v0.1/01-overview.md) — design principles,
-   [scope](v0.1/01-overview.md#scope) and
-   [non-goals](v0.1/01-overview.md#non-goals).
-2. [`02-component-mapping.md`](v0.1/02-component-mapping.md) —
+1. [`01-overview.md`](v1.0/01-overview.md) — design principles,
+   [scope](v1.0/01-overview.md#scope) and
+   [non-goals](v1.0/01-overview.md#non-goals).
+2. [`02-component-mapping.md`](v1.0/02-component-mapping.md) —
    agentic concept to RFC 5545 / RFC 6350 component; required and
    recommended properties; `RELTYPE`; the supersession ledger.
-3. [`03-canonicalization.md`](v0.1/03-canonicalization.md) — the
+3. [`03-canonicalization.md`](v1.0/03-canonicalization.md) — the
    byte-for-byte rules, datetime and `TZID` resolution, the RRULE
    parsing scope and wire form, `TRIGGER` conventions, hashing.
-4. [`04-extensions.md`](v0.1/04-extensions.md) — `X-*` namespace
+4. [`04-extensions.md`](v1.0/04-extensions.md) — `X-*` namespace
    tiers, the promotion path, compatibility rules.
-5. [`05-conformance.md`](v0.1/05-conformance.md) — conformance
+5. [`05-conformance.md`](v1.0/05-conformance.md) — conformance
    criteria, implementation classes, failure classes,
    self-certification.
 
-[`v0.1/README.md`](v0.1/README.md) is the version's own front matter.
+[`v1.0/README.md`](v1.0/README.md) is the version's own front matter.
 The corpus and the registry, below, complete the version.
 
 ## Conformance
 
 An implementation is conformant when it meets every MUST in
-[`05-conformance.md`](v0.1/05-conformance.md) and reproduces the
+[`05-conformance.md`](v1.0/05-conformance.md) and reproduces the
 corpus: same input, same `.canonical` bytes, same `.hash`.
 
 - **Implementation classes.** An implementation is an *emitter*, a
   *consumer*, or a *round-trip* (both, with byte-identical re-emit of
   what it emitted) — see
-  [Implementation classes](v0.1/05-conformance.md#implementation-classes).
+  [Implementation classes](v1.0/05-conformance.md#implementation-classes).
 - **Failure classes.** Rejected or abandoned input is reported by
   class, and each class has one token — `ErrMalformed`,
   `ErrUnsupportedRRule`, and the rest — that every implementation
   exposes under exactly that spelling, whatever its host language
   calls the error value. The table in
-  [Failure classes](v0.1/05-conformance.md#failure-classes) is the
-  complete set for v0.1; the corpus names classes by token.
+  [Failure classes](v1.0/05-conformance.md#failure-classes) is the
+  complete set for v1.0; the corpus names classes by token.
 - **Self-certification.** Until a formal suite exists, an
   implementation publishes a `VSTAR-CONFORMANCE.md` stating the spec
   revision it targets, its class, its deviations and its green gates —
-  see [Self-certification](v0.1/05-conformance.md#self-certification).
+  see [Self-certification](v1.0/05-conformance.md#self-certification).
 
 ### The corpus
 
@@ -119,13 +123,13 @@ Two fixture trees, both read by every implementation:
 
 | Tree | Contract | What a fixture states |
 |------|----------|-----------------------|
-| [`v0.1/conformance/`](v0.1/conformance/) | Wire | What parses, which canonical bytes it produces, which hash; which malformed inputs fail and in which class; how an RRULE parses, formats, expands and is rejected; `VTIMEZONE` inputs for `TZID` resolution; fuzz seeds. |
+| [`v1.0/conformance/`](v1.0/conformance/) | Wire | What parses, which canonical bytes it produces, which hash; which malformed inputs fail and in which class; how an RRULE parses, formats, expands and is rejected; `VTIMEZONE` inputs for `TZID` resolution; fuzz seeds. |
 | [`behavior/`](behavior/) | Behavior | Which diagnostics a document raises, what a diff between two documents reports, which status a supersession ledger projects, when an alarm fires, how an extension name classifies, how a local timestamp resolves against a zone. |
 
 Byte identity against the corpus is necessary, not sufficient: a
 fixture pins only the rules it happens to reach, and some rules cannot
 be reached through the wire format at all. Each tree's README —
-[`v0.1/conformance/README.md`](v0.1/conformance/README.md) and
+[`v1.0/conformance/README.md`](v1.0/conformance/README.md) and
 [`behavior/README.md`](behavior/README.md) — records the file
 conventions, the sort orders that are part of the contract, and what
 the fixtures cannot verify, which an implementation pins with tests of
@@ -155,7 +159,7 @@ the table.
 
 This is not an extension registry. Registering `X-<SYSTEM>-*` names is
 deferred to a later version — see
-[Registration](v0.1/04-extensions.md#registration).
+[Registration](v1.0/04-extensions.md#registration).
 
 ## Implementations
 
@@ -185,7 +189,7 @@ must turn green.
 
 ## What is not in scope
 
-[`01-overview.md`](v0.1/01-overview.md#scope) draws the line:
+[`01-overview.md`](v1.0/01-overview.md#scope) draws the line:
 orchestration semantics, projection and state-from-log algorithms,
 storage, and any transport or wire format beyond the RFC 5545 / 6350
 text form belong to consuming systems. Two more things this document
@@ -203,9 +207,9 @@ does not carry:
 Spec text, corpus and implementations share one repository, so a
 change to a rule is one pull request against
 [`hop-top/poly-vstar`](https://github.com/hop-top/poly-vstar): the
-section under `v0.1/`, the fixture that reaches the new rule, the
+section under `v1.0/`, the fixture that reaches the new rule, the
 implementation change, and the regenerated `.canonical` / `.hash`
-siblings. [`v0.1/conformance/README.md`](v0.1/conformance/README.md#change-policy)
+siblings. [`v1.0/conformance/README.md`](v1.0/conformance/README.md#change-policy)
 states the change policy and the mutation proof a new fixture needs;
 [`CONTRIBUTING.md`](https://github.com/hop-top/poly-vstar/blob/main/CONTRIBUTING.md)
 has the repository-wide rules and the local check commands.

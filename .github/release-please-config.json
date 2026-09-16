@@ -67,7 +67,8 @@
       "bump-minor-pre-major": true,
       "prerelease": true,
       "prerelease-type": "alpha.0",
-      "versioning": "prerelease"
+      "versioning": "prerelease",
+      "extra-files": ["src/version.ts"]
     },
     "py": {
       "release-type": "python",
@@ -76,7 +77,8 @@
       "bump-minor-pre-major": true,
       "prerelease": true,
       "prerelease-type": "alpha.0",
-      "versioning": "prerelease"
+      "versioning": "prerelease",
+      "extra-files": ["README.md"]
     },
     "rs": {
       "release-type": "rust",
@@ -85,7 +87,8 @@
       "bump-minor-pre-major": true,
       "prerelease": true,
       "prerelease-type": "alpha.0",
-      "versioning": "prerelease"
+      "versioning": "prerelease",
+      "extra-files": ["README.md"]
     },
     "php": {
       "release-type": "php",
@@ -94,9 +97,10 @@
       "bump-minor-pre-major": true,
       "prerelease": true,
       "prerelease-type": "alpha.0",
-      "versioning": "prerelease"
+      "versioning": "prerelease",
+      "extra-files": ["README.md"]
     },
-    "spec/v0.1": {
+    "spec/v1.0": {
       "release-type": "simple",
       "component": "vstar-spec",
       "changelog-path": "CHANGELOG.md",

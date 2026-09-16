@@ -69,7 +69,7 @@ func TestParseTime_FormTwoUTC(t *testing.T) {
 }
 
 // TestParseTime_RejectsFormOneLocal verifies form #1 (no Z, local
-// time) is rejected. Floating local times are not supported in v0.1
+// time) is rejected. Floating local times are not supported
 // and silent coercion would mask torn data.
 func TestParseTime_RejectsFormOneLocal(t *testing.T) {
 	got, ok := ParseTime("20260504T183045")

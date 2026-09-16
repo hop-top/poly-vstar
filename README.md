@@ -36,7 +36,7 @@ down, and this page tells you which.
 ## Why one repository, five languages
 
 - **One change is one pull request.** Spec text, the fixture under
-  [`spec/v0.1/conformance/`](spec/v0.1/conformance/), every
+  [`spec/v1.0/conformance/`](spec/v1.0/conformance/), every
   implementation, and the regenerated `.canonical` / `.hash` files
   land together. The corpus cannot drift from the code that
   reproduces it.
@@ -120,7 +120,7 @@ has no time / identity / sequence semantics.
 | --- | --- |
 | [`spec/`](spec/) | The V\* specification: normative text, the conformance corpus, and the registry tables every port carries. Its own [README](spec/README.md) is the spec's front page. |
 | [`go/`](go/) | Go reference implementation (module `hop.top/vstar`), its tests, and the `cmd/fixtures-*` corpus generators. |
-| [`go/testdata/`](go/testdata/) | Generated, committed mirror of [`spec/v0.1/conformance/`](spec/v0.1/conformance/), kept in sync by `make fixtures-verify` so the published Go module stays self-contained. Nobody hand-edits it. |
+| [`go/testdata/`](go/testdata/) | Generated, committed mirror of [`spec/v1.0/conformance/`](spec/v1.0/conformance/), kept in sync by `make fixtures-verify` so the published Go module stays self-contained. Nobody hand-edits it. |
 | [`ts/`](ts/), [`py/`](py/), [`rs/`](rs/), [`php/`](php/) | The four ports. Each carries its own manifest, lockfile, toolchain, changelog, and conformance statement. |
 | [`tools/parity/`](tools/parity/) | The cross-language parity harness and the emitter contract. |
 | [`tools/registry/`](tools/registry/) | Renders [`spec/registry/`](spec/registry/) into per-language constants and [`docs/validate-codes.md`](docs/validate-codes.md), so a table is authored once and never retyped per port. |
@@ -131,15 +131,15 @@ has no time / identity / sequence semantics.
 ## Spec
 
 The spec is authored under [`spec/`](spec/) and is the source of
-truth. [`spec/v0.1/`](spec/v0.1/) holds the numbered sections — read
+truth. [`spec/v1.0/`](spec/v1.0/) holds the numbered sections — read
 [`spec/README.md`](spec/README.md) for the order — and
-[`spec/v0.1/conformance/`](spec/v0.1/conformance/) is the canonical
+[`spec/v1.0/conformance/`](spec/v1.0/conformance/) is the canonical
 fixture set every implementation must reproduce: same input, same
 `.canonical` bytes, same `.hash`. Versions are independent
 directories; a breaking change opens a new one.
 
 An implementation is conformant when it meets every MUST in
-[`05-conformance.md`](spec/v0.1/05-conformance.md) and reproduces the
+[`05-conformance.md`](spec/v1.0/05-conformance.md) and reproduces the
 whole corpus. [`docs/user/how-to-implement-vstar.md`](docs/user/how-to-implement-vstar.md)
 walks through the rules with worked examples.
 
@@ -169,9 +169,9 @@ versions per component are in
 | You are… | Start here |
 |----------|------------|
 | **Adding V\* to a project** | The README for your language: [Go](go/README.md), [TypeScript](ts/README.md), [Python](py/README.md), [Rust](rs/README.md), [PHP](php/README.md). Then [`docs/INDEX.md`](docs/INDEX.md) for how-tos and reference. |
-| **Building a sister implementation** | [`docs/dev/porting-guide.md`](docs/dev/porting-guide.md) → [`05-conformance.md`](spec/v0.1/05-conformance.md) → [`docs/user/how-to-implement-vstar.md`](docs/user/how-to-implement-vstar.md) |
+| **Building a sister implementation** | [`docs/dev/porting-guide.md`](docs/dev/porting-guide.md) → [`05-conformance.md`](spec/v1.0/05-conformance.md) → [`docs/user/how-to-implement-vstar.md`](docs/user/how-to-implement-vstar.md) |
 | **Changing V\* itself** | [`CONTRIBUTING.md`](CONTRIBUTING.md) → [`docs/dev/setup.md`](docs/dev/setup.md) → [`docs/dev/contributing-flow.md`](docs/dev/contributing-flow.md) |
-| **Understanding a canonical-form rule** | [spec/03 — canonicalization](spec/v0.1/03-canonicalization.md) |
+| **Understanding a canonical-form rule** | [spec/03 — canonicalization](spec/v1.0/03-canonicalization.md) |
 | **Looking up a diagnostic code** | [`docs/validate-codes.md`](docs/validate-codes.md), generated from [`spec/registry/`](spec/registry/) |
 | **Mapping a Go symbol to another language** | [`docs/dev/api-mapping.md`](docs/dev/api-mapping.md) |
 

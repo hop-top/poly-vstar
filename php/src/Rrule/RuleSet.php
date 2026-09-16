@@ -20,7 +20,7 @@ use HopTop\Vstar\Time;
  *
  * # The evaluation order is the contract
  *
- * `spec/v0.1/03-canonicalization.md` §Recurrence sets fixes it, and
+ * `spec/v1.0/03-canonicalization.md` §Recurrence sets fixes it, and
  * every step is load-bearing:
  *
  * 1. DTSTART is the first occurrence.
@@ -72,7 +72,7 @@ final class RuleSet
      * EXDATE and RDATE may each appear several times and may each carry
      * several comma-separated values; every value accumulates.
      *
-     * v0.1 recurrence sets are UTC form #2 only, so a `VALUE=DATE` or
+     * Recurrence sets are UTC form #2 only by spec, so a `VALUE=DATE` or
      * `TZID` EXDATE/RDATE is `ErrUnsupportedRRule`. Failing closed is
      * deliberate: silently dropping an unparseable EXDATE would surface
      * an occurrence the producer explicitly cancelled.

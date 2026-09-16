@@ -21,7 +21,7 @@ import (
 // CalendarInContext-style comparison via Calendar.
 //
 // Performance: this routes through full canonical-byte comparison
-// per task brief (correctness > speed for v0.1).
+// (correctness > speed).
 func Component(a, b vstar.Component) bool {
 	return bytes.Equal(canonical.Component(a), canonical.Component(b))
 }

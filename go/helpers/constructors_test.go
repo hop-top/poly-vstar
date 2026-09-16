@@ -170,16 +170,12 @@ func TestNewAlarm_emptyUID(t *testing.T) {
 
 func TestNewCalendar_defaultProdID(t *testing.T) {
 	cal := helpers.NewCalendar("")
-	if cal.ProdID == "" {
-		t.Errorf("ProdID empty; want vstar default")
-	}
-	// Default must follow the "-//hop-top//vstar-go vX.Y.Z//EN" pattern.
-	wantPrefix := "-//hop-top//vstar-go"
-	wantSuffix := "//EN"
-	if len(cal.ProdID) < len(wantPrefix)+len(wantSuffix) ||
-		cal.ProdID[:len(wantPrefix)] != wantPrefix ||
-		cal.ProdID[len(cal.ProdID)-len(wantSuffix):] != wantSuffix {
-		t.Errorf("ProdID = %q, want %s vX.Y.Z%s", cal.ProdID, wantPrefix, wantSuffix)
+	// The default is version-free and language-free: PRODID is part of
+	// the hashed canonical form, so it must not change across releases
+	// or differ between ports.
+	const want = "-//hop-top//vstar//EN"
+	if cal.ProdID != want {
+		t.Errorf("ProdID = %q, want %q", cal.ProdID, want)
 	}
 }
 

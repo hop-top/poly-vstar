@@ -69,10 +69,10 @@ the repository's own history rather than from memory.
 
 Read, in this order:
 
-1. [spec/v0.1/03-canonicalization.md](../../spec/v0.1/03-canonicalization.md)
+1. [spec/v1.0/03-canonicalization.md](../../spec/v1.0/03-canonicalization.md)
    — rules 1–12, datetime resolution, the VTIMEZONE subset, RRULE
    parsing scope. This is the document the ports exist to agree with.
-2. [spec/v0.1/05-conformance.md](../../spec/v0.1/05-conformance.md) —
+2. [spec/v1.0/05-conformance.md](../../spec/v1.0/05-conformance.md) —
    what "conformant" means and the failure classes.
 3. [api-mapping.md](api-mapping.md) — the naming contract.
 
@@ -104,12 +104,12 @@ content-line scanner with RFC 5545 §3.1 unfolding, and the two batch
 codecs.
 
 The gate is a round-trip over
-[`spec/v0.1/conformance/rfc5545/`](../../spec/v0.1/conformance/rfc5545/)
+[`spec/v1.0/conformance/rfc5545/`](../../spec/v1.0/conformance/rfc5545/)
 and
-[`spec/v0.1/conformance/rfc6350/`](../../spec/v0.1/conformance/rfc6350/):
+[`spec/v1.0/conformance/rfc6350/`](../../spec/v1.0/conformance/rfc6350/):
 parse each `.ics` / `.vcf`, and confirm the parsed model matches what
 the reference produces. Plus
-[`spec/v0.1/conformance/malformed/`](../../spec/v0.1/conformance/malformed/):
+[`spec/v1.0/conformance/malformed/`](../../spec/v1.0/conformance/malformed/):
 each input MUST fail, and MUST fail with the sentinel its sibling
 `.error` file names.
 
@@ -184,7 +184,7 @@ Parse, validate, format, `nextOccurrence`, `all`, `occurrences`,
 `EXDATE`), and `RecurrenceId`.
 
 The gate is
-[`spec/v0.1/conformance/rrule/`](../../spec/v0.1/conformance/rrule/) —
+[`spec/v1.0/conformance/rrule/`](../../spec/v1.0/conformance/rrule/) —
 every subdirectory: `happy/`, `rejected/`, `bounds/`, `by-clauses/`,
 `evaluator/`, `expansion/`, `format/`, `set/`.
 
@@ -535,7 +535,7 @@ Forbidden, in each language:
   zone lookups
 - PHP: `DateTimeZone('America/Montreal')`, `date_default_timezone_get()`
 
-Implement the [VTIMEZONE subset](../../spec/v0.1/03-canonicalization.md#vtimezone-subset-for-tzid-resolution)
+Implement the [VTIMEZONE subset](../../spec/v1.0/03-canonicalization.md#vtimezone-subset-for-tzid-resolution)
 the spec defines: single `STANDARD`; `STANDARD` + `DAYLIGHT` with
 `FREQ=YEARLY` rules accepting `BYMONTH` and an ordinal `BYDAY`;
 `DAYLIGHT` only. Everything outside the subset is a **resolution
@@ -550,7 +550,7 @@ canonical bytes for the same document, which is the exact failure the
 whole specification exists to prevent.
 
 `spec/behavior/time/tzid.json` and
-`spec/v0.1/conformance/time/america_montreal.ics` are the gate. They
+`spec/v1.0/conformance/time/america_montreal.ics` are the gate. They
 name a real IANA zone, which is the trap: a port that resolves it from
 the system database will pass those two fixtures and fail every other
 zone.
@@ -667,10 +667,10 @@ layer (a)'s gate — because every subsequent gate consumes them.
 ### Conformance quartets
 
 Directories:
-[`spec/v0.1/conformance/rfc5545/`](../../spec/v0.1/conformance/rfc5545/),
-[`rfc6350/`](../../spec/v0.1/conformance/rfc6350/),
-[`supersession/`](../../spec/v0.1/conformance/supersession/),
-[`time/`](../../spec/v0.1/conformance/time/).
+[`spec/v1.0/conformance/rfc5545/`](../../spec/v1.0/conformance/rfc5545/),
+[`rfc6350/`](../../spec/v1.0/conformance/rfc6350/),
+[`supersession/`](../../spec/v1.0/conformance/supersession/),
+[`time/`](../../spec/v1.0/conformance/time/).
 
 A case is a basename with up to four files:
 
@@ -690,7 +690,7 @@ to **your bytes**, compare to the `.canonical` file's bytes. Hash the
 **CRLF** bytes (not the LF-transformed ones) and compare the string to
 the `.hash` file's contents, trimmed of its trailing newline.
 
-[`malformed/`](../../spec/v0.1/conformance/malformed/) is the same
+[`malformed/`](../../spec/v1.0/conformance/malformed/) is the same
 directory shape with a different sibling: a `.error` file holding one
 sentinel identifier. The input MUST fail with that sentinel.
 
@@ -717,7 +717,7 @@ contract.
 ### The rrule sidecar set
 
 Directory:
-[`spec/v0.1/conformance/rrule/`](../../spec/v0.1/conformance/rrule/),
+[`spec/v1.0/conformance/rrule/`](../../spec/v1.0/conformance/rrule/),
 with subdirectories `happy/`, `rejected/`, `bounds/`, `by-clauses/`,
 `evaluator/`, `expansion/`, `format/`, `set/`.
 
@@ -792,7 +792,7 @@ separately.
 
 ## `VSTAR-CONFORMANCE.md` template
 
-[spec/05](../../spec/v0.1/05-conformance.md#self-certification) asks
+[spec/05](../../spec/v1.0/05-conformance.md#self-certification) asks
 every implementation to publish one. Until a formal conformance suite
 exists, this is the honor-system substitute — and for a port, most of
 it is a statement of which gates are green.
@@ -815,7 +815,7 @@ re-emit byte-identically.
 
 ## Conformance criteria
 
-Criteria are numbered per spec/v0.1/05-conformance.md.
+Criteria are numbered per spec/v1.0/05-conformance.md.
 
 | # | Criterion | Status |
 |---|---|---|

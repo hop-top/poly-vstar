@@ -820,7 +820,7 @@ days: a rule whose limits admit nothing for longer (for example
 `Occurrences` returns a `complete` flag alongside the list: `true` means
 the series terminated within the limit, `false` means the limit
 truncated it. Reporting that distinction is required by the spec's
-[Expansion](../../spec/v0.1/03-canonicalization.md#expansion) rules. A
+[Expansion](../../spec/v1.0/03-canonicalization.md#expansion) rules. A
 port that returns only the list has dropped a required signal;
 TypeScript and PHP return a two-field record rather than a positional
 pair so the flag cannot be silently ignored.
@@ -1291,9 +1291,9 @@ plausibly reach for, and each has a gate in the
   hard rules, and the README profile for a port.
 - [Specification](../../spec/) — the normative text. Canonical form,
   datetime resolution and RRULE scope are in
-  [spec/03](../../spec/v0.1/03-canonicalization.md); conformance
+  [spec/03](../../spec/v1.0/03-canonicalization.md); conformance
   criteria and failure classes are in
-  [spec/05](../../spec/v0.1/05-conformance.md).
+  [spec/05](../../spec/v1.0/05-conformance.md).
 - [Diagnostic code catalog](../validate-codes.md) — generated from the
   registry.
 - [How to build a sister vstar implementation](../user/how-to-implement-vstar.md)

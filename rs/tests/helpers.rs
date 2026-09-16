@@ -189,12 +189,11 @@ fn constructors_write_their_anchor_properties() {
 #[test]
 fn new_calendar_defaults_its_prodid() {
     assert_eq!(new_calendar("-//Example//EN").prod_id, "-//Example//EN");
+    // The default is version-free and language-free: PRODID is part of
+    // the hashed canonical form, so it must not change across releases
+    // or differ between ports.
     let defaulted = new_calendar("");
-    assert!(
-        defaulted.prod_id.contains("hop-top"),
-        "an empty PRODID resolves to the package default, got {:?}",
-        defaulted.prod_id
-    );
+    assert_eq!(defaulted.prod_id, "-//hop-top//vstar//EN");
     assert!(defaulted.components.is_empty());
 }
 
@@ -223,7 +222,7 @@ fn new_card_defaults_kind_to_individual_and_writes_the_property() {
     assert_eq!(explicit.kind, Some(Kind::Org));
     assert_eq!(explicit.get("KIND").map(|p| p.value.as_str()), Some("org"));
 
-    // Cards carry no X-VSTAR-HASH at the constructor layer in v0.1.
+    // Cards carry no X-VSTAR-HASH at the constructor layer.
     assert!(defaulted.get("X-VSTAR-HASH").is_none());
 }
 
@@ -231,7 +230,7 @@ fn new_card_defaults_kind_to_individual_and_writes_the_property() {
 // The emitter gate                                                  //
 // ---------------------------------------------------------------- //
 
-/// Rebuilds `spec/v0.1/conformance/rfc5545/one_vtodo` through the
+/// Rebuilds `spec/v1.0/conformance/rfc5545/one_vtodo` through the
 /// helper API and asserts the canonical bytes and the hash match the
 /// committed fixture exactly.
 #[test]
@@ -269,7 +268,7 @@ fn emitter_gate_rebuilds_rfc5545_one_vtodo() {
     assert_eq!(hashing::calendar(&cal), want_hash.trim(), "one_vtodo hash");
 }
 
-/// Rebuilds `spec/v0.1/conformance/rfc6350/minimal` through the helper
+/// Rebuilds `spec/v1.0/conformance/rfc6350/minimal` through the helper
 /// API. `new_card` writes a `KIND` the fixture does not carry, so the
 /// gate clears it — which is exactly the divergence worth pinning.
 #[test]

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Every fixture under `spec/v0.1/conformance/malformed/` MUST fail, and
+// Every fixture under `spec/v1.0/conformance/malformed/` MUST fail, and
 // MUST fail with the sentinel its `.error` sibling names. Failing is not
 // enough — failing correctly is the gate.
 
@@ -35,7 +35,7 @@ describe("malformed rfc6350", () => {
     expect(vcfFixtures.length).toBeGreaterThan(0);
   });
 
-  // ErrMissingUID is encoder-only in v0.1: the parser accepts a
+  // ErrMissingUID is encoder-only at v1.0: the parser accepts a
   // UID-less VCARD, so the fixture is exercised by parsing, then
   // re-encoding the parsed Card. A port that only checks the parse
   // side passes this fixture silently and is wrong.

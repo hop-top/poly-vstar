@@ -2,12 +2,10 @@
 
 # V* — Canonicalization
 
-> Status: **v0.1** (locked 2026-05-04). The byte-for-byte rules
-> below are normative and implemented in the Go reference
-> implementation ([`hop-top/poly-vstar`](https://github.com/hop-top/poly-vstar))
-> at v0.1.0. The TS reference implementation cross-validates
-> against the same rules; divergence is a bug in whichever
-> implementation drifts.
+> The byte-for-byte rules below are normative, implemented in the Go
+> reference implementation ([`hop-top/poly-vstar`](https://github.com/hop-top/poly-vstar))
+> and cross-validated by every port against the same corpus;
+> divergence is a bug in whichever implementation drifts.
 
 ## Goal
 
@@ -82,7 +80,7 @@ values.
     round-trip losslessly through the codec layer — parse and
     encode preserve them byte-for-byte — but no V\* helper writes
     them, and validators MAY warn on them. Inline emit is not part
-    of v0.1.
+    of v1.0.
 11. **`DATE` values canonicalize as themselves.** A property whose
     value type is DATE (`VALUE=DATE`, RFC 5545 §3.3.4) is emitted
     verbatim as `YYYYMMDD`. The `VALUE=DATE` parameter is retained
@@ -105,7 +103,7 @@ values.
 
 ## Datetime resolution
 
-Rule 5 applies to the v0.1 datetime allow-list: `DTSTAMP`,
+Rule 5 applies to the v1.0 datetime allow-list: `DTSTAMP`,
 `DTSTART`, `DTEND`, `DUE`, `COMPLETED`, `RECURRENCE-ID`, `CREATED`,
 and `LAST-MODIFIED`. For each such property:
 
@@ -154,7 +152,7 @@ both cases.
 ### VTIMEZONE subset for TZID resolution
 
 TZID resolution accepts a documented subset of VTIMEZONE shapes in
-v0.1. Accepted:
+v1.0. Accepted:
 
 1. **Single `STANDARD` only** (no `DAYLIGHT`): fixed-offset zones.
    The child MUST carry `TZOFFSETTO` and `TZOFFSETFROM` (`±HHMM` or
@@ -190,8 +188,8 @@ the generic RRULE parsing scope below.
 ## RRULE parsing scope
 
 Canonical form never interprets an `RRULE` (rule 8). Implementations
-that expose a generic RRULE parser and evaluator (v0.2 surface)
-follow this scope; the `rrule/` conformance fixtures exercise it.
+that expose a generic RRULE parser and evaluator follow this
+scope; the `rrule/` conformance fixtures exercise it.
 
 Accepted rule-parts:
 
@@ -222,8 +220,8 @@ Malformed (hard error): unknown rule-part name, missing `FREQ`,
 
 Deferred (parses syntactically but reported as unsupported):
 
-- `FREQ=SECONDLY` — extreme expansion; no realistic agentic use case
-  in v0.2.
+- `FREQ=SECONDLY` — extreme expansion; no realistic agentic use
+  case.
 - `RSCALE` (RFC 7529, non-Gregorian calendars) — deferred
   indefinitely; not on the V\* roadmap.
 
@@ -302,14 +300,14 @@ A set with `RDATE` and no `RRULE` is legal and finite. Bounded
 expansion of a set follows the [Expansion](#expansion) rules;
 `EXDATE` removals do not count toward a limit.
 
-In v0.1, `EXDATE` and `RDATE` values MUST be UTC form #2; `VALUE=DATE`
+In v1.0, `EXDATE` and `RDATE` values MUST be UTC form #2; `VALUE=DATE`
 and `TZID` forms are rejected with `ErrUnsupportedRRule`. `EXDATE`
 and `RDATE` are not on the [datetime resolution](#datetime-resolution)
 allow-list, so a `TZID`-bearing value passes through canonical form
-verbatim; adding them to the list is a v0.2 change. `RECURRENCE-ID`
-is on the list and is resolved before set evaluation; it parses to
-an instant plus the `RANGE` parameter (`THISANDFUTURE`). Applying
-overrides to the expanded set is out of v0.1 scope. Fixtures:
+verbatim; adding them to the list is a change for a later version.
+`RECURRENCE-ID` is on the list and is resolved before set evaluation;
+it parses to an instant plus the `RANGE` parameter (`THISANDFUTURE`).
+Applying overrides to the expanded set is out of v1.0 scope. Fixtures:
 `rrule/set/`.
 
 ## TRIGGER conventions
@@ -338,7 +336,7 @@ prefix allows future algorithm migration.
 
 ## Open questions
 
-Resolved at v0.1 (now normative above):
+Resolved at v1.0 (now normative above):
 
 - Locale-specific normalization for text-bearing properties
   (SUMMARY, DESCRIPTION) — resolved as NFC required (rule 9).
@@ -351,10 +349,10 @@ Resolved at v0.1 (now normative above):
   §3.2.19) change hash under rule 11 — accepted as gap-fill, since
   rule 5 never covered DATE.
 
-**Deferred to v0.2:**
+**Deferred to a later version:**
 
 - General case-folding of `VALUE=` tokens other than `DATE`. In
-  v0.1 a `VALUE=date-time` spelling hashes differently from
+  v1.0 a `VALUE=date-time` spelling hashes differently from
   `VALUE=DATE-TIME`.
 - vCard profile selection (vCard 4.0 baseline vs allowing 3.0?).
 - Cross-VCALENDAR references (URI scheme for `RELATED-TO` across

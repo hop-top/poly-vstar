@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace HopTop\Vstar\Tests\Rrule;
 
+use HopTop\Vstar\Exception\UnsupportedRRuleException;
 use HopTop\Vstar\Exception\VstarException;
 use HopTop\Vstar\Rrule\ByDay;
 use HopTop\Vstar\Rrule\Freq;
@@ -17,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * RFC 5545 §3.3.10 RRULE parsing and the wire form, gated by
- * `spec/v0.1/conformance/rrule/`.
+ * `spec/v1.0/conformance/rrule/`.
  *
  * Three fixture classes meet here:
  *
@@ -352,6 +353,30 @@ final class ParseTest extends TestCase
         $this->expectException(\HopTop\Vstar\Exception\MalformedException::class);
 
         Rrule::parse('FREQ=DAILY;COUNT=2;COUNT=3');
+    }
+
+    /**
+     * The deferred frequency is refused with a message that names the
+     * scope, not a spec version: the wording is shared across every port
+     * and must not go stale when the spec version moves.
+     */
+    public function testSecondlyMessageNamesTheParsingScope(): void
+    {
+        $this->expectException(UnsupportedRRuleException::class);
+        $this->expectExceptionMessage('rrule: FREQ=SECONDLY: outside the RRULE parsing scope');
+
+        Rrule::parse('FREQ=SECONDLY');
+    }
+
+    /**
+     * The deferred rule-part is refused the same way, naming the part.
+     */
+    public function testRscaleMessageNamesTheParsingScope(): void
+    {
+        $this->expectException(UnsupportedRRuleException::class);
+        $this->expectExceptionMessage('rrule: rule-part RSCALE: outside the RRULE parsing scope');
+
+        Rrule::parse('FREQ=DAILY;RSCALE=GREGORIAN');
     }
 
     /**

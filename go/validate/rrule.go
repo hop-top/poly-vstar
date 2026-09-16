@@ -38,7 +38,7 @@ func checkRRule(c vstar.Component, path string) []Diagnostic {
 			out = append(out, Diagnostic{
 				Severity: SeverityWarning,
 				Code:     CodeRRuleUnsupported,
-				Message:  "RRULE uses a feature outside the v0.2 rrule scope (spec/03 §RRULE parsing scope): " + err.Error(),
+				Message:  "RRULE uses a feature outside the RRULE parsing scope (spec/03 §RRULE parsing scope): " + err.Error(),
 				Path:     path + "." + propRRULE,
 			})
 			continue

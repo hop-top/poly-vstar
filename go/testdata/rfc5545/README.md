@@ -56,7 +56,7 @@ followed by a single LF terminator (file is exactly 72 bytes).
 
 The hash is computed by `hashing.Calendar` (for `.ics`) or
 `hashing.Card` (for `.vcf`) over the canonical byte form (see
-`spec/v0.1/03-canonicalization.md` and `canonical/`). The
+`spec/v1.0/03-canonicalization.md` and `canonical/`). The
 `X-VSTAR-HASH` property — when present in the input — is stripped
 before hashing per spec/03 §7.
 

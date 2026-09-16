@@ -82,14 +82,14 @@ resolve against.
 
 ### §6 — RRULE conformance (spec/03 §RRULE parsing scope)
 
-| Code  | Severity | Rule                                                                                                                                                                                        |
-|-------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| VS050 | Warning  | `RRULE` value parses but uses a feature outside the v0.2 rrule scope (FREQ=SECONDLY, RSCALE — see [spec/03 §RRULE parsing scope](../spec/v0.1/03-canonicalization.md#rrule-parsing-scope)). |
-| VS051 | Error    | `RRULE` value is malformed per RFC 5545 §3.3.10 (missing FREQ, INTERVAL≤0, both UNTIL+COUNT, BYMONTHDAY=0, UNTIL not in form #2, etc.).                                                     |
+| Code  | Severity | Rule                                                                                                                                                                                           |
+|-------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| VS050 | Warning  | `RRULE` value parses but uses a feature outside the RRULE parsing scope (FREQ=SECONDLY, RSCALE — see [spec/03 §RRULE parsing scope](../spec/v1.0/03-canonicalization.md#rrule-parsing-scope)). |
+| VS051 | Error    | `RRULE` value is malformed per RFC 5545 §3.3.10 (missing FREQ, INTERVAL≤0, both UNTIL+COUNT, BYMONTHDAY=0, UNTIL not in form #2, etc.).                                                        |
 
 VS050 is a Warning because the property still round-trips through
 the codec layer; only its recurrence semantics are inaccessible
-to the v0.2 evaluator. Consumers using `rrule.NextOccurrence` MUST
+to the RRULE evaluator. Consumers using `rrule.NextOccurrence` MUST
 check for VS050 before relying on the result.
 
 VS051 is an Error because a malformed RRULE means no consumer
@@ -99,7 +99,7 @@ VS051 is an Error because a malformed RRULE means no consumer
 
 | Code  | Severity | Rule                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 |-------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| VS052 | Error    | A duration-bearing property value is malformed: the `DURATION` property, the relative (`DURATION`-valued) form of `TRIGGER`, or a `REPEAT` count that is not a non-negative integer (RFC 5545 §3.3.6 / §3.8.6.2) written as a canonical decimal — no sign, no leading zeros, no whitespace (see [spec/05 §8](../spec/v0.1/05-conformance.md#what-v-conformant-means)); or a `TRIGGER` whose `VALUE` parameter contradicts its value, or that carries `RELATED` on an absolute trigger — see [spec/03 §TRIGGER conventions](../spec/v0.1/03-canonicalization.md#trigger-conventions). |
+| VS052 | Error    | A duration-bearing property value is malformed: the `DURATION` property, the relative (`DURATION`-valued) form of `TRIGGER`, or a `REPEAT` count that is not a non-negative integer (RFC 5545 §3.3.6 / §3.8.6.2) written as a canonical decimal — no sign, no leading zeros, no whitespace (see [spec/05 §8](../spec/v1.0/05-conformance.md#what-v-conformant-means)); or a `TRIGGER` whose `VALUE` parameter contradicts its value, or that carries `RELATED` on an absolute trigger — see [spec/03 §TRIGGER conventions](../spec/v1.0/03-canonicalization.md#trigger-conventions). |
 
 VS052 is an Error because a duration that will not parse is not a
 cosmetic defect. A malformed `TRIGGER` means the alarm cannot be
@@ -123,9 +123,9 @@ Parsing and resolution live in `hop.top/vstar/duration`.
 | Code  | Severity | Rule                                                                                                                                                                                                                                                                                                        |
 |-------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | VS044 | Error    | `STATUS` value is outside the vocabulary RFC 5545 §3.8.1.11 scopes to the component's own type.                                                                                                                                                                                                             |
-| VS053 | Error    | `CLASS` value is outside the RFC 5545 §3.8.1.3 vocabulary `PUBLIC`, `PRIVATE`, `CONFIDENTIAL` (compared case-insensitively — see [spec/05 §8](../spec/v0.1/05-conformance.md#what-v-conformant-means)).                                                                                                     |
-| VS054 | Error    | `TRANSP` value is outside the RFC 5545 §3.8.2.7 vocabulary `OPAQUE`, `TRANSPARENT` (compared case-insensitively — see [spec/05 §8](../spec/v0.1/05-conformance.md#what-v-conformant-means)).                                                                                                                |
-| VS055 | Error    | An integer-valued property is not a canonical decimal (no sign, no leading zeros, no whitespace) inside its RFC 5545 domain: `PRIORITY` 0–9 (§3.8.1.9), `PERCENT-COMPLETE` 0–100 (§3.8.1.8), `SEQUENCE` non-negative (§3.8.7.4) — see [spec/05 §8](../spec/v0.1/05-conformance.md#what-v-conformant-means). |
+| VS053 | Error    | `CLASS` value is outside the RFC 5545 §3.8.1.3 vocabulary `PUBLIC`, `PRIVATE`, `CONFIDENTIAL` (compared case-insensitively — see [spec/05 §8](../spec/v1.0/05-conformance.md#what-v-conformant-means)).                                                                                                     |
+| VS054 | Error    | `TRANSP` value is outside the RFC 5545 §3.8.2.7 vocabulary `OPAQUE`, `TRANSPARENT` (compared case-insensitively — see [spec/05 §8](../spec/v1.0/05-conformance.md#what-v-conformant-means)).                                                                                                                |
+| VS055 | Error    | An integer-valued property is not a canonical decimal (no sign, no leading zeros, no whitespace) inside its RFC 5545 domain: `PRIORITY` 0–9 (§3.8.1.9), `PERCENT-COMPLETE` 0–100 (§3.8.1.8), `SEQUENCE` non-negative (§3.8.7.4) — see [spec/05 §8](../spec/v1.0/05-conformance.md#what-v-conformant-means). |
 
 VS044 covers two shapes with one code: a value unknown to every
 vocabulary (`STATUS:FROBNICATED`), and a value that is legal

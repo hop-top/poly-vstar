@@ -200,7 +200,7 @@ final class VCalendarParser implements \IteratorAggregate
             }
 
             // METHOD and X-* are read past: the Calendar model has no
-            // field for them in v0.1, and inventing one here would put
+            // field for them, and inventing one here would put
             // this parser ahead of the batch codec's surface.
         }
     }

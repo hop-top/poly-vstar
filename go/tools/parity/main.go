@@ -4,7 +4,7 @@
 // parity harness.
 //
 // It takes the spec/ directory as its single argument, runs the V*
-// public API over every fixture in spec/v0.1/conformance/ and
+// public API over every fixture in spec/v1.0/conformance/ and
 // spec/behavior/, and prints ONE JSON document to stdout. Each port
 // (TypeScript, Python, Rust, PHP) ships an emitter making the same
 // calls over the same fixtures; tools/parity/parity.py diffs each
@@ -50,7 +50,7 @@ import (
 // rather than a coverage gap.
 //
 // The families mirror the two fixture trees: conformance and rrule
-// come from spec/v0.1/conformance/, the remaining six from
+// come from spec/v1.0/conformance/, the remaining six from
 // spec/behavior/.
 type document struct {
 	Conformance map[string]any `json:"conformance"`
@@ -90,7 +90,7 @@ func main() {
 	if err != nil {
 		fail(fmt.Errorf("resolve %s: %w", os.Args[1], err))
 	}
-	conformance := filepath.Join(spec, "v0.1", "conformance")
+	conformance := filepath.Join(spec, "v1.0", "conformance")
 	behavior := filepath.Join(spec, "behavior")
 	for _, dir := range []string{conformance, behavior} {
 		if st, err := os.Stat(dir); err != nil || !st.IsDir() {

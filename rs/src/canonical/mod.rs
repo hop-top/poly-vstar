@@ -84,7 +84,7 @@ pub fn component(c: &Component) -> Vec<u8> {
 /// For each property on the rule-5 allow-list carrying a `TZID`: on
 /// successful resolution the value is re-emitted as UTC form #2 and the
 /// `TZID` parameter is dropped. On failure — no matching VTIMEZONE, or
-/// one outside the v0.1 subset — the value AND the `TZID` pass through
+/// one outside the spec's VTIMEZONE subset — the value AND the `TZID` pass through
 /// verbatim. Canonical bytes are not deterministic across calendars
 /// carrying different VTIMEZONE definitions in that branch; a producer
 /// is expected to ship coverage inside the subset.
@@ -258,7 +258,7 @@ fn prepare_property(p: &Property, cal: &Calendar) -> Property {
         let mut pv = nfc(&prm.value);
         // Rule 11 upper-cases the VALUE argument so `VALUE=date` and
         // `VALUE=DATE` converge. General case-folding of other VALUE
-        // tokens is deferred to v0.2, so this is scoped to the DATE
+        // tokens is deferred to a later version, so this is scoped to the DATE
         // branch.
         if date_only && prm.name.eq_ignore_ascii_case("VALUE") {
             pv = pv.to_uppercase();

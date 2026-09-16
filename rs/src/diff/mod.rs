@@ -26,7 +26,7 @@
 //! sequences positionally, so a port that sorts the component list
 //! fails the gate.
 //!
-//! # Matching heuristics (documented v0.1 limitations)
+//! # Matching heuristics (documented limitations)
 //!
 //! Sub-components are paired by `(type, uid)` when both carry a UID;
 //! those without one — a VALARM, typically — are paired positionally by

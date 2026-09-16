@@ -20,7 +20,7 @@ use std::io::{Read, Write};
 
 pub use crate::codec::contentline::Scanner;
 
-/// The only iCalendar `VERSION` value V\* honors at v0.1.
+/// The only iCalendar `VERSION` value V\* honors.
 const SUPPORTED_VERSION: &str = "2.0";
 
 /// Builds a scanner over `r`.

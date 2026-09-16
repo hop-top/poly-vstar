@@ -20,7 +20,7 @@ use HopTop\Vstar\Time;
  * This is parsing and typed access only. Applying overrides -- taking a
  * base component plus its RECURRENCE-ID siblings and producing the
  * effective series -- needs component-level semantics that sit above
- * this layer and are outside v0.1 scope.
+ * this layer and are outside its scope.
  */
 final class RecurrenceId
 {

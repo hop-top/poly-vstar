@@ -59,9 +59,11 @@ final class Helpers
 {
     /**
      * The PRODID emitted when a caller passes an empty string to
-     * {@see self::newCalendar()}.
+     * {@see self::newCalendar()}. Version-free and language-free: PRODID
+     * survives canonicalization and is hashed, so the default must not
+     * change across releases or differ between ports.
      */
-    private const DEFAULT_PROD_ID = '-//hop-top//vstar-php v0.1.0//EN';
+    private const DEFAULT_PROD_ID = '-//hop-top//vstar//EN';
 
     private const PROP_UID = 'UID';
     private const PROP_DTSTAMP = 'DTSTAMP';
@@ -193,7 +195,7 @@ final class Helpers
      * clear both the model field and the derived property to match.
      *
      * vCards are not subject to the `X-VSTAR-HASH` discipline at the
-     * constructor layer in v0.1: a Card has no such property of its own,
+     * constructor layer at v1.0: a Card has no such property of its own,
      * and {@see Hashing::card()} exists for callers wanting a digest.
      */
     public static function newCard(string $uid, ?Kind $kind): Card

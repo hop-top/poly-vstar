@@ -2,7 +2,7 @@
 
 // Package rrule implements a generic RFC 5545 §3.3.10 RRULE parser
 // (ParseRRule), boundary check (ValidateRRule), and forward
-// evaluator (NextOccurrence) for the v0.2 scope fixed by
+// evaluator (NextOccurrence) for the scope fixed by
 // spec/03 §RRULE parsing scope (BYSETPOS, BYWEEKNO, and BYYEARDAY
 // are in scope; FREQ=SECONDLY and RSCALE are not).
 //
@@ -28,7 +28,7 @@
 //
 // The package depends only on the standard library plus the root
 // vstar package (for ErrMalformed and ParseTime). It is independent
-// of every other v0.1 subpackage.
+// of every other vstar subpackage.
 package rrule
 
 import (
@@ -51,13 +51,12 @@ const (
 )
 
 // ErrUnsupportedRRule signals an RRULE that parses syntactically
-// but uses a feature spec/03 §RRULE parsing scope explicitly defers
-// from the v0.2 surface — at v0.2 ship that is FREQ=SECONDLY and
-// RSCALE.
+// but uses a feature spec/03 §RRULE parsing scope explicitly
+// defers: FREQ=SECONDLY and RSCALE.
 //
 // Consumers MUST match with errors.Is — ParseRRule wraps this with
 // %w to add the offending rule-part name.
-var ErrUnsupportedRRule = errors.New("rrule: feature outside v0.2 scope")
+var ErrUnsupportedRRule = errors.New("rrule: feature outside the RRULE parsing scope")
 
 // Freq is the RRULE FREQ value as a typed enum. The zero value is
 // FreqInvalid so a Rule literal without an explicit Freq is
@@ -65,8 +64,8 @@ var ErrUnsupportedRRule = errors.New("rrule: feature outside v0.2 scope")
 type Freq int
 
 // Freq values per RFC 5545 §3.3.10, in RFC order (increasing
-// period length). SECONDLY is deliberately omitted from v0.2
-// (spec/03 §RRULE parsing scope); the parser returns
+// period length). SECONDLY is deliberately omitted from the
+// accepted set (spec/03 §RRULE parsing scope); the parser returns
 // ErrUnsupportedRRule when it encounters it. The wire contract is
 // String(), not the integer: nothing compares Freq values ordinally.
 const (
@@ -169,7 +168,7 @@ type ByDay struct {
 }
 
 // Rule is the structured form of an RFC 5545 §3.3.10 RRULE value
-// for the v0.2 accepted subset (spec/03 §RRULE parsing scope).
+// for the accepted subset (spec/03 §RRULE parsing scope).
 //
 // Field semantics match RFC 5545 directly. Order of rule-parts on
 // the wire is irrelevant on parse; struct field order is for

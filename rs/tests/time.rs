@@ -156,7 +156,7 @@ fn parse_time_with_tzid_matches_the_tzid_case_sensitively() {
 
 #[test]
 fn a_vtimezone_outside_the_subset_fails_resolution() {
-    // An RRULE with COUNT is outside the v0.1 subset, so resolution
+    // An RRULE with COUNT is outside the spec's VTIMEZONE subset, so resolution
     // fails and rule 5 falls back to verbatim — a failure, never an
     // error, and never a partially applied rule.
     let src = "BEGIN:VCALENDAR\r\n\

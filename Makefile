@@ -14,7 +14,7 @@ COVER_HTML    := coverage.html
 MARKDOWNLINT := markdownlint-cli2
 SPEC_MD_GLOBS := spec/**/*.md \#spec/v*/CHANGELOG.md
 
-.PHONY: help build test vet fmt fmt-check lint lint-spec cover tidy fixtures-verify registry-gen registry-check test-parity ci ci-go
+.PHONY: help build test vet fmt fmt-check lint lint-spec cover tidy fixtures-verify registry-gen registry-check version-check test-parity ci ci-go
 
 help: ## Show available targets
 	@echo "vstar targets:"
@@ -30,9 +30,11 @@ help: ## Show available targets
 	@echo "  fixtures-verify  Regenerate fixtures + fail on drift"
 	@echo "  registry-gen     Render language constants + docs from spec/registry/"
 	@echo "  registry-check   Verify generated files match spec/registry/"
+	@echo "  version-check    Verify release-version literals and spec/vX.Y paths"
 	@echo "  test-parity      Diff every language emitter against the Go reference"
-	@echo "  ci               Full cross-language gate: registry-check + fixtures-verify"
-	@echo "                   + ci-go + ci-ts + ci-py + ci-rs + ci-php + test-parity"
+	@echo "  ci               Full cross-language gate: registry-check + version-check"
+	@echo "                   + fixtures-verify + lint-spec + ci-go + ci-ts + ci-py"
+	@echo "                   + ci-rs + ci-php + test-parity"
 	@echo "                   (needs every toolchain; use ci-LANG for one language)"
 	@echo ""
 	@echo "Per-language gates (LANG = go | ts | py | rs | php):"
@@ -89,12 +91,12 @@ cover: ## Produce coverage profile + HTML report
 tidy: ## Run go mod tidy
 	go -C go mod tidy
 
-# The corpus is authored at spec/v0.1/conformance and mirrored into
+# The corpus is authored at spec/v1.0/conformance and mirrored into
 # go/testdata, so both trees are diffed: a hand-edit to either side is
 # drift. spec/behavior is the language-agnostic behavior fixture tree
 # the same run regenerates. FIXTURE_PATHS is the whole generated
 # surface.
-FIXTURE_PATHS := spec/v0.1/conformance spec/behavior go/testdata go/codec/rfc5545/testdata/fuzz go/codec/rfc6350/testdata/fuzz
+FIXTURE_PATHS := spec/v1.0/conformance spec/behavior go/testdata go/codec/rfc5545/testdata/fuzz go/codec/rfc6350/testdata/fuzz
 
 fixtures-verify: ## Regenerate spec corpus canonical/hash + mirror into go/testdata; fail on drift
 	go -C go run ./cmd/fixtures-verify
@@ -120,7 +122,14 @@ fixtures-verify: ## Regenerate spec corpus canonical/hash + mirror into go/testd
 # first because registry-check and fixtures-verify regenerate the
 # tables and corpus every port reads: a drift there explains the port
 # failures that would otherwise follow it, so reporting it first is
-# the more useful diagnostic.
+# the more useful diagnostic. version-check sits beside them for the
+# same reason: a spec/vX.Y path that names no manifest version, or a
+# release literal nobody rewrites, is a repo-wide defect that every
+# port then reports in its own words, and the guard names the file
+# and line directly. lint-spec is the spec tree's own gate; it needs
+# markdownlint-cli2 (the target says how to install it) and belongs
+# in the aggregate because a prose change is as much a change to the
+# contract as a fixture is.
 #
 # test-parity runs last. It is the only target that needs all five
 # toolchains at once, and a port that cannot even build its own suite
@@ -136,7 +145,7 @@ fixtures-verify: ## Regenerate spec corpus canonical/hash + mirror into go/testd
 #
 # Each is exactly this aggregate's slice for that language, so a green
 # shortcut means that language's leg of `ci` is green too.
-ci: registry-check fixtures-verify ci-go ci-ts ci-py ci-rs ci-php test-parity ## Full cross-language CI gate (all five languages + parity)
+ci: registry-check version-check fixtures-verify lint-spec ci-go ci-ts ci-py ci-rs ci-php test-parity ## Full cross-language CI gate (all five languages + parity)
 
 # The Go reference's own leg. registry-check and fixtures-verify are
 # deliberately NOT here: they are repo-wide gates that happen to be
@@ -157,6 +166,17 @@ registry-gen: ## Render language constants + docs from spec/registry/
 
 registry-check: ## Verify the generated files match spec/registry/; fail on drift
 	$(REGISTRY_GEN) gen --check
+
+# release-please owns every version: the manifest, each package's
+# native version file, and the four annotated literals it rewrites
+# through extra-files. tools/version-check/check.py fails on an
+# annotated literal that disagrees with the manifest, an annotation
+# without its extra-files entry (or the reverse), a hand-typed release
+# version anywhere else, a spec/vX.Y path the manifest does not know,
+# and a language-tagged PRODID default. Standard-library Python, like
+# the registry generator.
+version-check: ## Verify release-version literals and spec/vX.Y paths against the release-please manifest
+	$(PYTHON) tools/version-check/check.py
 
 # tools/parity/ is the cross-language parity harness. Every language
 # port ships an emitter that reads spec/ and prints one JSON document;

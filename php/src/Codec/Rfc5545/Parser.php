@@ -27,7 +27,7 @@ use HopTop\Vstar\Property;
 final class Parser
 {
     /**
-     * The only iCalendar VERSION value V* honors at v0.1.
+     * The only iCalendar VERSION value V* honors.
      */
     public const SUPPORTED_VERSION = '2.0';
 

@@ -15,7 +15,7 @@ import (
 
 // corpusDirName is the conformance corpus directory inside the
 // spec tree, relative to the repository root.
-const corpusDirName = "spec/v0.1/conformance"
+const corpusDirName = "spec/v1.0/conformance"
 
 // mirrorExcludes are the top-level entries of testdata/ that are
 // Go-native and therefore not part of the spec corpus. The root
@@ -27,7 +27,7 @@ var mirrorExcludes = map[string]bool{"fuzz": true}
 // rooted at module.
 //
 // In the poly-vstar monorepo the module is go/ and the spec tree is
-// its sibling, so the corpus is <module>/../spec/v0.1/conformance
+// its sibling, so the corpus is <module>/../spec/v1.0/conformance
 // and testdata/ is a generated mirror of it. On the hop-top/vstar
 // mirror the module is a subtree of go/ alone: there is no ../spec,
 // so testdata/ is the corpus itself and nothing is mirrored.

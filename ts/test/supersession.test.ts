@@ -66,7 +66,7 @@ describe("supersession effective status — spec/behavior/supersession/", () => 
 
   it("keys the table by the conformance corpus's own file names", () => {
     // The family mints no new .ics: it projects the existing
-    // spec/v0.1/conformance/supersession/ inputs, so a port already
+    // spec/v1.0/conformance/supersession/ inputs, so a port already
     // loading that corpus gets this table for free.
     const corpus = new Set(
       readdirSync(join(CONFORMANCE_DIR, "supersession"))

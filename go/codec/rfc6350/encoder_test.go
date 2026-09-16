@@ -231,7 +231,7 @@ func TestEncode_FoldOctetBudget(t *testing.T) {
 
 // TestEncode_FoldSplitsMultiByteRune pins that folding counts OCTETS,
 // not runes: a UTF-8 sequence straddling the 75-octet boundary IS
-// split across the fold, per spec/v0.1/03-canonicalization.md rule 3.
+// split across the fold, per spec/v1.0/03-canonicalization.md rule 3.
 //
 // This is the guard against "fixing" the 76-octet overflow by
 // retreating the cut to a rune boundary — that would keep every line

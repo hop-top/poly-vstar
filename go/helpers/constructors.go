@@ -12,8 +12,7 @@
 // The helpers in this package are package-level functions that take
 // vstar.Component / vstar.Card / vstar.Calendar (value or pointer)
 // rather than methods on those types. Methods would require editing
-// the model package, which the v0.1 dependency-ordered plan reserves
-// for the models track. Free functions in helpers/ keep the model
+// the model package. Free functions in helpers/ keep the model
 // package untouched while delivering the same call ergonomics:
 //
 //	helpers.SetStatus(&c, vstar.TodoCompleted)
@@ -36,10 +35,11 @@ import (
 )
 
 // defaultProdID is the PRODID emitted when callers pass an empty
-// string to NewCalendar. The version is a literal so it bumps with
-// the module's release; callers seeking a custom identifier should
-// supply their own PRODID.
-const defaultProdID = "-//hop-top//vstar-go v0.1.0//EN"
+// string to NewCalendar. PRODID survives canonicalization and is
+// hashed, so the default carries neither a version nor a language:
+// a document built by any release of any port hashes the same.
+// Callers seeking a custom identifier supply their own PRODID.
+const defaultProdID = "-//hop-top//vstar//EN"
 
 // Property names used repeatedly across constructors. Centralized so
 // linters (goconst) stay quiet and renames stay sound.
@@ -157,7 +157,7 @@ func NewCalendar(prodID string) vstar.Calendar {
 // properties set. A zero kind defaults to KindIndividual.
 //
 // vCards are not subject to the X-VSTAR-HASH discipline at the
-// constructor layer in v0.1: the hashing.Card helper exists for
+// constructor layer at v1.0: the hashing.Card helper exists for
 // callers that need a card-level digest, but Card has no
 // X-VSTAR-HASH property of its own and this constructor does not
 // stamp one.

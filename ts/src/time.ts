@@ -63,7 +63,7 @@ function pad(n: number, width: number): string {
  * {@link Instant}. Returns `undefined` for any other input shape —
  * strict by design.
  *
- * Rejected: form #1 (no zone, and unsupported bare in v0.1), RFC 3339 /
+ * Rejected: form #1 (no zone, and unsupported bare), RFC 3339 /
  * ISO 8601 extended layouts, date-only values, a lowercase `z`, leading
  * or trailing whitespace, any length other than sixteen octets, and
  * impossible calendar dates — February 30th does not roll into March.
@@ -143,7 +143,7 @@ function wallToEpoch(w: Wall): Instant {
  * - `cal` carries no VTIMEZONE whose TZID matches (comparison is
  *   case-sensitive: TZIDs are opaque identifiers per RFC 5545 §3.2.19);
  * - the matching VTIMEZONE falls outside the
- *   {@link https://github.com/hop-top/poly-vstar spec's v0.1 subset} —
+ *   {@link https://github.com/hop-top/poly-vstar spec's VTIMEZONE subset} —
  *   multiple STANDARD or DAYLIGHT children, a missing offset or
  *   DTSTART, or an RRULE the subset does not accept;
  * - `s` is not form #1 (15 octets, `T` at index 8, no `Z` suffix).
@@ -213,7 +213,7 @@ function subsByType(c: Component, name: string): Component[] {
 
 /**
  * Extract the rule pair from a VTIMEZONE, or `undefined` for any shape
- * outside the v0.1 subset.
+ * outside the spec's VTIMEZONE subset.
  *
  * Accepted: a single STANDARD (fixed offset), a single STANDARD plus a
  * single DAYLIGHT where both carry an accepted `FREQ=YEARLY` rule, and

@@ -12,7 +12,7 @@
  *
  * The `sha256:` prefix is part of the value, not decoration. It exists
  * so a future `sha3-256:` or `blake3:` is expressible without ambiguity;
- * v0.1 emits only `sha256:`.
+ * v1.0 emits only `sha256:`.
  *
  * ## Hash exclusion
  *

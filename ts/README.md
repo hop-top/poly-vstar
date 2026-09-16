@@ -253,7 +253,7 @@ unfolds over bytes and decodes only once a logical line is whole. If you
 decode first, `TextDecoder` has already replaced each half of the split
 sequence with U+FFFD, and no amount of unfolding gets the character
 back. The file below is
-[`fold_split_utf8.canonical`](https://github.com/hop-top/poly-vstar/blob/main/spec/v0.1/conformance/rfc5545/fold_split_utf8.canonical)
+[`fold_split_utf8.canonical`](https://github.com/hop-top/poly-vstar/blob/main/spec/v1.0/conformance/rfc5545/fold_split_utf8.canonical)
 from the conformance corpus.
 
 ```ts

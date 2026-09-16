@@ -172,7 +172,7 @@ export class RuleSet {
  * EXDATE and RDATE may each appear several times and may each carry
  * several comma-separated values; every value accumulates.
  *
- * v0.1 recurrence sets are UTC form #2 only, so a `VALUE=DATE` or
+ * Recurrence sets are UTC form #2 only, so a `VALUE=DATE` or
  * `TZID` EXDATE/RDATE is `ErrUnsupportedRRule`. Failing closed is
  * deliberate: silently dropping an unparseable EXDATE would surface an
  * occurrence the producer explicitly cancelled.
@@ -272,7 +272,7 @@ export function formatDateTimeList(times: readonly Instant[]): string {
  * This is parsing and typed access only. Applying overrides — taking a
  * base component plus its RECURRENCE-ID siblings and producing the
  * effective series — needs component-level semantics that sit above
- * this layer and are outside v0.1 scope.
+ * this layer and are outside this module's scope.
  */
 export class RecurrenceId {
   /**

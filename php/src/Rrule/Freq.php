@@ -8,7 +8,7 @@ namespace HopTop\Vstar\Rrule;
 
 /**
  * The RRULE `FREQ` value, restricted to the frequencies
- * `spec/v0.1/03-canonicalization.md` §RRULE parsing scope accepts.
+ * `spec/v1.0/03-canonicalization.md` §RRULE parsing scope accepts.
  *
  * `SECONDLY` is deliberately absent. It is a syntactically valid RFC
  * 5545 value this scope defers, so it is recognized by name at parse

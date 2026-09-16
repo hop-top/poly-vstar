@@ -122,7 +122,7 @@ final class Rfc6350RoundTripTest extends TestCase
 
     public function testParserAcceptsAUidLessVcard(): void
     {
-        // MissingUID is encoder-only in v0.1: the parser is permissive.
+        // MissingUID is encoder-only at v1.0: the parser is permissive.
         $cards = Parser::parse(Corpus::read('malformed/missing_uid.vcf'));
 
         self::assertCount(1, $cards);

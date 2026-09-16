@@ -172,7 +172,7 @@ final class TimeTest extends TestCase
     }
 
     /**
-     * A VTIMEZONE outside the v0.1 subset is a resolution failure, not an
+     * A VTIMEZONE outside the spec's subset is a resolution failure, not an
      * exception, and rule 5 then falls back to verbatim emit.
      *
      * @return iterable<string, array{list<Component>}>

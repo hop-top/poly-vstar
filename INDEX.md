@@ -3,19 +3,19 @@
 ## Start here
 
 1. `README.md` — what V\* is, why it exists, how the polyglot tree is laid out
-2. [`01-overview.md`](spec/v0.1/01-overview.md) — design principles + scope
-3. [`02-component-mapping.md`](spec/v0.1/02-component-mapping.md) — the core mapping table
+2. [`01-overview.md`](spec/v1.0/01-overview.md) — design principles + scope
+3. [`02-component-mapping.md`](spec/v1.0/02-component-mapping.md) — the core mapping table
 
 ## Specification
 
 Authored in this repo under [`spec/`](spec/); the normative text is
 CC-BY-4.0:
 
-- [`01-overview.md`](spec/v0.1/01-overview.md) — design principles + scope
-- [`02-component-mapping.md`](spec/v0.1/02-component-mapping.md) — agentic concept → V\* component
-- [`03-canonicalization.md`](spec/v0.1/03-canonicalization.md) — determinism, hashing, equality
-- [`04-extensions.md`](spec/v0.1/04-extensions.md) — `X-*` namespace, registration discipline
-- [`05-conformance.md`](spec/v0.1/05-conformance.md) — what counts as a conformant V\* document
+- [`01-overview.md`](spec/v1.0/01-overview.md) — design principles + scope
+- [`02-component-mapping.md`](spec/v1.0/02-component-mapping.md) — agentic concept → V\* component
+- [`03-canonicalization.md`](spec/v1.0/03-canonicalization.md) — determinism, hashing, equality
+- [`04-extensions.md`](spec/v1.0/04-extensions.md) — `X-*` namespace, registration discipline
+- [`05-conformance.md`](spec/v1.0/05-conformance.md) — what counts as a conformant V\* document
 
 ## Reference
 

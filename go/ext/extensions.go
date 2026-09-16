@@ -70,7 +70,7 @@ const (
 	ScopeNone Scope = iota
 	// ScopeVStar — X-VSTAR-* cross-system V* extension on the
 	// stabilization track. X-VSTAR-HASH (per spec/02) is the only
-	// mandatory member in v0.1.
+	// mandatory member at v1.0.
 	ScopeVStar
 	// ScopeSystem — X-<SYSTEM>-* extension owned by one consuming
 	// system (e.g. X-AGR-INTENT). SYSTEM is any uppercase slug

@@ -30,7 +30,7 @@ You need:
 - A `vstar.Calendar` value — either parsed via
   [`codec/rfc5545.Parse`](quickstart.md) or built up with
   `helpers.NewCalendar` + `helpers.NewTodo`/`NewEvent`/etc.
-- The Go reference implementation v0.1.0 or later imported.
+- The Go reference implementation imported.
 
 ## Quick version
 
@@ -122,7 +122,7 @@ at [`docs/validate-codes.md`](../validate-codes.md). Common cases:
 | `VS010` | Error | `X-VSTAR-HASH` present but does not match recomputed hash. |
 | `VS020` | Warning | Property name is non-standard and lacks the `X-` prefix. |
 | `VS040`–`VS043` | Error | Type-specific required properties missing (`VTODO` needs `DUE`, `VEVENT` needs `DTSTART`, etc.). |
-| `VS050` | Warning | `RRULE` parses but uses a feature outside v0.2 scope. |
+| `VS050` | Warning | `RRULE` parses but uses a feature outside the RRULE parsing scope. |
 | `VS051` | Error | `RRULE` is malformed per RFC 5545 §3.3.10. |
 
 ### 4. Decide your error policy
@@ -174,5 +174,5 @@ digest. The canonical layer (`canonical.Calendar`) also strips
   rule and spec linkage.
 - [How to parse and evaluate RRULE](how-to-recurrence.md) — the
   next surface area where `VS050`/`VS051` come into play.
-- [Specification §05 — conformance](../../spec/v0.1/05-conformance.md) —
+- [Specification §05 — conformance](../../spec/v1.0/05-conformance.md) —
   what "V* conformant" means in normative text.

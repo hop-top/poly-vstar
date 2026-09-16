@@ -44,7 +44,7 @@ const (
 type Kind string
 
 // RFC 6350 §6.1.4 KIND values. The RFC also lists "location"; only
-// the v0.1 enum values used by V* are defined here.
+// the enum values used by V* are defined here.
 const (
 	KindIndividual Kind = "individual"
 	KindOrg        Kind = "org"

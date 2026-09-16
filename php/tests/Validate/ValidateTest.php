@@ -259,6 +259,33 @@ final class ValidateTest extends TestCase
     }
 
     /**
+     * The VS050 message names the RRULE parsing scope and carries the
+     * parser's own explanation; the wording is word-for-word the
+     * reference's, so a port cannot drift from it unnoticed.
+     */
+    public function testUnsupportedRruleMessageNamesTheParsingScope(): void
+    {
+        $c = new Component('VEVENT', [
+            new Property('UID', [], 'secondly'),
+            new Property('DTSTAMP', [], '20260401T120000Z'),
+            new Property('DTSTART', [], '20260401T120000Z'),
+            new Property('RRULE', [], 'FREQ=SECONDLY'),
+        ]);
+
+        $unsupported = array_values(array_filter(
+            Validate::validateComponent($c),
+            static fn (Diagnostic $d): bool => $d->code === Codes::R_RULE_UNSUPPORTED,
+        ));
+
+        self::assertCount(1, $unsupported);
+        self::assertSame(
+            'RRULE uses a feature outside the RRULE parsing scope (spec/03 §RRULE parsing scope): '
+                . 'rrule: FREQ=SECONDLY: outside the RRULE parsing scope',
+            $unsupported[0]->message,
+        );
+    }
+
+    /**
      * Two UID-less components of the same type get distinct positional
      * segments -- the counter advances rather than restarting.
      *

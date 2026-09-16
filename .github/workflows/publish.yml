@@ -71,8 +71,8 @@ jobs:
         # the tag as an umbrella and skips it.
         #
         # The component name must match release-please's component for
-        # `spec/v0.1` (.github/release-please-config.json), so tags are
-        # `vstar-spec/v*`. `dir` is `spec`, not `spec/v0.1`: the mirror
+        # `spec/v1.0` (.github/release-please-config.json), so tags are
+        # `vstar-spec/v*`. `dir` is `spec`, not `spec/v1.0`: the mirror
         # ships the whole versioned spec tree, README and LICENSE
         # included, with `spec/` promoted to the mirror root.
         vstar-spec:

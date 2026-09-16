@@ -27,8 +27,8 @@ enum Scope: string
 
     /**
      * `X-VSTAR-*` -- a cross-system V* extension on the stabilization
-     * track. `X-VSTAR-HASH` (spec/02) is the only mandatory member in
-     * v0.1.
+     * track. `X-VSTAR-HASH` (spec/02) is the only mandatory member
+     * at v1.0.
      */
     case VStar = 'vstar';
 

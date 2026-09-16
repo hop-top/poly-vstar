@@ -119,7 +119,7 @@ fn parse_form_one(s: &str) -> Option<NaiveDateTime> {
 /// - `cal` carries no VTIMEZONE whose `TZID` matches (comparison is
 ///   **case-sensitive**: TZIDs are opaque identifiers per RFC 5545
 ///   §3.2.19);
-/// - the matching VTIMEZONE falls outside the spec's v0.1 subset —
+/// - the matching VTIMEZONE falls outside the spec's VTIMEZONE subset —
 ///   multiple `STANDARD` or `DAYLIGHT` children, a missing offset or
 ///   `DTSTART`, or an `RRULE` the subset does not accept;
 /// - `s` is not form #1.
@@ -188,7 +188,7 @@ fn subs_by_type<'a>(c: &'a Component, name: &str) -> Vec<&'a Component> {
 }
 
 /// Extracts the rule pair from a VTIMEZONE, or `None` for any shape
-/// outside the v0.1 subset.
+/// outside the spec's VTIMEZONE subset.
 ///
 /// Accepted: a single `STANDARD` (fixed offset); a single `STANDARD`
 /// plus a single `DAYLIGHT` where both carry an accepted `FREQ=YEARLY`

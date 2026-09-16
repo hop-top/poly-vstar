@@ -223,7 +223,7 @@ type tzidEntry struct {
 // committed time/tzid.json, in file order.
 //
 // `calendar` names a conformance fixture supplying the VTIMEZONE
-// registry, which is loaded from spec/v0.1/conformance/time/. Each
+// registry, which is loaded from spec/v1.0/conformance/time/. Each
 // registry is parsed once and reused, so a fixture's cost does not
 // grow with the number of rows citing it.
 func emitTime(conformance, dir string) (map[string]any, error) {

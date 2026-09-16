@@ -304,6 +304,19 @@ final class StreamTest extends TestCase
         self::assertStringContainsString("END:VCALENDAR\r\n", $out);
     }
 
+    /**
+     * Without a header the stream encoder emits the same version-free,
+     * language-free PRODID as {@see \HopTop\Vstar\Helpers\Helpers::newCalendar()},
+     * so batch and stream output stay byte-comparable.
+     */
+    public function testCalendarEncoderDefaultsTheProdId(): void
+    {
+        $sink = self::sink();
+        (new VCalendarEncoder($sink))->close();
+
+        self::assertStringContainsString("PRODID:-//hop-top//vstar//EN\r\n", self::drain($sink));
+    }
+
     public function testSetHeaderAfterTheFirstEncodeIsLocked(): void
     {
         $enc = new VCalendarEncoder(self::sink());

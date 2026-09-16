@@ -11,7 +11,7 @@ use HopTop\Vstar\Time;
 
 /**
  * A parsed RRULE: the structured form of an RFC 5545 §3.3.10 value,
- * plus the wire form `spec/v0.1/03-canonicalization.md` §RRULE wire form
+ * plus the wire form `spec/v1.0/03-canonicalization.md` §RRULE wire form
  * fixes for emitters.
  *
  * Absent list rule-parts are empty arrays; an absent `UNTIL` is null and

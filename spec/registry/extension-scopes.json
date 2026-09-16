@@ -6,7 +6,7 @@
   },
   {
     "prefix": "X-VSTAR-",
-    "rule": "Cross-system V* extension on the stabilization track. X-VSTAR-HASH is the only mandatory member in v0.1.",
+    "rule": "Cross-system V* extension on the stabilization track. X-VSTAR-HASH is the only mandatory member in v1.0.",
     "scope": "ScopeVStar"
   },
   {
