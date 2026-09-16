@@ -50,6 +50,10 @@ jobs:
           package: hop-top-vstar
           mirror: hop-top/vstar-py
           pypi-auth: token
+          # The shared default installs only pytest and build, then runs
+          # pytest from py/. This port uses a src/ layout, so the package
+          # must be installed before its tests can import it.
+          test-command: python -m pip install -e . && python -m pytest -q
         vstar-rs:
           dir: rs
           ecosystem: rs
