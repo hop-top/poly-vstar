@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.1](https://github.com/hop-top/poly-vstar/compare/vstar-ts/v1.0.0-alpha.0...vstar-ts/v1.0.0-alpha.1) (2026-09-16)
+
+
+### Bug Fixes
+
+* align the spec directory, every port and the release tooling with the 1.0 line ([3089816](https://github.com/hop-top/poly-vstar/commit/3089816642663a71b032fc5b7b35e2ff37f09306))
+
 ## [1.0.0-alpha.0](https://github.com/hop-top/poly-vstar/compare/vstar-ts/v1.0.0-alpha.0...vstar-ts/v1.0.0-alpha.0) (2026-09-16)
 
 
