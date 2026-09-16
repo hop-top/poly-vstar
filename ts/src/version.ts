@@ -7,4 +7,4 @@
  * copy of the manifest version anywhere else. The test suite pins it
  * equal to `package.json`.
  */
-export const version = "1.0.0-alpha.0"; // x-release-please-version
+export const version = "1.0.0-alpha.1"; // x-release-please-version
