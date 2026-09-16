@@ -15,7 +15,7 @@ use HopTop\Vstar\Time;
  * forward evaluation, and bounded and lazy expansion.
  *
  * The accepted scope is fixed by
- * `spec/v0.1/03-canonicalization.md` §RRULE parsing scope: a `FREQ` of
+ * `spec/v1.0/03-canonicalization.md` §RRULE parsing scope: a `FREQ` of
  * `MINUTELY`, `HOURLY`, `DAILY`, `WEEKLY`, `MONTHLY` or `YEARLY`, with
  * `INTERVAL`, `UNTIL` (UTC form #2 only), `COUNT`, every `BY-*` clause,
  * and `WKST`. `FREQ=SECONDLY` and `RSCALE` are recognized by name and

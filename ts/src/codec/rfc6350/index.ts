@@ -6,7 +6,7 @@
  * escaping (§3.4), `BEGIN:VCARD…END:VCARD` framing, and the symmetric
  * encoder with 75-octet folding and CRLF terminators.
  *
- * `VERSION:4.0` is the only version accepted at v0.1.
+ * `VERSION:4.0` is the only version accepted at v1.0.
  */
 
 import type { Card } from "../../types.js";

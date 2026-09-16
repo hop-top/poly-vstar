@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 //! The `rrule/` conformance gate: every fixture under
-//! `spec/v0.1/conformance/rrule/`, plus the hand-written assertions the
+//! `spec/v1.0/conformance/rrule/`, plus the hand-written assertions the
 //! corpus cannot express.
 //!
 //! The walk is name-free. Each `.rrule` and each `.ics` is discovered on
@@ -705,7 +705,7 @@ fn a_set_sorts_and_deduplicates_across_its_sources() {
     assert!(!complete, "the limit truncated the series");
 }
 
-/// `VALUE=DATE` and `TZID` on EXDATE/RDATE are outside the v0.1 scope.
+/// `VALUE=DATE` and `TZID` on EXDATE/RDATE are outside the spec's scope.
 #[test]
 fn zoned_and_date_only_set_values_are_unsupported() {
     let build = |prop: Property| {
@@ -835,6 +835,44 @@ fn deferred_features_are_unsupported_not_malformed() {
     for value in ["", "INTERVAL=2", "FREQ=DAILY;BOGUS=1"] {
         assert_sentinel(value, "ErrMalformed", validate_rrule(value));
     }
+}
+
+/// The unsupported messages name the scope, never a spec version, so
+/// they cannot go stale. Wording is shared with every port.
+#[test]
+fn unsupported_messages_name_the_rrule_parsing_scope() {
+    let secondly = parse_rrule("FREQ=SECONDLY").expect_err("SECONDLY is deferred");
+    assert_eq!(
+        secondly.context(),
+        "rrule: FREQ=SECONDLY: outside the RRULE parsing scope"
+    );
+
+    let rscale = parse_rrule("FREQ=DAILY;RSCALE=CHINESE").expect_err("RSCALE is deferred");
+    assert_eq!(
+        rscale.context(),
+        "rrule: rule-part RSCALE: outside the RRULE parsing scope"
+    );
+}
+
+/// The VS050 diagnostic wraps the parser's message in the same
+/// scope-naming sentence the reference implementation emits.
+#[test]
+fn unsupported_rrule_diagnostic_names_the_rrule_parsing_scope() {
+    let mut c = hop_top_vstar::Component::new(hop_top_vstar::CompType::event());
+    c.set(Property::new("UID", "u"));
+    c.set(Property::new("DTSTART", "20260401T120000Z"));
+    c.set(Property::new("RRULE", "FREQ=SECONDLY"));
+
+    let diagnostics = hop_top_vstar::validate::validate_component(&c);
+    let found = diagnostics
+        .iter()
+        .find(|d| d.path.ends_with(".RRULE"))
+        .expect("an RRULE diagnostic");
+    assert_eq!(
+        found.message,
+        "RRULE uses a feature outside the RRULE parsing scope (spec/03 §RRULE parsing scope): \
+         unsupported RRULE: rrule: FREQ=SECONDLY: outside the RRULE parsing scope"
+    );
 }
 
 /// BYMONTHDAY resolves negatives from the month's end and skips a day

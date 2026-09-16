@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# V\* v0.1
+# V\* v1.0
 
 **Status:** Draft
 **Last updated:** 2026-09-14
@@ -23,7 +23,7 @@ where it was drafted alongside the Go reference implementation.
 ## Conformance
 
 The corpus under [`conformance/`](conformance/) is the canonical
-fixture set for v0.1. Every implementation consumes the same
+fixture set for v1.0. Every implementation consumes the same
 fixtures and MUST produce identical `.canonical` bytes and `.hash`
 content. The Go reference implementation carries a mirror of this
 corpus as its `testdata/` and verifies it in CI; any drift between

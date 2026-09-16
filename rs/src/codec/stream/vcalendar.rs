@@ -9,14 +9,14 @@ use crate::model::{Calendar, Component};
 use crate::CompType;
 use std::io::{BufRead, BufReader, Read, Write};
 
-/// The only VERSION the v0.1 codecs accept, matching the batch codec.
+/// The only VERSION the codecs accept, matching the batch codec.
 const SUPPORTED_VERSION: &str = "2.0";
 
 /// The `PRODID` emitted when [`VCalendarEncoder::set_header`] was never
 /// called. Mirrors the batch encoder's default so batch and stream
 /// output for the same logical calendar are byte-stable against each
-/// other.
-const DEFAULT_PROD_ID: &str = "-//hop-top//vstar-go v0.1.0//EN";
+/// other. Version-free and language-free because `PRODID` is hashed.
+const DEFAULT_PROD_ID: &str = "-//hop-top//vstar//EN";
 
 /// The RFC 5545 `BEGIN:` / `END:` pseudo-property names.
 const BEGIN: &str = "BEGIN";
@@ -317,7 +317,7 @@ impl<W: Write> VCalendarEncoder<W> {
     /// [`encode`](Self::encode).
     ///
     /// Only [`Calendar::prod_id`] is consulted; `VERSION` is fixed at
-    /// 2.0 per the v0.1 supported-version contract.
+    /// 2.0 per the spec's supported-version contract.
     ///
     /// # Errors
     ///

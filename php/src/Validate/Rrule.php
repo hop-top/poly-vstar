@@ -55,7 +55,7 @@ final class Rrule
             $out[] = Diagnostic::of(
                 $unsupported ? Codes::R_RULE_UNSUPPORTED : Codes::R_RULE_MALFORMED,
                 $unsupported
-                    ? 'RRULE uses a feature outside the v0.2 rrule scope'
+                    ? 'RRULE uses a feature outside the RRULE parsing scope'
                         . ' (spec/03 §RRULE parsing scope): ' . $err->getMessage()
                     : 'RRULE is malformed (RFC 5545 §3.3.10): ' . $err->getMessage(),
                 $path . '.' . self::RRULE,

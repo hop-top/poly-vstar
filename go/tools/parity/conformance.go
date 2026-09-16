@@ -201,7 +201,7 @@ var malformedSentinels = []sentinel{
 // returns the sentinel token it produced.
 //
 // Most fixtures fail at parse time. ErrMissingUID is encoder-only
-// in v0.1 — the rfc6350 parser accepts a UID-less VCARD and the
+// at v1.0 — the rfc6350 parser accepts a UID-less VCARD and the
 // encoder refuses it — so a fixture that parses is re-encoded and
 // the encode failure classified instead. That two-stage shape is
 // the documented contract (see malformed/README.md); a port

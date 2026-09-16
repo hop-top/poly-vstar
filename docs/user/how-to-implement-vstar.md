@@ -9,7 +9,7 @@ reproducing canonical bytes and `X-VSTAR-HASH` values byte-for-byte.
   not ship (the TypeScript, Python, Rust and PHP ports live here
   already) and need a definitive correctness gate.
 - You want your implementation to claim "V* conformant" per
-  [spec/05](../../spec/v0.1/05-conformance.md).
+  [spec/05](../../spec/v1.0/05-conformance.md).
 - You are integrating an existing iCal/vCard codec and need to know
   exactly what V* layers on top of RFC 5545 / RFC 6350.
 
@@ -18,7 +18,7 @@ reproducing canonical bytes and `X-VSTAR-HASH` values byte-for-byte.
 After completing this guide, you will:
 
 - Run your implementation against the shared
-  `spec/v0.1/conformance/` corpus and emit byte-identical
+  `spec/v1.0/conformance/` corpus and emit byte-identical
   `.canonical` and `.hash` files.
 - Compute `X-VSTAR-HASH` using the same SHA-256-over-canonical-bytes
   algorithm the Go reference uses.
@@ -43,7 +43,7 @@ You need:
 1. Implement RFC 5545 / RFC 6350 codec (or use an existing one).
 2. Implement canonical form per spec/03 (rules below).
 3. Implement `X-VSTAR-HASH` as `"sha256:" + hex(sha256(canonical_bytes))`.
-4. Run your implementation against `spec/v0.1/conformance/`; every
+4. Run your implementation against `spec/v1.0/conformance/`; every
    `.canonical` and `.hash` sibling must match byte-for-byte.
 
 ## Steps
@@ -72,7 +72,7 @@ external behavior is normative.
 
 ### 2. Implement canonical form
 
-[spec/03](../../spec/v0.1/03-canonicalization.md) defines the canonical
+[spec/03](../../spec/v1.0/03-canonicalization.md) defines the canonical
 byte form. Implement these rules in order:
 
 | # | Rule | Source |
@@ -100,9 +100,10 @@ X-VSTAR-HASH = "sha256:" + lowercase_hex(sha256(canonical_bytes))
 
 Where `canonical_bytes` is the output of step 2 with any existing
 `X-VSTAR-HASH` property stripped first. The literal `"sha256:"`
-prefix exists per [spec/03](../../spec/v0.1/03-canonicalization.md) §7
-to allow algorithm migration in v0.2+ without ambiguity (a future
-`"sha3-256:"` or `"blake3:"` prefix). v0.1 only emits `"sha256:"`.
+prefix exists per [spec/03](../../spec/v1.0/03-canonicalization.md) §7
+to allow algorithm migration in a later version without ambiguity
+(a future `"sha3-256:"` or `"blake3:"` prefix). v1.0 only emits
+`"sha256:"`.
 
 The Go reference exposes:
 
@@ -119,7 +120,7 @@ output bytes are normative.
 
 ### 4. Cross-validate against the corpus
 
-[`spec/v0.1/conformance/`](../../spec/v0.1/conformance/) is the
+[`spec/v1.0/conformance/`](../../spec/v1.0/conformance/) is the
 shared conformance corpus — the authored source every
 implementation consumes identically. (`go/testdata/` is a
 generated mirror of it, kept in the Go module so the published
@@ -162,7 +163,7 @@ should ship the same kind of CI gate.
 
 Until a formal conformance suite exists, every implementation
 SHOULD publish a `VSTAR-CONFORMANCE.md` per
-[spec/05](../../spec/v0.1/05-conformance.md) §"Self-certification"
+[spec/05](../../spec/v1.0/05-conformance.md) §"Self-certification"
 covering:
 
 - Spec revision targeted (commit hash of `hop-top/poly-vstar`).
@@ -171,7 +172,7 @@ covering:
 - Test artifacts (golden V* documents + their `X-VSTAR-HASH`
   values).
 
-This is the v0.1 honor-system substitute for a real test suite.
+This is the v1.0 honor-system substitute for a real test suite.
 
 ## Troubleshooting
 
@@ -203,11 +204,11 @@ for how that PR is shaped.
 
 ## Next steps
 
-- [Specification §01 — overview](../../spec/v0.1/01-overview.md) — design
+- [Specification §01 — overview](../../spec/v1.0/01-overview.md) — design
   principles + scope.
-- [Specification §03 — canonicalization](../../spec/v0.1/03-canonicalization.md) —
+- [Specification §03 — canonicalization](../../spec/v1.0/03-canonicalization.md) —
   the normative byte-form rules.
 - [Diagnostic code catalog](../validate-codes.md) — every rule a
   conformant validator should emit, with severity and spec linkage.
-- [Conformance corpus README](../../spec/v0.1/conformance/) — the
+- [Conformance corpus README](../../spec/v1.0/conformance/) — the
   cross-language fixture contract.

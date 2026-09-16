@@ -209,7 +209,7 @@ func TestBehaviorFixtures_Supersession(t *testing.T) {
 	if err != nil {
 		t.Fatalf("moduleRoot: %v", err)
 	}
-	corpus := filepath.Join(filepath.Dir(module), specDirName, "v0.1", "conformance", "supersession")
+	corpus := filepath.Join(filepath.Dir(module), specDirName, "v1.0", "conformance", "supersession")
 
 	for _, stem := range stems(t, dir, ".effective.json") {
 		t.Run(stem, func(t *testing.T) {
@@ -333,7 +333,7 @@ func TestBehaviorFixtures_TZID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("moduleRoot: %v", err)
 	}
-	corpus := filepath.Join(filepath.Dir(module), specDirName, "v0.1", "conformance", "time")
+	corpus := filepath.Join(filepath.Dir(module), specDirName, "v1.0", "conformance", "time")
 
 	var want []tzidFixture
 	loadJSON(t, filepath.Join(root, "time", "tzid.json"), &want)

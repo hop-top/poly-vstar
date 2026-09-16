@@ -774,7 +774,7 @@ fn rule_12_preserves_a_relative_trigger_verbatim() {
 // ---------------------------------------------------------------------
 
 /// A VTIMEZONE with one STANDARD child and no DAYLIGHT — the
-/// fixed-offset shape the v0.1 subset accepts.
+/// fixed-offset shape the spec's VTIMEZONE subset accepts.
 fn fixed_offset_vtimezone(tzid: &str, offset: &str) -> Component {
     let mut std = Component::new(CompType::from_wire("STANDARD"));
     std.add(Property::new("DTSTART", "19700101T000000"));
@@ -1071,7 +1071,7 @@ fn the_corpus_fold_fixture_round_trips_through_the_parser() {
         std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("..")
             .join("spec")
-            .join("v0.1")
+            .join("v1.0")
             .join("conformance")
             .join("rfc5545")
             .join("fold_split_utf8.ics"),

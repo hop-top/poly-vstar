@@ -38,7 +38,7 @@ final class Encoder
      */
     public static function encode(Card $card): string
     {
-        // UID is required on emit. This is the *only* place the v0.1
+        // UID is required on emit. This is the *only* place the
         // codec enforces it: the parser accepts a UID-less VCARD, so a
         // port that implements the check on the parse side alone passes
         // the malformed fixture while being wrong on both counts --

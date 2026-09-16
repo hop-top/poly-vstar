@@ -6,7 +6,7 @@
 //!
 //! # Scope
 //!
-//! The accepted surface is fixed by `spec/v0.1/03-canonicalization.md`
+//! The accepted surface is fixed by `spec/v1.0/03-canonicalization.md`
 //! §RRULE parsing scope, and the parser's scope equals the evaluator's:
 //! everything that parses, evaluates.
 //!

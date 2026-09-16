@@ -149,7 +149,7 @@ returns `(ok, want, got)` so you can surface the mismatch.
 |---|---|---|
 | `errors.Is(err, vstar.ErrMalformed)` on `Parse` | Input is not RFC 5545 — missing CRLF, malformed BEGIN/END, unknown property. | Check the wrapped error's positional context (line + column). Validate the source bytes with `cat -A`. |
 | `errors.Is(err, vstar.ErrUnclosedBlock)` | A `BEGIN:X` has no matching `END:X`. | Ensure your input ends with `END:VCALENDAR\r\n` and every nested block is paired. |
-| `errors.Is(err, vstar.ErrUnsupportedVersion)` | The VCARD codec rejected `VERSION:3.0`. | vstar v0.1 supports vCard 4.0 only. Convert your input or use a different library. |
+| `errors.Is(err, vstar.ErrUnsupportedVersion)` | The VCARD codec rejected `VERSION:3.0`. | vstar supports vCard 4.0 only. Convert your input or use a different library. |
 | Hash differs from a peer implementation | Property order, parameter order, NFC normalization, or TZID resolution disagree. | Compare canonical bytes directly: `canonical.Calendar(cal)`. The first divergent byte points at the rule. |
 
 ## How it works
@@ -173,6 +173,6 @@ the canonical form is the equivalence-class representative.
 - [How to validate and hash a Calendar](how-to-validate-and-hash.md) —
   surface and interpret diagnostic codes.
 - [How to parse and evaluate RRULE](how-to-recurrence.md) — work
-  with VTODO/VEVENT recurrence in v0.2.
+  with VTODO/VEVENT recurrence.
 - [Diagnostic code catalog](../validate-codes.md) — every
   `validate.Diagnostic.Code` the library emits.

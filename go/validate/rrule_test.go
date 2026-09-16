@@ -29,7 +29,7 @@ func TestCheckRRule(t *testing.T) {
 			wantSev:  SeverityWarning,
 		},
 		{
-			// FREQ=MINUTELY is in the v0.2 rrule scope; SECONDLY and
+			// FREQ=MINUTELY is in the RRULE parsing scope; SECONDLY and
 			// RSCALE remain the VS050 cases.
 			name:  "supported_freq_minutely",
 			value: "FREQ=MINUTELY",
@@ -41,18 +41,18 @@ func TestCheckRRule(t *testing.T) {
 			wantSev:  SeverityWarning,
 		},
 		{
-			// Post-amendment: BYSETPOS is now in v0.2 scope (no
+			// BYSETPOS is in the RRULE parsing scope (no
 			// VS050). With another BY-* clause it's accepted clean.
 			name:  "supported_bysetpos_with_byday",
 			value: "FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=-1",
 		},
 		{
-			// Post-amendment: BYWEEKNO is now in v0.2 scope.
+			// BYWEEKNO is in the RRULE parsing scope.
 			name:  "supported_byweekno",
 			value: "FREQ=YEARLY;BYWEEKNO=20",
 		},
 		{
-			// Post-amendment: BYYEARDAY is now in v0.2 scope.
+			// BYYEARDAY is in the RRULE parsing scope.
 			name:  "supported_byyearday",
 			value: "FREQ=YEARLY;BYYEARDAY=100",
 		},

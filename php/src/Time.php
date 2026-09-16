@@ -74,8 +74,8 @@ final class Time
      * UTC `DateTimeImmutable`. Null for any other input shape -- strict by
      * design.
      *
-     * Rejected, specifically: form #1 (no zone, unsupported bare in
-     * v0.1); RFC 3339 / ISO 8601 extended layouts; date-only values; a
+     * Rejected, specifically: form #1 (no zone, unsupported bare);
+     * RFC 3339 / ISO 8601 extended layouts; date-only values; a
      * lowercase `z`; leading or trailing whitespace; any length other than
      * sixteen octets; and impossible calendar dates -- February 30th does
      * not roll into March.
@@ -106,7 +106,7 @@ final class Time
      * - `$cal` carries no VTIMEZONE whose TZID matches (comparison is
      *   case-**sensitive**: TZIDs are opaque identifiers per RFC 5545
      *   §3.2.19);
-     * - the matching VTIMEZONE falls outside the spec's v0.1 subset --
+     * - the matching VTIMEZONE falls outside the spec's VTIMEZONE subset --
      *   multiple STANDARD or DAYLIGHT children, a missing offset or
      *   DTSTART, or an RRULE the subset does not accept;
      * - `$s` is not form #1 (15 octets, `T` at index 8, no `Z` suffix).
@@ -461,7 +461,7 @@ final class Time
 
     /**
      * Extract the STANDARD/DAYLIGHT rule pair from a VTIMEZONE, or null
-     * for any shape outside the spec's v0.1 subset.
+     * for any shape outside the spec's VTIMEZONE subset.
      *
      * Accepted: a single STANDARD (fixed offset); a single STANDARD plus a
      * single DAYLIGHT where both carry an accepted `FREQ=YEARLY` rule; and

@@ -26,7 +26,7 @@ import (
 //     out-of-range integer values, duplicate rule-part.
 //   - ErrUnsupportedRRule (wrapped via %w with the offending
 //     rule-part name) for syntactically valid features that
-//     spec/03 §RRULE parsing scope defers from v0.2: FREQ=SECONDLY,
+//     spec/03 §RRULE parsing scope defers: FREQ=SECONDLY,
 //     RSCALE.
 //
 // Both keys and values must be uppercase per RFC 5545 wire
@@ -107,7 +107,7 @@ func (r *Rule) applyRulePart(key, value string) error {
 	case "WKST":
 		return r.parseWKST(value)
 
-	// ── Out of v0.2 scope (spec/03 §RRULE parsing scope) ──────
+	// ── Outside the RRULE parsing scope (spec/03) ─────────────
 	case "RSCALE":
 		return fmt.Errorf("rrule: rule-part %s: %w", key, ErrUnsupportedRRule)
 

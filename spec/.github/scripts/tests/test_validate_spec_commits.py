@@ -48,6 +48,15 @@ def _commit(cwd: Path, files: dict[str, str], message: str) -> str:
     return _git(cwd, "rev-parse", "HEAD")
 
 
+def _commit_moves(cwd: Path, moves: dict[str, str], message: str) -> str:
+    """`git mv` each old→new path, then commit."""
+    for old, new in moves.items():
+        (cwd / new).parent.mkdir(parents=True, exist_ok=True)
+        _git(cwd, "mv", old, new)
+    _git(cwd, "commit", "-m", message)
+    return _git(cwd, "rev-parse", "HEAD")
+
+
 def _run_script(repo: Path, base: str, head: str) -> subprocess.CompletedProcess:
     env = os.environ.copy()
     env["BASE_SHA"] = base
@@ -72,40 +81,121 @@ class ValidateSpecCommitsTests(unittest.TestCase):
     # --- Rule A: per-spec-version isolation -------------------------------
 
     def test_single_commit_single_spec_dir_passes(self) -> None:
-        head = _commit(self.tmp, {"spec/v0.1/x.md": "x\n"}, "feat: x")
+        head = _commit(self.tmp, {"spec/v1.0/x.md": "x\n"}, "feat: x")
         r = _run_script(self.tmp, self.base, head)
         self.assertEqual(r.returncode, 0, r.stderr)
 
     def test_single_commit_two_spec_dirs_fails(self) -> None:
         head = _commit(
             self.tmp,
-            {"spec/v0.1/x.md": "x\n", "spec/v0.2/y.md": "y\n"},
+            {"spec/v1.0/x.md": "x\n", "spec/v1.1/y.md": "y\n"},
             "feat: x",
         )
         r = _run_script(self.tmp, self.base, head)
         self.assertEqual(r.returncode, 1)
         self.assertIn("multiple spec versions", r.stderr)
-        self.assertIn("v0.1", r.stderr)
-        self.assertIn("v0.2", r.stderr)
+        self.assertIn("v1.0", r.stderr)
+        self.assertIn("v1.1", r.stderr)
 
     def test_commit_touching_only_root_files_passes(self) -> None:
         head = _commit(self.tmp, {"README.md": "seed\nedited\n"}, "docs: edit")
         r = _run_script(self.tmp, self.base, head)
         self.assertEqual(r.returncode, 0, r.stderr)
 
+    # --- Rule A: whole-directory renames ----------------------------------
+
+    def _seed_version_dir(self) -> str:
+        return _commit(
+            self.tmp,
+            {
+                "spec/v1.0/README.md": "readme\n",
+                "spec/v1.0/03-rules.md": "rules\n",
+                "spec/v1.0/conformance/a.ics": "same\n",
+                "spec/v1.0/conformance/b.ics": "same\n",
+            },
+            "feat: seed v1.0",
+        )
+
+    def test_whole_directory_rename_passes(self) -> None:
+        base = self._seed_version_dir()
+        head = _commit_moves(
+            self.tmp, {"spec/v1.0": "spec/v2.0"}, "refactor: rename v1.0 to v2.0",
+        )
+        r = _run_script(self.tmp, base, head)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("no violations", r.stdout)
+
+    def test_partial_rename_between_versions_fails(self) -> None:
+        base = self._seed_version_dir()
+        head = _commit_moves(
+            self.tmp,
+            {"spec/v1.0/03-rules.md": "spec/v2.0/03-rules.md"},
+            "refactor: move one file",
+        )
+        r = _run_script(self.tmp, base, head)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("multiple spec versions", r.stderr)
+        self.assertIn("v1.0", r.stderr)
+        self.assertIn("v2.0", r.stderr)
+
+    def test_rename_with_edits_passes_when_the_directory_vanishes(self) -> None:
+        # A squashed rename-and-revise: the old directory is gone, every
+        # path reappears at the same relative path, some files changed on
+        # the way (delete plus add under exact-rename detection).
+        base = self._seed_version_dir()
+        for old, new in {"spec/v1.0": "spec/v2.0"}.items():
+            _git(self.tmp, "mv", old, new)
+        (self.tmp / "spec/v2.0/03-rules.md").write_text("rules, edited\n")
+        (self.tmp / "spec/v2.0/README.md").write_text("# v2.0\n")
+        _git(self.tmp, "add", "-A")
+        _git(self.tmp, "commit", "-m", "refactor: rename and revise")
+        head = _git(self.tmp, "rev-parse", "HEAD")
+        r = _run_script(self.tmp, base, head)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("no violations", r.stdout)
+
+    def test_rename_with_edits_and_a_leftover_fails(self) -> None:
+        # Same as above but one file stays behind: a partial move.
+        base = self._seed_version_dir()
+        (self.tmp / "spec/v2.0").mkdir()
+        _git(self.tmp, "mv", "spec/v1.0/03-rules.md", "spec/v2.0/03-rules.md")
+        _git(self.tmp, "mv", "spec/v1.0/conformance", "spec/v2.0/conformance")
+        (self.tmp / "spec/v2.0/03-rules.md").write_text("rules, edited\n")
+        _git(self.tmp, "add", "-A")
+        _git(self.tmp, "commit", "-m", "refactor: move most of it")
+        head = _git(self.tmp, "rev-parse", "HEAD")
+        r = _run_script(self.tmp, base, head)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("multiple spec versions", r.stderr)
+
+    def test_rename_changing_relative_path_fails(self) -> None:
+        base = self._seed_version_dir()
+        head = _commit_moves(
+            self.tmp,
+            {
+                "spec/v1.0/README.md": "spec/v2.0/README.md",
+                "spec/v1.0/03-rules.md": "spec/v2.0/03-canonicalization.md",
+                "spec/v1.0/conformance": "spec/v2.0/conformance",
+            },
+            "refactor: rename and reshuffle",
+        )
+        r = _run_script(self.tmp, base, head)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("multiple spec versions", r.stderr)
+
     # --- Rule B: breaking-change syntax forbidden in spec dirs ------------
 
     def test_breaking_bang_in_spec_dir_fails(self) -> None:
-        head = _commit(self.tmp, {"spec/v0.1/x.md": "x\n"}, "feat!: drop field")
+        head = _commit(self.tmp, {"spec/v1.0/x.md": "x\n"}, "feat!: drop field")
         r = _run_script(self.tmp, self.base, head)
         self.assertEqual(r.returncode, 1)
         self.assertIn("breaking change", r.stderr)
-        self.assertIn("v0.1", r.stderr)
+        self.assertIn("v1.0", r.stderr)
 
     def test_breaking_trailer_in_spec_dir_fails(self) -> None:
         head = _commit(
             self.tmp,
-            {"spec/v0.1/x.md": "x\n"},
+            {"spec/v1.0/x.md": "x\n"},
             "feat: x\n\nBREAKING CHANGE: removed Y\n",
         )
         r = _run_script(self.tmp, self.base, head)
@@ -115,7 +205,7 @@ class ValidateSpecCommitsTests(unittest.TestCase):
     def test_breaking_trailer_hyphen_in_spec_dir_fails(self) -> None:
         head = _commit(
             self.tmp,
-            {"spec/v0.1/x.md": "x\n"},
+            {"spec/v1.0/x.md": "x\n"},
             "feat: x\n\nBREAKING-CHANGE: removed Y\n",
         )
         r = _run_script(self.tmp, self.base, head)
@@ -129,7 +219,7 @@ class ValidateSpecCommitsTests(unittest.TestCase):
     def test_non_breaking_note_passes(self) -> None:
         head = _commit(
             self.tmp,
-            {"spec/v0.1/x.md": "x\n"},
+            {"spec/v1.0/x.md": "x\n"},
             "feat: x\n\nNote: nothing breaking here\n",
         )
         r = _run_script(self.tmp, self.base, head)
@@ -143,19 +233,19 @@ class ValidateSpecCommitsTests(unittest.TestCase):
         self.assertIn("no commits", r.stdout)
 
     def test_multi_commit_range_one_violates(self) -> None:
-        good = _commit(self.tmp, {"spec/v0.1/a.md": "a\n"}, "feat: a")
-        bad = _commit(self.tmp, {"spec/v0.1/b.md": "b\n"}, "feat!: b")
-        ok = _commit(self.tmp, {"spec/v0.1/c.md": "c\n"}, "fix: c")
+        good = _commit(self.tmp, {"spec/v1.0/a.md": "a\n"}, "feat: a")
+        bad = _commit(self.tmp, {"spec/v1.0/b.md": "b\n"}, "feat!: b")
+        ok = _commit(self.tmp, {"spec/v1.0/c.md": "c\n"}, "fix: c")
         r = _run_script(self.tmp, self.base, ok)
         self.assertEqual(r.returncode, 1)
         # Only the breaking commit should produce a violation.
         self.assertEqual(r.stderr.count("breaking change"), 1)
 
     def test_multi_commit_range_multiple_violate(self) -> None:
-        a = _commit(self.tmp, {"spec/v0.1/a.md": "a\n"}, "feat!: a")
+        a = _commit(self.tmp, {"spec/v1.0/a.md": "a\n"}, "feat!: a")
         b = _commit(
             self.tmp,
-            {"spec/v0.1/b.md": "b\n", "spec/v0.2/b.md": "b\n"},
+            {"spec/v1.0/b.md": "b\n", "spec/v1.1/b.md": "b\n"},
             "feat: b",
         )
         r = _run_script(self.tmp, self.base, b)

@@ -31,7 +31,7 @@ You need:
 - A clear statement of the user-visible behavior change. If you
   cannot describe it in one sentence, the scope is wrong.
 - For architectural changes: a draft of the spec wording. See
-  [spec/03](../../spec/v0.1/03-canonicalization.md)
+  [spec/03](../../spec/v1.0/03-canonicalization.md)
   for the register the rules are written in.
 
 ## Quick version
@@ -53,7 +53,7 @@ git commit -m "feat(<area>): <feature> — GREEN"
 git commit -am "refactor(<area>): tidy <feature> — REFACTOR"
 
 # Coordinated update if fixtures or spec move
-# author the fixture under spec/v0.1/conformance/, then:
+# author the fixture under spec/v1.0/conformance/, then:
 make fixtures-verify  # regenerates the corpus + the go/testdata/ mirror
 git add spec/ go/testdata/
 git commit -m "feat(<area>): regenerate corpus"
@@ -137,7 +137,7 @@ form, the hash discipline, a public error sentinel, or a parser
 scope boundary — are stated normatively under
 [`spec/`](../../spec/). Edit the spec text in the same PR as the
 code that depends on it, and write the rule the way
-[spec/03](../../spec/v0.1/03-canonicalization.md)
+[spec/03](../../spec/v1.0/03-canonicalization.md)
 already does: what an implementation MUST do, the accepted and
 rejected shapes, and the fallback when input is out of scope.
 
@@ -154,12 +154,12 @@ make fixtures-verify
 ```
 
 The target regenerates every `.canonical` and `.hash` under
-`spec/v0.1/conformance/`, mirrors the corpus into `go/testdata/`,
+`spec/v1.0/conformance/`, mirrors the corpus into `go/testdata/`,
 and diffs both trees. If either is dirty, the target fails —
 commit the regenerated files in the same PR:
 
 ```sh
-git add spec/v0.1/conformance/ go/testdata/ \
+git add spec/v1.0/conformance/ go/testdata/ \
   go/codec/rfc5545/testdata/fuzz/ go/codec/rfc6350/testdata/fuzz/
 git commit -m "feat(<area>): regenerate corpus for <change>"
 ```
@@ -173,9 +173,9 @@ broke a canonical-form invariant.
 Spec text, corpus and implementations all live in this repo, so
 this is one PR. It must move all three together:
 
-1. Add or modify the fixture under `spec/v0.1/conformance/` — the
+1. Add or modify the fixture under `spec/v1.0/conformance/` — the
    authored corpus.
-2. Update the relevant section of the spec under `spec/v0.1/` to
+2. Update the relevant section of the spec under `spec/v1.0/` to
    describe the new behavior.
 3. Update each implementation — the Go reference and all four ports —
    to handle it; add tests that consume the new fixture. For an
@@ -225,7 +225,7 @@ gh pr create --base main \
 
 ## Spec
 
-Spec sections touched: <spec/v0.1/NN-*.md> (or: none — additive change).
+Spec sections touched: <spec/v1.0/NN-*.md> (or: none — additive change).
 EOF
 )"
 ```
@@ -237,11 +237,11 @@ Reviewers: repository maintainers, per
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| `make fixtures-verify` shows drift you didn't expect | Implementation behavior accidentally changed canonical bytes. | `git diff spec/v0.1/conformance/ go/testdata/` to see the byte-level difference; revert the implementation change unless the drift is the point of the PR. |
-| `make fixtures-verify` names rewritten mirror paths but `git diff` is clean | Someone hand-edited `go/testdata/` and the mirror restored it — the tree is clean *because* the edit is gone. | Make the edit under `spec/v0.1/conformance/` instead and rerun; the report is the only trace a restored edit leaves. |
+| `make fixtures-verify` shows drift you didn't expect | Implementation behavior accidentally changed canonical bytes. | `git diff spec/v1.0/conformance/ go/testdata/` to see the byte-level difference; revert the implementation change unless the drift is the point of the PR. |
+| `make fixtures-verify` names rewritten mirror paths but `git diff` is clean | Someone hand-edited `go/testdata/` and the mirror restored it — the tree is clean *because* the edit is gone. | Make the edit under `spec/v1.0/conformance/` instead and rerun; the report is the only trace a restored edit leaves. |
 | RED commit fails CI and you cannot push | CI is running per-commit, not per-merge. | Check `.github/workflows/ci-go.yml` — vstar's CI gates the merge, not intermediate commits. If your fork enforces per-commit, squash before pushing. |
 | Conventional Commit linter rejects your subject | Subject exceeds 72 chars or uses past tense. | Rewrite imperative + concise: "add X" not "added X with a long explanation". |
-| Reviewer asks for a spec change on a change you thought was additive | The change touches the canonical/hash discipline or adds a public sentinel. | Land the spec change — public sentinels and canonical-form rules are architectural. See [spec/03 §RRULE parsing scope](../../spec/v0.1/03-canonicalization.md#rrule-parsing-scope) for how a scope boundary is stated. |
+| Reviewer asks for a spec change on a change you thought was additive | The change touches the canonical/hash discipline or adds a public sentinel. | Land the spec change — public sentinels and canonical-form rules are architectural. See [spec/03 §RRULE parsing scope](../../spec/v1.0/03-canonicalization.md#rrule-parsing-scope) for how a scope boundary is stated. |
 | `gofumpt` fails fmt-check | Formatter version mismatch with CI. | Match CI's gofumpt or run `make fmt` and commit. |
 
 ## How it works
@@ -279,7 +279,7 @@ Spec changes are the mechanism for moving past "is this a refactor
 or a decision?" Anything that constrains a future contributor —
 wire formats, error sentinels, package boundaries, scope cuts — is
 stated in the spec. Read
-[spec/03 §RRULE parsing scope](../../spec/v0.1/03-canonicalization.md#rrule-parsing-scope)
+[spec/03 §RRULE parsing scope](../../spec/v1.0/03-canonicalization.md#rrule-parsing-scope)
 for an example of a scope boundary with explicit accepted,
 malformed, and deferred lists.
 
@@ -289,5 +289,5 @@ malformed, and deferred lists.
   if you skipped past it.
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) — full repo-wide rules
   (licensing, reviewers, security disclosure).
-- [spec/03 — canonicalization](../../spec/v0.1/03-canonicalization.md)
+- [spec/03 — canonicalization](../../spec/v1.0/03-canonicalization.md)
   — the register to model your own spec wording on.

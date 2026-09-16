@@ -28,7 +28,7 @@
 //     the same UTC representation (TZID-tagged ↔ Z-suffixed where
 //     a matching VTIMEZONE is in scope).
 //
-// Diff matching heuristics (documented limitations for v0.1):
+// Diff matching heuristics (documented limitations at v1.0):
 //
 //   - Sub-components are paired by (Type, UID) when both carry a
 //     UID. Sub-components without a UID (e.g. VALARM) are paired
@@ -39,7 +39,7 @@
 //     insensitive). This matches canonical's property ordering rule
 //     in practice but is specified independently for the diff layer.
 //
-// Performance: v0.1 prioritizes correctness. Equal currently routes
+// Performance: correctness over speed. Equal currently routes
 // through a full canonical-byte comparison; per-property short-
 // circuiting is out of scope.
 package diff

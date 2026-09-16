@@ -70,7 +70,7 @@ resolve against.
 
 VS050 is a Warning because the property still round-trips through
 the codec layer; only its recurrence semantics are inaccessible
-to the v0.2 evaluator. Consumers using `rrule.NextOccurrence` MUST
+to the RRULE evaluator. Consumers using `rrule.NextOccurrence` MUST
 check for VS050 before relying on the result.
 
 VS051 is an Error because a malformed RRULE means no consumer

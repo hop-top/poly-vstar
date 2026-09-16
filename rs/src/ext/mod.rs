@@ -42,7 +42,7 @@ pub enum Scope {
     None,
     /// `X-VSTAR-*` — a cross-system V\* extension on the stabilization
     /// track. `X-VSTAR-HASH` (spec/02) is the only mandatory member in
-    /// v0.1.
+    /// the spec.
     VStar,
     /// `X-<SYSTEM>-*` — an extension owned by one consuming system.
     ///

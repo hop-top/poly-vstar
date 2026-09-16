@@ -7,7 +7,7 @@
 //! `BEGIN:VCARD…END:VCARD` framing, and the symmetric encoder with
 //! 75-octet folding and CRLF terminators.
 //!
-//! `VERSION:4.0` is the only version accepted at v0.1; `VERSION:3.0`
+//! `VERSION:4.0` is the only version accepted; `VERSION:3.0`
 //! yields [`Error::UnsupportedVersion`].
 //!
 //! # UID handling is asymmetric
@@ -27,7 +27,7 @@ use crate::model::{Card, Param, Property};
 use crate::{Error, Kind, Result};
 use std::io::{Read, Write};
 
-/// The only vCard `VERSION` value accepted at v0.1.
+/// The only vCard `VERSION` value accepted.
 const SUPPORTED_VERSION: &str = "4.0";
 
 /// Parses zero or more `BEGIN:VCARD … END:VCARD` blocks from `r`.

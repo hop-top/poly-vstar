@@ -3,7 +3,7 @@
 //! The Rust parity emitter for the cross-language parity harness.
 //!
 //! It takes the `spec/` directory as its single argument, runs the V\*
-//! public API over every fixture in `spec/v0.1/conformance/` and
+//! public API over every fixture in `spec/v1.0/conformance/` and
 //! `spec/behavior/`, and prints ONE JSON document to stdout.
 //! `tools/parity/parity.py` diffs this document against the Go
 //! reference's, key by key; any difference fails the run.
@@ -63,7 +63,7 @@ fn main() {
     };
     let spec = absolute(Path::new(spec));
 
-    let conformance = spec.join("v0.1").join("conformance");
+    let conformance = spec.join("v1.0").join("conformance");
     let behavior_dir = spec.join("behavior");
     for dir in [&conformance, &behavior_dir] {
         if !dir.is_dir() {

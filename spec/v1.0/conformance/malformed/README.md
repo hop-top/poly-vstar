@@ -13,7 +13,7 @@ goldens would be undefined.
 | `unclosed_block.ics`       | `ErrUnclosedBlock`    | parse (rfc5545)  |
 | `missing_uid.vcf`          | `ErrMissingUID`       | encode (rfc6350) |
 
-`ErrMissingUID` is **encoder-only** in v0.1 — the rfc6350 parser
+`ErrMissingUID` is **encoder-only** at v1.0 — the rfc6350 parser
 accepts a VCARD without UID. The `missing_uid.vcf` fixture is
 therefore tested by parsing successfully, then attempting to
 re-encode the parsed Card; the encoder MUST refuse with

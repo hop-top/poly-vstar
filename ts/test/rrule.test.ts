@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // The layer-(c) gate: every sidecar under
-// `spec/v0.1/conformance/rrule/` decides one call, and this file makes
+// `spec/v1.0/conformance/rrule/` decides one call, and this file makes
 // each of them a test.
 //
 // The tree is walked rather than enumerated by name, so a fixture added
@@ -622,6 +622,13 @@ describe("rrule parsing scope", () => {
       expectSentinel("ErrUnsupportedRRule", () => parseRRule(v), v);
       expectSentinel("ErrUnsupportedRRule", () => validateRRule(v), v);
     }
+  });
+
+  it("names the RRULE parsing scope, never a spec version, in the deferral messages", () => {
+    const secondly = capture(() => parseRRule("FREQ=SECONDLY")) as VstarError;
+    expect(secondly.message).toBe("ErrUnsupportedRRule: rrule: FREQ=SECONDLY: outside the RRULE parsing scope");
+    const rscale = capture(() => parseRRule("FREQ=YEARLY;RSCALE=HEBREW")) as VstarError;
+    expect(rscale.message).toBe("ErrUnsupportedRRule: rrule: rule-part RSCALE: outside the RRULE parsing scope");
   });
 
   it("accepts FREQ=MINUTELY", () => {

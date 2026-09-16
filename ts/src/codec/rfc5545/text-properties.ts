@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * The only iCalendar VERSION value V* honors at v0.1.
+ * The only iCalendar VERSION value V* honors.
  */
 export const SUPPORTED_VERSION = "2.0";
 

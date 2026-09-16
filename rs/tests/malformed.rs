@@ -8,7 +8,7 @@
 //!
 //! One fixture is deliberately not a parse failure. `missing_uid.vcf`
 //! parses cleanly: the RFC 6350 parser accepts a UID-less VCARD by
-//! design, and `ErrMissingUID` is raised by the **encoder** in v0.1. A
+//! design, and `ErrMissingUID` is raised by the **encoder**. A
 //! port that implements only the parse side passes the fixture while
 //! being wrong, so this file exercises both halves.
 
@@ -103,8 +103,8 @@ fn malformed_vcf_fixtures_produce_their_sentinel() {
 fn missing_uid_is_encoder_only() {
     let src = "BEGIN:VCARD\nVERSION:4.0\nFN:No UID Here\nEND:VCARD\n";
 
-    let cards = rfc6350::parse(src.as_bytes())
-        .expect("the rfc6350 parser accepts a UID-less VCARD in v0.1");
+    let cards =
+        rfc6350::parse(src.as_bytes()).expect("the rfc6350 parser accepts a UID-less VCARD");
     assert_eq!(cards.len(), 1);
     assert_eq!(cards[0].uid, "", "a UID-less card carries an empty uid");
 

@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace HopTop\Vstar\Tests;
 
 /**
- * Loader for the shared conformance corpus at `spec/v0.1/conformance/`.
+ * Loader for the shared conformance corpus at `spec/v1.0/conformance/`.
  *
  * The corpus is authored once and consumed identically by every port, so
  * the loader walks the tree rather than naming individual fixtures: a
@@ -26,7 +26,7 @@ final class Corpus
      */
     public static function root(): string
     {
-        return dirname(__DIR__, 2) . '/spec/v0.1/conformance';
+        return dirname(__DIR__, 2) . '/spec/v1.0/conformance';
     }
 
     /**

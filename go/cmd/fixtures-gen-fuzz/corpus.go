@@ -9,10 +9,10 @@ import (
 
 // corpusDirName is the conformance corpus directory inside the
 // spec tree, relative to the repository root.
-const corpusDirName = "spec/v0.1/conformance"
+const corpusDirName = "spec/v1.0/conformance"
 
 // corpusRoot resolves the authored conformance corpus for a module
-// rooted at module: <module>/../spec/v0.1/conformance in the
+// rooted at module: <module>/../spec/v1.0/conformance in the
 // poly-vstar monorepo, where the corpus is authored and the module's
 // testdata/ is a generated mirror of it; <module>/testdata on the
 // hop-top/vstar mirror, where the module is a subtree of go/ alone

@@ -68,8 +68,8 @@ cd poly-vstar
 The repo is a multi-tree monorepo, one tree per language:
 
 - [`spec/`](../../spec/) — the specification, authored here.
-  `spec/v0.1/*.md` is the prose (CC-BY-4.0);
-  `spec/v0.1/conformance/` is the authored conformance corpus and
+  `spec/v1.0/*.md` is the prose (CC-BY-4.0);
+  `spec/v1.0/conformance/` is the authored conformance corpus and
   `spec/.github/scripts/` its tooling (both MIT).
 - `go/` — Go reference implementation (MIT), module
   `hop.top/vstar`, with its `go.mod`, `.golangci.yml` and
@@ -79,7 +79,7 @@ The repo is a multi-tree monorepo, one tree per language:
   against `go/` by `make test-parity`.
 - `tools/parity/` — the cross-language harness. `parity.py`'s
   `LANGUAGES` table is the roster of what gets compared.
-- `go/testdata/` — generated mirror of `spec/v0.1/conformance/`,
+- `go/testdata/` — generated mirror of `spec/v1.0/conformance/`,
   produced by `make fixtures-verify` and committed so the
   `hop-top/vstar` mirror of `go/` stays self-contained. Never
   hand-edited.
@@ -131,7 +131,7 @@ make ci
 | Step | What it checks |
 |---|---|
 | `registry-check` | Generated per-language constants match `spec/registry/`. |
-| `fixtures-verify` | Regenerates the corpus under `spec/v0.1/conformance/`, mirrors it into `go/testdata/`, asserts no drift. |
+| `fixtures-verify` | Regenerates the corpus under `spec/v1.0/conformance/`, mirrors it into `go/testdata/`, asserts no drift. |
 | `ci-go` | `vet` + `fmt-check` + `lint` + `cover` (race-mode, profile at `go/coverage.out`). |
 | `ci-ts` | `lint-ts` + `test-ts` + `build-ts`. |
 | `ci-py` | `lint-py` + `test-py` + `build-py`. |
@@ -209,7 +209,7 @@ make fixtures-verify
 ```
 
 This regenerates every `.canonical` and `.hash` sibling under
-`spec/v0.1/conformance/`, verifies the rrule sidecar contracts,
+`spec/v1.0/conformance/`, verifies the rrule sidecar contracts,
 mirrors the corpus into `go/testdata/`, and diffs both trees. If
 either is dirty after the regeneration, the target fails — either
 commit the regenerated files (because you intentionally changed
@@ -218,10 +218,10 @@ implementation behavior) or revert the implementation change
 
 The same target also keeps the codec fuzz-seed corpora
 (`go/codec/rfc5545/testdata/fuzz/` etc.) in sync with the canonical
-source under `spec/v0.1/conformance/fuzz-seed/`. Never hand-edit
+source under `spec/v1.0/conformance/fuzz-seed/`. Never hand-edit
 the go-fuzz corpus — and never hand-edit `go/testdata/`, which is
 a generated mirror; fixtures are authored in
-`spec/v0.1/conformance/`.
+`spec/v1.0/conformance/`.
 
 ## How CI mirrors this
 
@@ -271,21 +271,35 @@ which subtree-splits each tree to its own read-only mirror. The
 constraints that are not obvious from the files:
 
 - **Every seed in `.release-please-manifest.json` is
-  prerelease-shaped** (`1.0.0-alpha.0`, never `1.0.0`). Each package
+  prerelease-shaped** (`X.Y.Z-alpha.0`, never `X.Y.Z`). Each package
   declares `prerelease`, and the org preflight rejects a
   stable-shaped seed for a prerelease component. release-please bumps
   *from* a seed, so the first cut from an `alpha.0` seed lands at
-  `alpha.1` unless a commit carries a `Release-As: 1.0.0-alpha.0`
-  footer. In this manifest layout that footer applies to every
+  `alpha.1` unless a commit carries a `Release-As:` footer naming the
+  seed. In this manifest layout that footer applies to every
   package whose path the commit touches, and only to those — a footer
   on a commit outside every package path is ignored. The bootstrap
   commit therefore touches all six trees.
-- **No `extra-files`.** Every strategy rewrites its own manifest
-  natively — `go.mod`, `package.json`, `Cargo.toml`, `php/VERSION`.
-  Python's strategy only rewrites an `__init__.py` under a directory
-  matching the distribution slug, and `hop-top-vstar` is not
-  `vstar`, so `py/` reads `__version__` back from installed metadata
-  instead of storing it in source.
+- **`extra-files` exist for exactly four annotated files.** Every
+  strategy rewrites its own manifest natively — `package.json`,
+  `pyproject.toml`, `Cargo.toml`, `php/VERSION`, the spec's
+  `version.txt` — and nothing else. Four hand-maintained literals sit
+  outside those manifests: `ts/src/version.ts` and the exact-pin
+  example in `py/README.md`, `rs/README.md` and `php/README.md`. Each
+  is listed as an `extra-files` entry (a path relative to its package)
+  and carries `x-release-please-version` on the literal's line, so
+  the generic updater rewrites it in the same release PR that bumps
+  the manifest. `make version-check` keeps the two halves honest: an
+  annotated line must equal its package's manifest version, and the
+  set of annotated files must equal the set of `extra-files`.
+  `py/pyproject.toml` is never listed — the Python strategy already
+  rewrites it, and the generic updater would bypass PEP 440
+  normalization (the org's release troubleshooting for Python says the
+  same). The Python pin is spelled `==X.Y.Z-alpha.N` for the same
+  reason: the updater's version regex matches SemVer, so a PEP 440
+  `aN` suffix would be left behind; `pip` normalizes the SemVer
+  spelling. `py/` reads `__version__` back from installed metadata
+  rather than storing it in source.
 - **The spec entry says `ecosystem: none` explicitly.** It is a
   payload with no registry: the mirror job runs, no publish job does.
   Omitting the key is not equivalent — an absent entry reads as an
@@ -393,5 +407,5 @@ normative emitter contract.
   posture, Conventional Commits, spec changes.
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) — repo-wide rules
   (licensing, commit style, reviewers).
-- [spec/03 — canonicalization](../../spec/v0.1/03-canonicalization.md)
+- [spec/03 — canonicalization](../../spec/v1.0/03-canonicalization.md)
   — read the rules of record before proposing a change to them.

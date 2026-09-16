@@ -2,7 +2,7 @@
 
 //! Shared fixture loader for the conformance corpus.
 //!
-//! The corpus is authored at `spec/v0.1/conformance/`, above the crate
+//! The corpus is authored at `spec/v1.0/conformance/`, above the crate
 //! root. Paths resolve from `CARGO_MANIFEST_DIR` so the loader works
 //! from any working directory `cargo test` is invoked in.
 //!
@@ -22,7 +22,7 @@ pub fn corpus_root() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("..")
         .join("spec")
-        .join("v0.1")
+        .join("v1.0")
         .join("conformance")
 }
 

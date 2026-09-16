@@ -3,7 +3,7 @@
 # V* — Conformance
 
 > Status: **draft**. Conformance criteria firm up alongside a
-> conformance test suite (planned for v0.2).
+> conformance test suite (planned for a later version).
 
 ## What "V\* conformant" means
 
@@ -54,7 +54,7 @@ V\* implementations come in three flavors:
 - **Round-trip**: both, with byte-identical re-emit guaranteed
   for documents it emitted.
 
-The conformance test suite (v0.2) will exercise each class
+A future conformance test suite will exercise each class
 separately.
 
 ## Failure classes
@@ -68,7 +68,7 @@ The token is the cross-language identity of the class. An
 implementation MUST expose every class below under exactly the token
 spelled here, whatever its host language names the underlying error
 value, so that a failure raised by one implementation is recognizable
-to every other. The table is the complete set for v0.1: an
+to every other. The table is the complete set for v1.0: an
 implementation MUST NOT invent further tokens, and SHOULD map any
 condition of its own onto the class that already covers it.
 
@@ -120,4 +120,4 @@ SHOULD publish a `VSTAR-CONFORMANCE.md` documenting:
 - Test artifacts (golden V\* documents + their `X-VSTAR-HASH`
   values)
 
-This is the v0.1 honor-system substitute for a real test suite.
+This is the v1.0 honor-system substitute for a real test suite.

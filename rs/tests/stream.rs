@@ -345,6 +345,23 @@ fn streamed_card_encode_matches_the_batch_encoder() {
 
 /// `Close` twice, and `Encode` after `Close`, both yield
 /// `ErrAlreadyClosed` — never a silently ignored no-op.
+/// An encoder that never saw `set_header` emits the same version-free,
+/// language-free default PRODID as the helper constructors: the value is
+/// hashed, so it is one literal in every port, stable across releases.
+#[test]
+fn an_encoder_without_a_header_emits_the_default_prodid() {
+    let mut out = Vec::new();
+    let mut enc = VCalendarEncoder::new(&mut out);
+    enc.encode(&Component::new(CompType::TODO))
+        .expect("encode without a header");
+    enc.close().expect("close");
+    let text = String::from_utf8(out).expect("UTF-8 output");
+    assert!(
+        text.contains("\r\nPRODID:-//hop-top//vstar//EN\r\n"),
+        "default PRODID line missing from:\n{text}"
+    );
+}
+
 #[test]
 fn a_closed_encoder_refuses_further_work() {
     let mut out = Vec::new();

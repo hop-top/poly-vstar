@@ -2,7 +2,7 @@
 
 // Shared conformance-corpus loader.
 //
-// The corpus is authored at `spec/v0.1/conformance/`, two levels above
+// The corpus is authored at `spec/v1.0/conformance/`, two levels above
 // `ts/`. Paths are resolved from this file's own URL rather than from
 // `process.cwd()` so the loader works whichever directory vitest is
 // invoked from.
@@ -13,8 +13,8 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-/** Absolute path to `spec/v0.1/conformance/`. */
-export const CONFORMANCE_DIR = join(here, "..", "..", "spec", "v0.1", "conformance");
+/** Absolute path to `spec/v1.0/conformance/`. */
+export const CONFORMANCE_DIR = join(here, "..", "..", "spec", "v1.0", "conformance");
 
 /** One fixture: the stem plus whichever sibling files exist. */
 export interface Fixture {
@@ -29,7 +29,7 @@ export interface Fixture {
 }
 
 /**
- * Enumerate every fixture in `spec/v0.1/conformance/<family>/` whose
+ * Enumerate every fixture in `spec/v1.0/conformance/<family>/` whose
  * input carries `ext`. Sorted by stem so failures report in a stable
  * order.
  */
@@ -115,7 +115,7 @@ function show(bytes: Uint8Array, i: number): string {
 
 // ── RRULE corpus ──────────────────────────────────────────────────
 //
-// `spec/v0.1/conformance/rrule/` follows its own convention: the input
+// `spec/v1.0/conformance/rrule/` follows its own convention: the input
 // is `<stem>.rrule` (one RRULE property value) or `<stem>.ics` (a
 // VCALENDAR whose first component carries the recurrence set), and each
 // JSON sidecar states the result of one evaluator call.
@@ -169,7 +169,7 @@ export interface SetFixture {
   readonly occurrences: OutcomeSpec | undefined;
 }
 
-/** Absolute path to `spec/v0.1/conformance/rrule/`. */
+/** Absolute path to `spec/v1.0/conformance/rrule/`. */
 const RRULE_DIR = join(CONFORMANCE_DIR, "rrule");
 
 /** Every file under `dir`, recursively, as absolute paths. */

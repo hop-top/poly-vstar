@@ -33,7 +33,7 @@ use HopTop\Vstar\Property;
 final class Parser
 {
     /**
-     * The only VERSION value accepted at v0.1. Whether 3.0 should be
+     * The only VERSION value accepted. Whether 3.0 should be
      * accepted on read is an open spec question; until it resolves,
      * anything but 4.0 is refused.
      */

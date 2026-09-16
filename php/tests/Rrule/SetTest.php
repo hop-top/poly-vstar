@@ -221,7 +221,7 @@ final class SetTest extends TestCase
     }
 
     /**
-     * A `VALUE=DATE` EXDATE or RDATE is out of the v0.1 scope: a
+     * A `VALUE=DATE` EXDATE or RDATE is outside the spec's recurrence-set scope: a
      * date-only value would need a time-of-day guessed for it, and
      * silently dropping the property would surface an occurrence the
      * producer cancelled.

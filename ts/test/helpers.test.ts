@@ -141,7 +141,10 @@ describe("constructors", () => {
 
   it("newCalendar cannot fail and defaults an empty PRODID", () => {
     expect(newCalendar("-//Mine//EN").prodId).toBe("-//Mine//EN");
-    expect(newCalendar("").prodId).not.toBe("");
+    // The default is version-free and language-free: PRODID is part of
+    // the hashed canonical form, so it must not change across releases
+    // or differ between ports.
+    expect(newCalendar("").prodId).toBe("-//hop-top//vstar//EN");
     expect(newCalendar("").components).toEqual([]);
   });
 
@@ -149,7 +152,7 @@ describe("constructors", () => {
     const card = newCard("u", "");
     expect(card.kind).toBe("individual");
     expect(get({ type: "VTODO", props: card.props, sub: [] }, "KIND")?.value).toBe("individual");
-    // A Card carries no X-VSTAR-HASH property of its own in v0.1.
+    // A Card carries no X-VSTAR-HASH property of its own at v1.0.
     expect(card.props.some((p) => p.name === X_VSTAR_HASH_PROPERTY)).toBe(false);
   });
 

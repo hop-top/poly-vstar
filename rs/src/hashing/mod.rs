@@ -11,7 +11,7 @@
 //!
 //! The `sha256:` prefix is part of the value, not decoration. It exists
 //! so a future `sha3-256:` or `blake3:` is expressible without
-//! ambiguity; v0.1 emits only `sha256:`.
+//! ambiguity; only `sha256:` is emitted.
 //!
 //! # Hash exclusion
 //!
@@ -40,7 +40,7 @@ use sha2::{Digest, Sha256};
 /// in every language.
 pub const X_VSTAR_HASH_PROPERTY: &str = "X-VSTAR-HASH";
 
-/// The algorithm tag every v0.1 hash carries.
+/// The algorithm tag every hash carries.
 const SHA256_PREFIX: &str = "sha256:";
 
 /// The `sha256:<hex>` digest of the canonical byte form of `c`.

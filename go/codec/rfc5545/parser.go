@@ -11,8 +11,8 @@ import (
 	vstar "hop.top/vstar"
 )
 
-// supportedVersion is the only iCalendar VERSION value V* honors
-// at v0.1; producers emitting any other value will fail validation
+// supportedVersion is the only iCalendar VERSION value V* honors;
+// producers emitting any other value will fail validation
 // at the parser boundary.
 const supportedVersion = "2.0"
 

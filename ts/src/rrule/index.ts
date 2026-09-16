@@ -5,7 +5,7 @@
  * validation, the fixed wire form, forward evaluation, bounded and
  * lazy expansion, recurrence sets, and RECURRENCE-ID.
  *
- * The accepted scope is fixed by spec/v0.1/03 §RRULE parsing scope:
+ * The accepted scope is fixed by spec/v1.0/03 §RRULE parsing scope:
  * `FREQ` of `MINUTELY`, `HOURLY`, `DAILY`, `WEEKLY`, `MONTHLY` or
  * `YEARLY`, with `INTERVAL`, `UNTIL` (UTC form #2 only), `COUNT`, every
  * `BY-*` clause, and `WKST`. `FREQ=SECONDLY` and `RSCALE` parse as

@@ -1,7 +1,7 @@
 # V* behavior fixtures
 
 Language-agnostic tables stating what a conformant V* implementation
-does. The `spec/v0.1/conformance/` corpus pins the *wire* contract —
+does. The `spec/v1.0/conformance/` corpus pins the *wire* contract —
 what parses, what canonicalizes to which bytes, which hash. These
 fixtures pin the *behavior* contract: which diagnostics a document
 raises, what a diff between two documents reports, which status a
@@ -41,7 +41,7 @@ surface is codes, paths, severities, op kinds, and failure classes.
 **`error` may replace `expected` in any sidecar.** Where a call can
 fail, the fixture states the failure instead of a result: the
 `error` field carries a failure-class token from
-[spec/05 §Failure classes](../v0.1/05-conformance.md#failure-classes)
+[spec/05 §Failure classes](../v1.0/05-conformance.md#failure-classes)
 — `ErrMalformed`, `ErrNoTrigger`, `ErrNoAnchor` and the rest — and
 the success fields are absent. A port branches on which field is
 present. The token names a class, not a message: an implementation
@@ -191,7 +191,7 @@ The status a supersession ledger projects onto each component.
 
 Keyed by component UID; the value is the effective status. The
 inputs are the existing conformance fixtures at
-`spec/v0.1/conformance/supersession/<name>.ics` — no new `.ics`
+`spec/v1.0/conformance/supersession/<name>.ics` — no new `.ics`
 files are minted here, so a port that already loads that corpus gets
 this table keyed by the same file names.
 
@@ -309,7 +309,7 @@ How a local timestamp resolves against a named zone.
 ```
 
 - `calendar` — the conformance fixture supplying the VTIMEZONE
-  registry: `spec/v0.1/conformance/time/<calendar>.ics`. Load that
+  registry: `spec/v1.0/conformance/time/<calendar>.ics`. Load that
   `.ics`, then resolve `value` against `tzid` within it.
 - `value` — RFC 5545 form #1: local wall time, no `Z`. This is the
   one family whose input is not form #2.
@@ -328,7 +328,7 @@ Coverage draws on both DST seasons, both transition boundaries
 and the trivial fixed-offset zone.
 
 The VTIMEZONE subset the reference implements is deliberately small;
-`spec/v0.1/conformance/time/README.md` states what is supported and
+`spec/v1.0/conformance/time/README.md` states what is supported and
 what returns a rejection.
 
 ## Regenerating

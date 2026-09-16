@@ -374,4 +374,15 @@ describe("validate — rules the behavior fixtures reach only weakly", () => {
       [],
     );
   });
+
+  it("names the RRULE parsing scope, never a spec version, in the VS050 detail", () => {
+    const found = validateComponent(withValue(COMP_TODO, "RRULE", "FREQ=SECONDLY")).filter(
+      (d) => d.code === CODES.CodeRRuleUnsupported,
+    );
+    expect(found).toHaveLength(1);
+    expect(found[0]?.message).toBe(
+      "RRULE uses a feature outside the RRULE parsing scope (spec/03 §RRULE parsing scope): " +
+        "VstarError: ErrUnsupportedRRule: rrule: FREQ=SECONDLY: outside the RRULE parsing scope",
+    );
+  });
 });

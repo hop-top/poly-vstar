@@ -21,7 +21,7 @@
 //!
 //! # Value types
 //!
-//! `EXDATE` and `RDATE` are UTC form #2 only in v0.1. A `VALUE=DATE` or
+//! `EXDATE` and `RDATE` are UTC form #2 only. A `VALUE=DATE` or
 //! `TZID` value is [`Error::UnsupportedRRule`]: resolving a date-only
 //! value would mean inventing a time of day, and a zoned one would need
 //! the calendar's VTIMEZONE registry that a component-scoped constructor
@@ -335,7 +335,7 @@ impl fmt::Display for Range {
 /// This is parsing and typed access only. *Applying* overrides — taking
 /// a base component plus its `RECURRENCE-ID` siblings and producing the
 /// effective series — needs component-level semantics that sit above
-/// this module and is out of v0.1 scope.
+/// this module and is out of the spec's scope.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct RecurrenceId {
     /// The identified instance's **original** start instant — what the

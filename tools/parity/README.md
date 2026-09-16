@@ -57,8 +57,8 @@ required, each an object:
 
 | Key | Fixture source |
 |-----|----------------|
-| `conformance` | `spec/v0.1/conformance/{rfc5545,rfc6350,supersession,malformed}/` |
-| `rrule` | `spec/v0.1/conformance/rrule/**` |
+| `conformance` | `spec/v1.0/conformance/{rfc5545,rfc6350,supersession,malformed}/` |
+| `rrule` | `spec/v1.0/conformance/rrule/**` |
 | `validate` | `spec/behavior/validate/` |
 | `diff` | `spec/behavior/diff/` |
 | `supersession` | `spec/behavior/supersession/` (inputs from the conformance corpus) |
@@ -72,7 +72,7 @@ and never null. A key not on this list is an unsupported document.
 ### Fixture keys
 
 Every fixture key is the input file's path relative to its tree root
-— `spec/v0.1/conformance` for `conformance` and `rrule`,
+— `spec/v1.0/conformance` for `conformance` and `rrule`,
 `spec/behavior` for the rest — with the extension dropped, using `/`
 as the separator on every platform:
 
@@ -114,8 +114,8 @@ The tokens in use:
 | `ErrMalformed` | structurally invalid input |
 | `ErrUnclosedBlock` | a `BEGIN` with no matching `END` |
 | `ErrUnsupportedVersion` | a `VERSION` outside the supported set |
-| `ErrMissingUID` | a component requiring `UID` has none (encoder-only in v0.1) |
-| `ErrUnsupportedRRule` | an RRULE feature outside the v0.2 scope |
+| `ErrMissingUID` | a component requiring `UID` has none (encoder-only at v1.0) |
+| `ErrUnsupportedRRule` | an RRULE feature outside the RRULE parsing scope |
 | `ErrIterationCap` | the evaluator's iteration cap was hit |
 | `ErrUnboundedExpansion` | expansion requested of an unbounded series |
 | `ErrNoTrigger` | a VALARM with no `TRIGGER` |
@@ -189,7 +189,7 @@ from the `.error` sibling:
 
 Malformed fixtures are two-stage. Parse the input; if it fails,
 classify the parse failure. If it parses — which `missing_uid.vcf`
-does, because `ErrMissingUID` is encoder-only in v0.1 — re-encode
+does, because `ErrMissingUID` is encoder-only at v1.0 — re-encode
 every parsed card and classify the encode failure instead. A fixture
 where both stages succeed is a fault.
 
@@ -200,7 +200,7 @@ inputs. Neither carries `.canonical`/`.hash`.
 ### `rrule`
 
 One entry per fixture stem under `rrule/**`, keyed relative to
-`spec/v0.1/conformance`. The entry's **keys are flat**, one group per
+`spec/v1.0/conformance`. The entry's **keys are flat**, one group per
 sidecar the fixture carries, so which contracts a fixture pins is
 readable off its key set.
 
@@ -331,7 +331,7 @@ excluded from both sides.
 
 One entry per `<name>.effective.json`, keyed relative to
 `spec/behavior`. The input `.ics` is the conformance corpus fixture
-of the same stem under `spec/v0.1/conformance/supersession/`.
+of the same stem under `spec/v1.0/conformance/supersession/`.
 
 ```json
 "supersession/multi_step": { "todo-multi": "COMPLETED" }
@@ -421,7 +421,7 @@ resolves each.
 ```
 
 `calendar` names the VTIMEZONE registry to load from
-`spec/v0.1/conformance/time/<calendar>.ics`. `value` is form #1
+`spec/v1.0/conformance/time/<calendar>.ics`. `value` is form #1
 (local, no `Z`) — the one place in the whole document it is.
 
 **`utc` is `null` for every rejection**, and null is the whole

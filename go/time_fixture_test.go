@@ -19,7 +19,7 @@ import (
 // exported, so nothing is lost by the move.
 //
 // Fixtures are read from testdata/time/, not from the authored corpus
-// at spec/v0.1/conformance/time/. testdata/ is a generated mirror of
+// at spec/v1.0/conformance/time/. testdata/ is a generated mirror of
 // that corpus (see cmd/fixtures-verify) and is the only copy that
 // ships with the published module: on the hop-top/vstar mirror the
 // module is the go/ subtree alone and there is no sibling spec/. A

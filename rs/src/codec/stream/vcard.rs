@@ -9,7 +9,7 @@ use crate::error::{Error, Result};
 use crate::model::Card;
 use std::io::{BufRead, BufReader, Read, Write};
 
-/// The only VERSION the v0.1 codecs accept, matching the batch codec.
+/// The only VERSION the codecs accept, matching the batch codec.
 const SUPPORTED_VERSION: &str = "4.0";
 
 /// The streaming VCARD reader: one [`Card`] per iteration.

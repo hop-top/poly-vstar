@@ -20,7 +20,7 @@ subtree alone and ships no sibling `spec/`. Author fixtures here;
 - `utc_only.ics` — STANDARD-only VTIMEZONE for the trivial fixed-
   offset path.
 
-## VTIMEZONE feature subset (v0.1)
+## VTIMEZONE feature subset (v1.0)
 
 The TZID parser implements a deliberately small slice of
 RFC 5545 §3.6.5 — enough to handle the world's most common DST

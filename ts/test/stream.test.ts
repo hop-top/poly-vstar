@@ -607,7 +607,9 @@ describe("VCalendarEncoder", () => {
     const e = newVCalendarEncoder(sink);
     e.encode(todo);
     e.close();
-    expect(newVCalendarParser(lines(sink.bytes())).header().prodId).not.toBe("");
+    // The same version-free default as the batch constructor, so batch
+    // and stream output of one logical calendar hash alike.
+    expect(newVCalendarParser(lines(sink.bytes())).header().prodId).toBe("-//hop-top//vstar//EN");
   });
 
   it("throws ErrHeaderLocked when setHeader follows the first encode", () => {

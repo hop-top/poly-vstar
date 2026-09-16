@@ -159,7 +159,7 @@ fn crlf_to_lf(bytes: &[u8]) -> Vec<u8> {
 /// produced.
 ///
 /// Most fixtures fail at parse time. `ErrMissingUID` is encoder-only
-/// in v0.1 — the rfc6350 parser accepts a UID-less VCARD and the
+/// — the rfc6350 parser accepts a UID-less VCARD and the
 /// encoder refuses it — so a fixture that parses is re-encoded and the
 /// encode failure classified instead. A fixture where both stages
 /// succeed is a fault.

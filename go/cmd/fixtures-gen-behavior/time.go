@@ -14,7 +14,7 @@ import (
 // UTC instant it resolves to.
 //
 // Calendar names the conformance fixture supplying the VTIMEZONE
-// registry — spec/v0.1/conformance/time/<calendar>.ics. A port
+// registry — spec/v1.0/conformance/time/<calendar>.ics. A port
 // loads that .ics, then resolves Value against TZID.
 //
 // UTC is null where the reference returns ok=false: an unknown
@@ -42,7 +42,7 @@ func writeTimeFamily(dir string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	corpus := filepath.Join(filepath.Dir(module), specDirName, "v0.1", "conformance", "time")
+	corpus := filepath.Join(filepath.Dir(module), specDirName, "v1.0", "conformance", "time")
 	cals := map[string]vstar.Calendar{}
 	for _, name := range timeCalendars {
 		cal, err := readCalendar(filepath.Join(corpus, name+".ics"))

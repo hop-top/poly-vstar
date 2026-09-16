@@ -41,7 +41,7 @@ const (
 // VCalendarEncoder when SetHeader was not called. The value mirrors
 // the batch encoder's default PRODID for byte-stable round trips
 // between batch and stream output for the same logical calendar.
-const defaultProdID = "-//hop-top//vstar-go v0.1.0//EN"
+const defaultProdID = "-//hop-top//vstar//EN"
 
 // VCalendarParser is the streaming VCALENDAR reader. It wraps a
 // rfc5545.Scanner and yields one top-level Component per call to Next.
@@ -330,7 +330,7 @@ func NewVCalendarEncoder(w io.Writer) *VCalendarEncoder {
 
 // SetHeader configures the VCALENDAR header that will be emitted on
 // the next Encode call. Only the ProdID field is consulted; VERSION
-// is fixed at 2.0 per the v0.1 supported-version contract. Returns
+// is fixed at 2.0 per the spec's supported-version contract. Returns
 // ErrHeaderLocked if called after the first Encode (the header is
 // already on the wire and cannot be retroactively changed).
 func (e *VCalendarEncoder) SetHeader(h vstar.Calendar) error {

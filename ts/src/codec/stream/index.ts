@@ -80,10 +80,10 @@ import { parseContentLine as parseCardContentLine } from "../rfc6350/parser.js";
 
 export { version } from "../../version.js";
 
-/** The one iCalendar VERSION v0.1 supports. */
+/** The one iCalendar VERSION the spec supports. */
 const SUPPORTED_CALENDAR_VERSION = "2.0";
 
-/** The one vCard VERSION v0.1 supports. */
+/** The one vCard VERSION the spec supports. */
 const SUPPORTED_CARD_VERSION = "4.0";
 
 /**
@@ -91,7 +91,7 @@ const SUPPORTED_CARD_VERSION = "4.0";
  * called, mirroring the batch encoder's default so batch and stream
  * output for the same logical calendar stay byte-stable.
  */
-const DEFAULT_PROD_ID = "-//hop-top//vstar-go v0.1.0//EN";
+const DEFAULT_PROD_ID = "-//hop-top//vstar//EN";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder("utf8");
@@ -664,7 +664,7 @@ export class VCalendarEncoder implements StreamEncoder {
 
   /**
    * Configure the header emitted on the next `encode`. Only `prodId` is
-   * consulted — `VERSION` is fixed at `2.0` per the v0.1 supported-
+   * consulted — `VERSION` is fixed at `2.0` per the spec's supported-
    * version contract.
    *
    * @throws {VstarError} with code `ErrHeaderLocked` when called after

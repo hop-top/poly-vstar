@@ -65,7 +65,8 @@ func OfCard(a, b vstar.Card) ComponentDiff {
 //
 // Components without a UID at the top level are paired positionally
 // by Type (same heuristic as nested Sub). VTIMEZONE entries that
-// carry no UID but a TZID are paired positionally; v0.2 may add
+// carry no UID but a TZID are paired positionally; a later version
+// may add
 // TZID-keyed pairing.
 func OfCalendar(a, b vstar.Calendar) []ComponentDiff {
 	pairs := pairSubs(a.Components, b.Components)

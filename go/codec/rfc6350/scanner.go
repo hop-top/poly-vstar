@@ -7,7 +7,7 @@
 // (RFC 6350 §3.3) and TEXT-value escaping (\\, \,, \;, \n),
 // BEGIN:VCARD…END:VCARD framing, and the symmetric encoder with
 // 75-octet folding and CRLF terminators. VERSION:4.0 is the only
-// version accepted in v0.1; VERSION:3.0 returns ErrUnsupportedVersion.
+// version accepted; VERSION:3.0 returns ErrUnsupportedVersion.
 //
 // Use the package-level Default codec, or rfc6350.New() for a fresh
 // instance — both are stateless and concurrency-safe for read-only use.

@@ -15,7 +15,7 @@ const PROP_RRULE: &str = "RRULE";
 /// The split is by failure class, not by message text:
 ///
 /// - [`Error::UnsupportedRRule`] → unsupported (warning). The rule is
-///   well-formed iCalendar that sits outside the v0.2 parsing scope.
+///   well-formed iCalendar that sits outside the RRULE parsing scope.
 /// - [`Error::Malformed`] → malformed (error). The rule is not
 ///   well-formed at all.
 ///
@@ -34,7 +34,7 @@ pub(super) fn check(c: &Component, path: &str) -> Vec<Diagnostic> {
             Error::UnsupportedRRule(_) => (
                 R_RULE_UNSUPPORTED,
                 format!(
-                    "RRULE uses a feature outside the v0.2 rrule scope (spec/03 §RRULE parsing scope): {err}"
+                    "RRULE uses a feature outside the RRULE parsing scope (spec/03 §RRULE parsing scope): {err}"
                 ),
             ),
             Error::Malformed(_) => (

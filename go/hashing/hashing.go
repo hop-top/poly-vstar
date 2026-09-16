@@ -33,8 +33,8 @@
 // document the invariant at the API boundary.
 //
 // Algorithm migration: the literal "sha256:" prefix exists per
-// spec/03 §7 to allow a future "sha3-256:" or "blake3:" prefix in
-// v0.2+ without ambiguity. v0.1 only emits "sha256:".
+// spec/03 §7 to allow a future "sha3-256:" or "blake3:" prefix
+// without ambiguity. Only "sha256:" is emitted at v1.0.
 //
 // Package layout note: hashing lives at go/hashing/ rather than at
 // the package vstar root because it depends on canonical (which
@@ -98,7 +98,7 @@ func Component(c vstar.Component) string {
 // canonical.Calendar, which threads cal's own VTIMEZONE registry
 // through prepareComponent — TZID-tagged datetimes resolve to UTC
 // form #2 when the matching VTIMEZONE is present and inside the
-// v0.1 VTIMEZONE subset (spec/03 §Datetime resolution).
+// spec's VTIMEZONE subset (spec/03 §Datetime resolution).
 //
 // Calendar does not mutate cal.
 func Calendar(cal vstar.Calendar) string {

@@ -287,7 +287,7 @@ describe("sub-component pairing", () => {
     expect(d.subDiffs.map((s) => s.path)).toEqual(["VALARM[#0]"]);
   });
 
-  it("surfaces a reordered UID-less pair as add plus remove, the documented v0.1 limit", () => {
+  it("surfaces a reordered UID-less pair as add plus remove, the documented limit", () => {
     const a = event([alarm(undefined, "DISPLAY"), alarm(undefined, "AUDIO")]);
     const b = event([alarm(undefined, "AUDIO"), alarm(undefined, "DISPLAY")]);
     const d = ofComponent(a, b);

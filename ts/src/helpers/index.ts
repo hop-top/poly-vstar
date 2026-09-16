@@ -73,10 +73,12 @@ export { version } from "../version.js";
 
 /**
  * The `PRODID` {@link newCalendar} emits when the caller passes an
- * empty string. The version is a literal so it moves with the module's
- * release; a caller wanting its own identifier supplies one.
+ * empty string. `PRODID` survives canonicalization and is hashed, so
+ * the default carries neither a version nor a language: a document
+ * built by any release of any port hashes the same. A caller wanting
+ * its own identifier supplies one.
  */
-const DEFAULT_PROD_ID = "-//hop-top//vstar-go v0.1.0//EN";
+const DEFAULT_PROD_ID = "-//hop-top//vstar//EN";
 
 const PROP_UID = "UID";
 const PROP_DTSTAMP = "DTSTAMP";
@@ -203,7 +205,7 @@ export function newCalendar(prodId: string): Calendar {
  * `kind` defaults to `individual`.
  *
  * vCards are not subject to the `X-VSTAR-HASH` discipline at the
- * constructor layer in v0.1: `hashing.card` exists for a caller wanting
+ * constructor layer at v1.0: `hashing.card` exists for a caller wanting
  * a card-level digest, but a `Card` carries no `X-VSTAR-HASH` property
  * of its own and this constructor stamps none. Like
  * {@link newCalendar}, it cannot fail.

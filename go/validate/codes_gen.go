@@ -63,7 +63,7 @@ const (
 	CodeStatusNotInVocabulary = "VS044"
 
 	// CodeRRuleUnsupported — RRULE value parses but uses a feature
-	// outside the v0.2 rrule scope (FREQ=SECONDLY, RSCALE — see
+	// outside the RRULE parsing scope (FREQ=SECONDLY, RSCALE — see
 	// spec/03 §RRULE parsing scope). (spec/05 criterion 6)
 	CodeRRuleUnsupported = "VS050"
 

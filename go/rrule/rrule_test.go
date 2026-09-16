@@ -11,7 +11,7 @@ import (
 )
 
 // TestRule_FieldShapes asserts the Rule struct exposes the
-// fields the v0.2 RRULE surface (spec/03 §RRULE parsing scope)
+// fields the RRULE parsing scope (spec/03 §RRULE parsing scope)
 // mandates with the right
 // types. This is a compile-time-ish check via assignment.
 func TestRule_FieldShapes(t *testing.T) {

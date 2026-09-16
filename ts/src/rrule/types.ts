@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // The typed form of an RFC 5545 §3.3.10 RRULE value, for the scope
-// spec/v0.1/03 §RRULE parsing scope fixes.
+// spec/v1.0/03 §RRULE parsing scope fixes.
 
 import type { Instant } from "../date.js";
 

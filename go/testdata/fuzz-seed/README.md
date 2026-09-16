@@ -6,7 +6,7 @@ targets. The seed corpus exists in TWO locations kept in sync by
 
 | Location                                                            | Format                          | Role                |
 |---------------------------------------------------------------------|---------------------------------|---------------------|
-| `spec/v0.1/conformance/fuzz-seed/<rfc>/seed_*.bytes`                | Raw bytes                       | Canonical source    |
+| `spec/v1.0/conformance/fuzz-seed/<rfc>/seed_*.bytes`                | Raw bytes                       | Canonical source    |
 | `codec/<rfc>/testdata/fuzz/FuzzParse_RFC<RFC>/seed_*`            | go-fuzz `v1` wrapper            | Picked up by `go test -fuzz` |
 
 This directory is the source of truth. Update it via

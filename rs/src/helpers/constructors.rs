@@ -11,8 +11,11 @@ use crate::CompType;
 use chrono::{DateTime, Utc};
 
 /// The `PRODID` emitted when a caller passes an empty string to
-/// [`new_calendar`].
-pub(super) const DEFAULT_PROD_ID: &str = "-//hop-top//vstar-go v0.1.0//EN";
+/// [`new_calendar`]. `PRODID` survives canonicalization and is hashed,
+/// so the default is version-free and language-free: the same literal
+/// in every port, stable across releases. Callers wanting a custom
+/// identifier supply their own.
+pub(super) const DEFAULT_PROD_ID: &str = "-//hop-top//vstar//EN";
 
 /// The wall-clock instant, truncated to seconds — V\* carries no
 /// sub-second precision.
@@ -131,7 +134,7 @@ pub fn new_calendar(prod_id: &str) -> Calendar {
 /// clear the property afterwards.
 ///
 /// Cards are not subject to the `X-VSTAR-HASH` discipline at the
-/// constructor layer in v0.1: [`hashing::card`] exists for callers
+/// constructor layer: [`hashing::card`] exists for callers
 /// needing a card-level digest, but [`Card`] has no `X-VSTAR-HASH`
 /// property of its own and this constructor stamps none.
 ///

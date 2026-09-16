@@ -9,7 +9,7 @@
 // behavior fixtures under spec/behavior/ (see
 // generateBehaviorFixtures).
 //
-// The corpus is authored at spec/v0.1/conformance/ in the poly-vstar
+// The corpus is authored at spec/v1.0/conformance/ in the poly-vstar
 // monorepo — the single source for both spec text and fixtures. The
 // module's testdata/ is a generated, committed mirror of it, which
 // keeps the published Go module self-contained. On the hop-top/vstar
@@ -22,7 +22,7 @@
 // the mirror.
 //
 // After regeneration, the caller (typically `make fixtures-verify`
-// or CI) runs `git diff --exit-code spec/v0.1/conformance spec/behavior
+// or CI) runs `git diff --exit-code spec/v1.0/conformance spec/behavior
 // go/testdata go/codec/*/testdata/fuzz` to detect drift. Any non-empty diff means
 // either the implementation drifted (fix the implementation) or the
 // fixture's canonical/hash changed deliberately (commit the
@@ -136,15 +136,15 @@ func main() {
 		// or a corpus change the mirror had yet to pick up (commit the
 		// regenerated mirror). Both need the caller's attention.
 		if len(mirrored) > 0 {
-			fmt.Fprintf(os.Stderr, "fixtures-verify: %d mirror path(s) differed from spec/v0.1/conformance and were rewritten:\n", len(mirrored))
+			fmt.Fprintf(os.Stderr, "fixtures-verify: %d mirror path(s) differed from spec/v1.0/conformance and were rewritten:\n", len(mirrored))
 			for _, rel := range mirrored {
 				fmt.Fprintf(os.Stderr, "  testdata/%s\n", filepath.ToSlash(rel))
 			}
-			fmt.Fprintln(os.Stderr, "testdata/ is a generated mirror: author fixtures in spec/v0.1/conformance/,")
+			fmt.Fprintln(os.Stderr, "testdata/ is a generated mirror: author fixtures in spec/v1.0/conformance/,")
 			fmt.Fprintln(os.Stderr, "then commit the regenerated mirror alongside them.")
 			os.Exit(1)
 		}
-		fmt.Println("fixtures-verify: regenerated spec/v0.1/conformance canonical/hash siblings and spec/behavior fixtures, mirror is in sync, synced fuzz seeds; rrule fixtures verified")
+		fmt.Println("fixtures-verify: regenerated spec/v1.0/conformance canonical/hash siblings and spec/behavior fixtures, mirror is in sync, synced fuzz seeds; rrule fixtures verified")
 		return
 	}
 	fmt.Println("fixtures-verify: regenerated testdata/ canonical/hash siblings + fuzz seeds; rrule fixtures verified (no sibling spec/ tree; corpus verified in place, behavior fixtures skipped)")

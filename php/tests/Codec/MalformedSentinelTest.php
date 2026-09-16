@@ -59,7 +59,7 @@ final class MalformedSentinelTest extends TestCase
         }
 
         // vCard fixtures may target either the parser or the encoder.
-        // ErrMissingUID is encoder-only in v0.1, so a fixture whose parse
+        // ErrMissingUID is encoder-only at v1.0, so a fixture whose parse
         // succeeds must still be refused on re-encode.
         try {
             $cards = VcfParser::parse($input);

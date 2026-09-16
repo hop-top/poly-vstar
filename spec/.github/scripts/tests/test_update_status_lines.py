@@ -48,21 +48,21 @@ def _setup_worktree(tmp: Path) -> tuple[Path, Path, str]:
     _git(work, "remote", "add", "origin", str(remote))
     # Seed a minimal spec tree plus a monorepo-root README that is not a
     # spec document and must stay untouched.
-    (work / "spec" / "v0.1").mkdir(parents=True)
-    (work / "spec" / "v0.1" / "envelope.md").write_text(
-        "# vstar v0.1 — Envelope\n\n"
+    (work / "spec" / "v1.0").mkdir(parents=True)
+    (work / "spec" / "v1.0" / "envelope.md").write_text(
+        "# vstar v1.0 — Envelope\n\n"
         "**Status:** Draft  \n"
         "**License:** CC-BY-4.0\n\n"
         "Body text.\n",
     )
-    (work / "spec" / "v0.1" / "events.md").write_text(
-        "# vstar v0.1 — Events\n\n"
+    (work / "spec" / "v1.0" / "events.md").write_text(
+        "# vstar v1.0 — Events\n\n"
         "**Status:** Draft\n"
         "**License:** CC-BY-4.0\n\n"
         "Body text.\n",
     )
-    (work / "spec" / "v0.1" / "README.md").write_text(
-        "# vstar v0.1\n\n"
+    (work / "spec" / "v1.0" / "README.md").write_text(
+        "# vstar v1.0\n\n"
         "**Status:** Draft  \n"
         "**Last updated:** 2026-05-28\n",
     )
@@ -75,7 +75,7 @@ def _setup_worktree(tmp: Path) -> tuple[Path, Path, str]:
     # The component → package-path map the script reads.
     (work / ".github").mkdir()
     (work / ".github" / "release-please-config.json").write_text(
-        '{"packages": {"spec/v0.1": {"component": "vstar-spec"}, '
+        '{"packages": {"spec/v1.0": {"component": "vstar-spec"}, '
         '"go": {"component": "vstar"}}}\n',
     )
     _git(work, "add", "-A")
@@ -102,9 +102,9 @@ def _run_script(
 def _status_lines(work: Path) -> dict[str, str | None]:
     out: dict[str, str | None] = {}
     for rel in [
-        "spec/v0.1/envelope.md",
-        "spec/v0.1/events.md",
-        "spec/v0.1/README.md",
+        "spec/v1.0/envelope.md",
+        "spec/v1.0/events.md",
+        "spec/v1.0/README.md",
         "spec/README.md",
         "README.md",
     ]:
@@ -149,7 +149,7 @@ class UpdateStatusLinesTests(unittest.TestCase):
         )
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = _status_lines(self.work)
-        self.assertEqual(lines["spec/v0.1/envelope.md"], "**Status:** Pre-release")
+        self.assertEqual(lines["spec/v1.0/envelope.md"], "**Status:** Pre-release")
 
     def test_rc_maps_to_release_candidate(self) -> None:
         r = _run_script(
@@ -158,7 +158,7 @@ class UpdateStatusLinesTests(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = _status_lines(self.work)
         self.assertEqual(
-            lines["spec/v0.1/envelope.md"], "**Status:** Release Candidate",
+            lines["spec/v1.0/envelope.md"], "**Status:** Release Candidate",
         )
 
     def test_stable_maps_to_general_availability(self) -> None:
@@ -168,7 +168,7 @@ class UpdateStatusLinesTests(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         lines = _status_lines(self.work)
         self.assertEqual(
-            lines["spec/v0.1/envelope.md"], "**Status:** General Availability",
+            lines["spec/v1.0/envelope.md"], "**Status:** General Availability",
         )
 
     # --- input validation -------------------------------------------------
@@ -243,7 +243,7 @@ class UpdateStatusLinesTests(unittest.TestCase):
 
     def test_status_below_head_unchanged(self) -> None:
         # Add a file with **Status:** below the head window.
-        late = self.work / "spec" / "v0.1" / "buried.md"
+        late = self.work / "spec" / "v1.0" / "buried.md"
         late.write_text(
             "# Buried\n\n" + ("filler\n" * 20) + "**Status:** Draft\n",
         )

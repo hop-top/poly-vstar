@@ -3,6 +3,14 @@
 
 Rules:
   A. A single commit MUST NOT touch files in more than one spec/vX.Y/ directory.
+     One shape is exempt: a whole-directory rename. When the commit removes
+     spec/vA.B/ entirely and every path it held reappears at the same
+     relative path under one other directory spec/vC.D/, the commit counts
+     as touching vC.D only — the directory changed its name. Files may be
+     edited on the way (a squashed rename-and-revise lands as a delete plus
+     an add); what matters is that nothing is left behind and nothing moved
+     to a different relative path. A partial move or a reshuffle counts both
+     versions and fails.
   B. A commit touching spec/vX.Y/ MUST NOT carry breaking-change syntax
      (Conventional Commits `!:` or a `BREAKING CHANGE:` trailer). Breaking
      changes mean a new spec-version directory (spec/vX.Y+1/ or vX+1.0/),
@@ -51,6 +59,70 @@ def git(args: list[str]) -> str:
     return result.stdout
 
 
+def spec_version(path: str) -> str | None:
+    m = SPEC_VERSION_RE.match(path)
+    return m.group(1) if m else None
+
+
+def relative_to_version(path: str, version: str) -> str:
+    return path[len(f"spec/{version}/"):]
+
+
+def directory_exists(sha: str, version: str) -> bool:
+    try:
+        return bool(git(["ls-tree", "-d", sha, f"spec/{version}"]).strip())
+    except subprocess.CalledProcessError:
+        return False  # no such commit (a root commit has no parent)
+
+
+def touched_spec_versions(sha: str) -> set[str]:
+    """Return the spec versions a commit touches, per rule A.
+
+    Every path an entry names charges its version. Exact renames
+    (`-M100%`) surface as `R100<TAB>old<TAB>new` and charge both ends;
+    an edited-and-moved file surfaces as a delete plus an add. Then the
+    whole-directory exemption: a version whose directory the commit
+    removes, and whose every removed path reappears at the same relative
+    path under exactly one other version, is dropped from the set — the
+    directory was renamed, whatever else the commit did to its files.
+    """
+    entries = git(
+        ["diff-tree", "--no-commit-id", "--name-status", "-r", "-M100%", sha],
+    ).splitlines()
+    versions: set[str] = set()
+    removed: dict[str, set[str]] = {}  # version -> relative paths it lost
+    present: dict[str, set[str]] = {}  # version -> relative paths it gained
+    for entry in entries:
+        fields = entry.split("\t")
+        status = fields[0]
+        if status.startswith("R") and len(fields) == 3:
+            pairs = [("D", fields[1]), ("A", fields[2])]
+        else:
+            pairs = [(status[:1], path) for path in fields[1:]]
+        for kind, path in pairs:
+            v = spec_version(path)
+            if not v:
+                continue
+            versions.add(v)
+            if kind == "D":
+                removed.setdefault(v, set()).add(relative_to_version(path, v))
+            elif kind == "A":
+                present.setdefault(v, set()).add(relative_to_version(path, v))
+
+    for old_v, lost in removed.items():
+        # The directory must vanish in this commit: present before, gone
+        # after. Anything left behind means a partial move.
+        if directory_exists(sha, old_v) or not directory_exists(f"{sha}^", old_v):
+            continue
+        destinations = [
+            new_v for new_v, gained in present.items()
+            if new_v != old_v and lost <= gained
+        ]
+        if len(destinations) == 1:
+            versions.discard(old_v)
+    return versions
+
+
 def main() -> int:
     base = require_sha("BASE_SHA", os.environ.get("BASE_SHA", ""))
     head = require_sha("HEAD_SHA", os.environ.get("HEAD_SHA", ""))
@@ -63,12 +135,7 @@ def main() -> int:
 
     violations = 0
     for sha in reversed(shas):  # oldest first
-        files = git(["diff-tree", "--no-commit-id", "--name-only", "-r", sha]).split()
-        spec_versions = set()
-        for f in files:
-            m = SPEC_VERSION_RE.match(f)
-            if m:
-                spec_versions.add(m.group(1))
+        spec_versions = touched_spec_versions(sha)
 
         if not spec_versions:
             continue  # commit doesn't touch any spec version; out of scope

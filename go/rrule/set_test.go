@@ -82,7 +82,7 @@ func TestParseDateTimeList(t *testing.T) {
 
 // TestParseDateTimeListRejectsValueDate documents the VALUE=DATE
 // boundary: date-only EXDATE/RDATE values are not handled by this
-// entry point — v0.1 recurrence sets are UTC form #2 only by spec
+// entry point — recurrence sets are UTC form #2 only by spec
 // (spec/03 §Recurrence sets).
 func TestParseDateTimeListRejectsValueDate(t *testing.T) {
 	if _, err := ParseDateTimeList("20260402"); err == nil {
@@ -310,7 +310,7 @@ func TestSetFromComponentMultipleExdateProperties(t *testing.T) {
 
 // TestSetFromComponentValueDateUnsupported: EXDATE carrying
 // VALUE=DATE is reported as unsupported rather than silently
-// mis-parsed — outside the v0.1 recurrence-set scope by spec.
+// mis-parsed — outside the spec's recurrence-set scope.
 func TestSetFromComponentValueDateUnsupported(t *testing.T) {
 	c := vstar.Component{
 		Type: "VEVENT",

@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * refuses a mutated target.
  *
  * The fixture inputs are the existing conformance calendars at
- * `spec/v0.1/conformance/supersession/<stem>.ics` -- no new `.ics` files
+ * `spec/v1.0/conformance/supersession/<stem>.ics` -- no new `.ics` files
  * are minted for this family.
  */
 final class SupersessionTest extends TestCase
