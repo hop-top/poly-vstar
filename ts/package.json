@@ -1,6 +1,6 @@
 {
   "name": "@hop-top/vstar",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "V* calendar and contact interchange — TypeScript port of the Go reference implementation.",
   "license": "MIT",
   "author": "Jad Bitar",
