@@ -191,7 +191,11 @@ def rule_annotated(repo: Repo, path: str, n: int, line: str) -> list[Finding]:
         return [Finding(path, n, "annotated",
                         "annotation outside every release-please package path; "
                         "release-please cannot rewrite it")]
+    # The generic updater rewrites the first SemVer match only, so any
+    # other version token on the line — SemVer or PEP 440 — would be left
+    # behind to go stale unseen.
     literals = [m.group(0) for m in VERSION_RE.finditer(line)]
+    literals += [m.group(0) for m in PEP440_RE.finditer(line)]
     if len(literals) != 1:
         return [Finding(path, n, "annotated",
                         f"expected exactly one version literal on the annotated line, "
