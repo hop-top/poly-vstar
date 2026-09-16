@@ -6,38 +6,40 @@ RFC 5545 and RFC 6350, with byte-stable output and a content hash.
 [![PyPI](https://img.shields.io/pypi/v/hop-top-vstar?label=pypi)](https://pypi.org/project/hop-top-vstar/)
 [![CI](https://img.shields.io/github/actions/workflow/status/hop-top/poly-vstar/ci-py.yml?branch=main&label=ci)](https://github.com/hop-top/poly-vstar/actions/workflows/ci-py.yml?query=branch%3Amain)
 [![Types](https://img.shields.io/badge/types-py.typed-blue)](https://peps.python.org/pep-0561/)
-[![Spec](https://img.shields.io/badge/spec-draft%20v0.1-blue)](../spec/)
-[![License](https://img.shields.io/badge/license-MIT-green)](../LICENSE)
+[![Spec](https://img.shields.io/badge/spec-draft%20v0.1-blue)](https://github.com/hop-top/poly-vstar/tree/main/spec)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/hop-top/poly-vstar/blob/main/LICENSE)
 
 > **Read-only mirror.** This package is developed in the polyglot
 > monorepo [`hop-top/poly-vstar`](https://github.com/hop-top/poly-vstar)
-> under `py/` and republished on release to
+> under `py/` and republished on each release to
 > [`hop-top/vstar-py`](https://github.com/hop-top/vstar-py). Open issues
 > and pull requests against the monorepo, not the mirror.
 
 ## Why
 
-A generic iCalendar library will parse your `.ics` and hand you back a
-tree. It will not tell you whether two documents mean the same thing —
-because the RFCs let the same logical content be written many ways:
+Parse an `.ics` with a generic iCalendar library and you get a tree of
+objects. Ask whether two of those trees mean the same thing and you are
+on your own: the RFCs let one logical document be written many ways —
 properties in any order, parameters in any order, datetimes in local or
 UTC form, folding at any column. Serialize the same calendar twice and
-you can get different bytes.
+you can get different bytes, so `==` on the output is meaningless and a
+`hashlib` digest over it is noise.
 
 V\* pins that down. It defines a **canonical form** — one byte sequence
-per logical content — and an `X-VSTAR-HASH` content hash over it, so
-"did this change?" is a string comparison rather than a tree walk. On
-top of that it adds the things agentic state actually needs: structural
-`diff`, append-only `supersession` for state transitions, a diagnostic
-`validate` pass with stable codes, and a bounded `RRULE` evaluator.
+per logical content — and an `X-VSTAR-HASH` over those bytes, so "did
+this change?" is a string comparison rather than a tree walk. On top of
+that it adds what agentic state needs and a calendar library does not
+carry: structural `diff`, append-only `supersession` for state
+transitions, a `validate` pass with stable diagnostic codes, and a
+bounded `RRULE` evaluator.
 
 Reach for this over a generic iCalendar library when you need any of:
 
 - **Byte-identical output across languages.** This port is verified
   byte-for-byte against the Go reference over the whole shared
   conformance corpus — not merely self-consistent. The same calendar
-  hashed by the Python, Go and TypeScript ports yields the same
-  `sha256:` string. See [Conformance](#conformance).
+  hashed by the Python, Go, TypeScript, Rust and PHP implementations
+  yields the same `sha256:` string. See [Conformance](#conformance).
 - **Content addressing.** A stable hash over canonical bytes, so
   documents can be deduplicated, cached, or compared across services.
 - **Append-only state.** Supersession chains rather than mutation, so
@@ -62,10 +64,12 @@ pip install hop-top-vstar
 uv add hop-top-vstar
 ```
 
-Requires **Python 3.11 or newer**. Pure Python, no dependencies. The
+Requires **Python 3.11 or newer**. Pure standard library —
+`dependencies = []`, nothing transitive to audit or pin. The
 distribution is `hop-top-vstar`; the import name is `vstar`. Type hints
-ship inline and are advertised by `py.typed`, so mypy and pyright see
-them with no `types-*` companion.
+ship inline, the package is checked under mypy `strict`, and `py.typed`
+advertises them, so mypy and pyright see them with no `types-*`
+companion.
 
 ## Usage
 
@@ -100,8 +104,8 @@ print(type(data).__name__, len(data))
 # bytes 175
 ```
 
-That `sha256:e551d177…` is the same string the Go and TypeScript ports
-print for the same input. The hash is the cross-language contract.
+That `sha256:e551d177…` is the string every V\* implementation prints
+for this input. The hash is the cross-language contract.
 
 ## API
 
@@ -115,12 +119,12 @@ the time helpers, and the `canonical`, `diff`, `duration`, `ext`,
 | `vstar` | Data model, error classes, time helpers, plus the namespaces below |
 | `vstar.codec.rfc5545` | iCalendar parse and serialize |
 | `vstar.codec.rfc6350` | vCard parse and serialize |
-| `vstar.codec.stream` | Incremental stream decoding |
+| `vstar.codec.stream` | One component at a time, from bytes, text or a file-like object |
 | `vstar.canonical` | Canonical byte form |
 | `vstar.hashing` | `X-VSTAR-HASH` compute and verify |
 | `vstar.validate` | Diagnostics with stable codes |
 | `vstar.rrule` | Recurrence parse and bounded expansion |
-| `vstar.duration` | ISO 8601 durations and alarm triggers |
+| `vstar.duration` | ISO 8601 durations and alarm triggers; `signed()` is a `timedelta` |
 | `vstar.ext` | `X-*` extension namespaces |
 | `vstar.diff` | Structural diff |
 | `vstar.supersession` | Append-only state transitions |
@@ -129,15 +133,23 @@ the time helpers, and the `canonical`, `diff`, `duration`, `ext`,
 ### Validate
 
 Diagnostics carry a stable `code` and a dotted `path`. Match on the
-code; the message is prose and rewords between versions.
+code; the message is prose and rewords between versions. The calendar
+above has no `X-VSTAR-HASH` yet, which is exactly what `VS003` reports.
 
 ```python
-from vstar.validate import validate
+from vstar.validate import severity_of, validate
 
 for d in validate(cal):
     print(d.severity, d.code, d.path)
 # error VS003 VCALENDAR.VTODO[uid=todo-1].X-VSTAR-HASH
+
+print(severity_of("VS003"), severity_of("VS999"))
+# error None
 ```
+
+`severity_of` answers for any code in the catalog and `None` otherwise;
+`Severity` is the literal `"error" | "warning"`, so it compares as a
+plain string.
 
 ### Recurrence
 
@@ -210,18 +222,46 @@ for d in of_calendar(before, after):
     for pd in d.properties:
         print(" ", pd.op, pd.property.name, pd.old.value, "->", pd.property.value)
 # VCALENDAR.VTODO[uid=todo-1]
-#    Changed SUMMARY Ship the port -> Ship the Python port
+#   Changed SUMMARY Ship the port -> Ship the Python port
 ```
 
 `pd.op` is a `DiffOp` enum member; it renders as `Changed` because
 `__str__` carries the reference's display spelling. Compare against
 `DiffOp.CHANGED`, not against the string.
 
+### Streaming
+
+The batch codecs hold a whole document in memory. `vstar.codec.stream`
+reads one top-level component at a time from bytes, text, or any
+readable stream, so a ledger larger than memory still moves through.
+Exhaustion is `StopIteration`, never an error.
+
+```python
+import io
+
+from vstar.codec.stream import VCalendarParser
+
+ics = (
+    "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//example//EN\r\n"
+    "BEGIN:VTODO\r\nUID:todo-1\r\nDTSTAMP:20260101T000000Z\r\nEND:VTODO\r\n"
+    "BEGIN:VTODO\r\nUID:todo-2\r\nDTSTAMP:20260101T000000Z\r\nEND:VTODO\r\n"
+    "END:VCALENDAR\r\n"
+)
+
+with io.BytesIO(ics.encode()) as f:
+    for comp in VCalendarParser(f):
+        print(comp.type, comp.uid())
+# VTODO todo-1
+# VTODO todo-2
+```
+
 ### Errors
 
-Every failure raises a subclass of `VstarError`. Catch by class, or
-dispatch on `sentinel` — the Go identifier, spelled identically in
-every V\* implementation.
+Every failure raises a subclass of `VstarError`, one class per
+sentinel, so the idiomatic `except` clause selects the failure. Each
+instance also carries `sentinel` — the Go identifier, spelled
+identically in every V\* implementation — for logging or dispatch
+across language boundaries.
 
 ```python
 from vstar import Malformed, VstarError
@@ -240,40 +280,53 @@ except VstarError as e:
 ## Conformance
 
 This port is a **round-trip** implementation and self-certifies in
-[`VSTAR-CONFORMANCE.md`](VSTAR-CONFORMANCE.md).
+[`VSTAR-CONFORMANCE.md`](VSTAR-CONFORMANCE.md) — implementation class,
+every deviation from the reference, and the gates that are green.
 
 Its output is checked against the Go reference by the cross-language
 parity harness: both emitters run the same corpus and must produce a
 byte-identical document, so agreement is proven rather than assumed.
+From the monorepo root:
 
 ```sh
-make test-parity   # from the repository root
+make test-parity
 ```
 
 ## Develop
 
-From the repository root:
+[uv](https://docs.astral.sh/uv/) drives the environment and syncs it on
+first use; `uv.lock` is committed. From this directory:
 
 ```sh
-make lint-py test-py build-py
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy
+uv run pytest
+uv build
 ```
 
-[uv](https://docs.astral.sh/uv/) drives the environment; ruff lints and
-formats, mypy typechecks under `strict`, and pytest runs the suite.
+ruff also formats the Python blocks in this README, so a snippet that
+drifts from the formatter fails the lint gate. In the monorepo,
+`make ci-py` runs the same sequence and `make ci` adds the parity gate.
 
-`src/vstar/_generated/` is rendered from `spec/registry/` by `make
-registry-gen`. Never hand-edit it; `make registry-check` fails on drift.
+`src/vstar/_generated/` is rendered from the spec registry by
+`make registry-gen`. Never hand-edit it; `make registry-check` fails
+on drift.
 
-See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for repo-wide rules and
-[`docs/dev/`](../docs/dev/) for the development loop.
+See [`CONTRIBUTING.md`](https://github.com/hop-top/poly-vstar/blob/main/CONTRIBUTING.md)
+for repo-wide rules and
+[`docs/dev/`](https://github.com/hop-top/poly-vstar/blob/main/docs/INDEX.md#for-developers)
+for the development loop.
 
 ## Links
 
-- [Specification](../spec/) — normative text and the conformance corpus
-- [Monorepo](https://github.com/hop-top/poly-vstar) — issues and pull requests
-- [Porting guide](../docs/dev/porting-guide.md) — writing a sister implementation
-- [Diagnostic codes](../docs/validate-codes.md) — the `VS***` catalog
+- [Specification](https://github.com/hop-top/poly-vstar/tree/main/spec) — normative text and the conformance corpus
+- [How-tos](https://github.com/hop-top/poly-vstar/blob/main/docs/INDEX.md) — validate and hash, recurrence, implementing V\*
+- [Diagnostic codes](https://github.com/hop-top/poly-vstar/blob/main/docs/validate-codes.md) — the `VS***` catalog
+- [API mapping](https://github.com/hop-top/poly-vstar/blob/main/docs/dev/api-mapping.md) — every Go symbol and its Python spelling
+- [Monorepo](https://github.com/hop-top/poly-vstar) — source of truth; [issues](https://github.com/hop-top/poly-vstar/issues) and pull requests go here
 
 ## License
 
-MIT. See [`LICENSE`](../LICENSE) at the repository root.
+MIT. See [`LICENSE`](https://github.com/hop-top/poly-vstar/blob/main/LICENSE)
+at the monorepo root.
