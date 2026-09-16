@@ -69,8 +69,10 @@ The repo is a multi-tree monorepo, one tree per language:
 
 - [`spec/`](../../spec/) — the specification, authored here.
   `spec/v1.0/*.md` is the prose (CC-BY-4.0);
-  `spec/v1.0/conformance/` is the authored conformance corpus and
-  `spec/.github/scripts/` its tooling (both MIT).
+  `spec/v1.0/conformance/` is the authored conformance corpus (MIT).
+  The spec-versioning gates (commit rules, status lines, the
+  version-literal guard) are the org's shared workflows, called from
+  `.github/workflows/` and pinned `@v0`.
 - `go/` — Go reference implementation (MIT), module
   `hop.top/vstar`, with its `go.mod`, `.golangci.yml` and
   `CHANGELOG.md`.
