@@ -1,0 +1,14 @@
+[
+  {
+    "uid": "todo-remove",
+    "path": "VCALENDAR.VTODO[uid=todo-remove]",
+    "ops": [
+      {
+        "op": "remove",
+        "property": "DUE",
+        "before": "20260101T000000Z",
+        "after": null
+      }
+    ]
+  }
+]

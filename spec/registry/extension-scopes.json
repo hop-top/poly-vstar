@@ -1,0 +1,27 @@
+[
+  {
+    "prefix": "",
+    "rule": "Name is not an X-* extension at all.",
+    "scope": "ScopeNone"
+  },
+  {
+    "prefix": "X-VSTAR-",
+    "rule": "Cross-system V* extension on the stabilization track. X-VSTAR-HASH is the only mandatory member in v0.1.",
+    "scope": "ScopeVStar"
+  },
+  {
+    "prefix": "X-<SYSTEM>-",
+    "rule": "Extension owned by one consuming system (e.g. X-AGR-INTENT). SYSTEM is any slug other than VSTAR or EXP, and the name after it MUST be non-empty.",
+    "scope": "ScopeSystem"
+  },
+  {
+    "prefix": "X-EXP-",
+    "rule": "Experimental / unstable extension. Senders MUST NOT depend on receivers honoring these.",
+    "scope": "ScopeExperimental"
+  },
+  {
+    "prefix": "X-",
+    "rule": "Carries the X- prefix but matches no sanctioned tier (e.g. \"X-\", \"X-VSTAR-\", \"X-FOO\"). Treat as opaque; receivers MUST still ignore it per RFC 5545.",
+    "scope": "ScopeUnknown"
+  }
+]

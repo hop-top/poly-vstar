@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS043",
+    "severity": "error",
+    "path": "VCALENDAR.VCARD[uid=card-no-version]"
+  }
+]

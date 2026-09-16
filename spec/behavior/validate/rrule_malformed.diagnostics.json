@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS051",
+    "severity": "error",
+    "path": "VCALENDAR.VEVENT[uid=event-bad-rrule].RRULE"
+  }
+]

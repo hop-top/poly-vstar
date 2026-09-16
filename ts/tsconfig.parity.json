@@ -1,0 +1,34 @@
+{
+  // The parity emitter's own build project.
+  //
+  // tsconfig.build.json cannot compile the emitter: that project pins
+  // rootDir to src/ so the published dist layout mirrors the subpath
+  // exports, and tools/parity.ts sits outside that root (TS6059).
+  //
+  // So the emitter gets its own project, rooted at the port directory
+  // and emitting to `parity-dist/` rather than `dist/`. The separate
+  // outDir is load-bearing: `files` in package.json ships the whole of
+  // dist/, so emitting here would publish tools/parity.js plus a
+  // second copy of every src/ module under dist/src/ -- 88 files of
+  // dead weight that no export path reaches. `parity-dist/` is
+  // gitignored build output and is named by neither `files` nor the
+  // exports map, so the package contents stay exactly what
+  // tsconfig.build.json produced.
+  //
+  // Running tsc twice over src/ costs about a second and adds no
+  // dependency, which is the trade this file makes deliberately: the
+  // alternative routes (tsx, ts-node, a bundler) each add a
+  // devDependency that CI would have to install before the harness
+  // could run.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "parity-dist",
+    "tsBuildInfoFile": "./tsconfig.parity.tsbuildinfo",
+    // The emitter is a program, not a published surface: nothing
+    // imports it, so declarations and their maps are dead weight.
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["tools", "src"]
+}

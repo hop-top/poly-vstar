@@ -1,0 +1,55 @@
+{
+    "name": "hop-top/vstar",
+    "description": "V* calendar and contact interchange — PHP port of the Go reference implementation.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://hop.top/vstar",
+    "keywords": [
+        "vstar",
+        "icalendar",
+        "vcard",
+        "rfc5545",
+        "rfc6350"
+    ],
+    "authors": [
+        {
+            "name": "Jad Bitar"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/hop-top/poly-vstar/issues",
+        "source": "https://github.com/hop-top/poly-vstar/tree/main/php"
+    },
+    "require": {
+        "php": ">=8.2",
+        "ext-mbstring": "*",
+        "symfony/polyfill-intl-normalizer": "^1.31"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "HopTop\\Vstar\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HopTop\\Vstar\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "phpstan analyse",
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2.0"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

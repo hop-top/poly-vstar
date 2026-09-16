@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS040",
+    "severity": "error",
+    "path": "VCALENDAR.VTODO[uid=todo-no-due]"
+  }
+]

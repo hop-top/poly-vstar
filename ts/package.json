@@ -1,0 +1,112 @@
+{
+  "name": "@hop-top/vstar",
+  "version": "1.0.0-alpha.0",
+  "description": "V* calendar and contact interchange — TypeScript port of the Go reference implementation.",
+  "license": "MIT",
+  "author": "Jad Bitar",
+  "type": "module",
+  "homepage": "https://hop.top/vstar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hop-top/poly-vstar.git",
+    "directory": "ts"
+  },
+  "bugs": {
+    "url": "https://github.com/hop-top/poly-vstar/issues"
+  },
+  "keywords": [
+    "vstar",
+    "icalendar",
+    "vcard",
+    "rfc5545",
+    "rfc6350"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./codec/rfc5545": {
+      "types": "./dist/codec/rfc5545/index.d.ts",
+      "default": "./dist/codec/rfc5545/index.js"
+    },
+    "./codec/rfc6350": {
+      "types": "./dist/codec/rfc6350/index.d.ts",
+      "default": "./dist/codec/rfc6350/index.js"
+    },
+    "./codec/stream": {
+      "types": "./dist/codec/stream/index.d.ts",
+      "default": "./dist/codec/stream/index.js"
+    },
+    "./canonical": {
+      "types": "./dist/canonical/index.d.ts",
+      "default": "./dist/canonical/index.js"
+    },
+    "./hashing": {
+      "types": "./dist/hashing/index.d.ts",
+      "default": "./dist/hashing/index.js"
+    },
+    "./validate": {
+      "types": "./dist/validate/index.d.ts",
+      "default": "./dist/validate/index.js"
+    },
+    "./rrule": {
+      "types": "./dist/rrule/index.d.ts",
+      "default": "./dist/rrule/index.js"
+    },
+    "./duration": {
+      "types": "./dist/duration/index.d.ts",
+      "default": "./dist/duration/index.js"
+    },
+    "./ext": {
+      "types": "./dist/ext/index.d.ts",
+      "default": "./dist/ext/index.js"
+    },
+    "./diff": {
+      "types": "./dist/diff/index.d.ts",
+      "default": "./dist/diff/index.js"
+    },
+    "./supersession": {
+      "types": "./dist/supersession/index.d.ts",
+      "default": "./dist/supersession/index.js"
+    },
+    "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
+      "default": "./dist/helpers/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json",
+    "build:parity": "tsc --build tsconfig.parity.json",
+    "ci:build": "pnpm install --ignore-scripts && pnpm build",
+    "ci:build:parity": "pnpm install --ignore-scripts && pnpm build:parity",
+    "clean": "rm -rf dist parity-dist tsconfig.build.tsbuildinfo tsconfig.parity.tsbuildinfo",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@noble/hashes": "^1.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.20.2",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.12.0",
+    "vitest": "^2.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@11.24.0"
+}

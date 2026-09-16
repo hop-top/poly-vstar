@@ -1,0 +1,2 @@
+go test fuzz v1
+[]byte("BEGIN:VCARD\r\nVERSION:4.0\r\nUID:esc\r\nFN:Foo\\, Bar\r\nNOTE:line1\\nline2\\;quoted\\\\back\r\nEND:VCARD\r\n")

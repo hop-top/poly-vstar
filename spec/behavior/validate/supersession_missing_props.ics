@@ -1,0 +1,11 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//V*//Validate-SupersessionMissingProps//EN
+BEGIN:VJOURNAL
+UID:journal-supersession-incomplete
+DTSTAMP:20260504T120000Z
+CATEGORIES:status-supersession
+X-VSTAR-HASH:sha256:34c20ea18f53d3ef1f0892aefc35a223d7e6798ac7aac0f23c179b1
+ 02dad6fce
+END:VJOURNAL
+END:VCALENDAR

@@ -1,0 +1,7 @@
+# Keep development-only files out of the Composer dist tarball. VERSION
+# is NOT excluded: HopTop\Vstar\Version reads it at runtime.
+/.gitattributes    export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/phpstan.neon.dist  export-ignore
+/phpunit.xml.dist   export-ignore
+/tests             export-ignore

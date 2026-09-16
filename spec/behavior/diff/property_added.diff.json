@@ -1,0 +1,14 @@
+[
+  {
+    "uid": "todo-add",
+    "path": "VCALENDAR.VTODO[uid=todo-add]",
+    "ops": [
+      {
+        "op": "add",
+        "property": "DUE",
+        "before": null,
+        "after": "20260101T000000Z"
+      }
+    ]
+  }
+]

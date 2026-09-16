@@ -1,0 +1,9 @@
+BEGIN:VCARD
+VERSION:4.0
+UID:urn:uuid:66666666-6666-6666-6666-666666666666
+KIND:individual
+FN:Sami Test
+X-VSTAR-FOO:vstar-scoped value
+X-AGR-INTENT:agr-system value
+X-EXP-EXPERIMENTAL:experimental value
+END:VCARD

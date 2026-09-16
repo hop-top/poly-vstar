@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS052",
+    "severity": "error",
+    "path": "VCALENDAR.VALARM[uid=alarm-repeat-plus1].REPEAT"
+  }
+]

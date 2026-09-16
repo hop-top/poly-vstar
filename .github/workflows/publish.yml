@@ -1,0 +1,77 @@
+name: publish
+on:
+  push:
+    tags: ['*/v*']
+jobs:
+  publish:
+    permissions:
+      contents: read
+      id-token: write
+    uses: hop-top/.github/.github/workflows/publish-on-tag.yml@v0
+    secrets:
+      GH_MIRROR_PAT: ${{ secrets.GH_MIRROR_PAT }}
+      NPM_REGISTRY_TOKEN: ${{ secrets.NPM_REGISTRY_TOKEN }}
+      PYPI_REGISTRY_TOKEN: ${{ secrets.PYPI_REGISTRY_TOKEN }}
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+      PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+    with:
+      homepage: https://hop.top/vstar
+      description-prefix: "READ-ONLY MIRROR"
+      ecosystems: |
+        vstar:
+          # dir is go/, not the repo root: `git subtree split --prefix=go`
+          # ships only the Go module to the mirror, so hop-top/vstar never
+          # receives docs/, Makefile, mise.toml or a future ts/ py/ tree.
+          # Do not set this back to ".".
+          dir: go
+          ecosystem: go
+          mirror: hop-top/vstar
+        # The four port trees. Each ships only its own directory to its
+        # own mirror, exactly as the Go entry above does.
+        #
+        # build-command runs before publish; there is deliberately NO
+        # test-command on the TS entry -- an override REPLACES the
+        # reusable workflow's default install+test step, so vitest would
+        # run against a tree with no node_modules.
+        vstar-ts:
+          dir: ts
+          ecosystem: ts
+          package: "@hop-top/vstar"
+          mirror: hop-top/vstar-ts
+          build-command: "pnpm ci:build"
+        # pypi-auth: token, not OIDC. Trusted publishing needs a pending
+        # publisher registered against this exact repo+workflow before
+        # the first upload, and that binding has failed across the
+        # family; the token path is the known-good one.
+        vstar-py:
+          dir: py
+          ecosystem: py
+          package: hop-top-vstar
+          mirror: hop-top/vstar-py
+          pypi-auth: token
+        vstar-rs:
+          dir: rs
+          ecosystem: rs
+          package: hop-top-vstar
+          mirror: hop-top/vstar-rs
+        vstar-php:
+          dir: php
+          ecosystem: php
+          package: hop-top/vstar
+          mirror: hop-top/vstar-php
+        # The spec tree publishes to its own read-only mirror. `ecosystem:
+        # none` = a payload with no registry: the mirror job runs, no
+        # publish job does. Do NOT omit `ecosystem` — an absent entry
+        # yields an empty output and the mirror job's `!= ''` guard reads
+        # the tag as an umbrella and skips it.
+        #
+        # The component name must match release-please's component for
+        # `spec/v0.1` (.github/release-please-config.json), so tags are
+        # `vstar-spec/v*`. `dir` is `spec`, not `spec/v0.1`: the mirror
+        # ships the whole versioned spec tree, README and LICENSE
+        # included, with `spec/` promoted to the mirror root.
+        vstar-spec:
+          dir: spec
+          ecosystem: none
+          mirror: hop-top/spec-vstar

@@ -1,0 +1,2 @@
+go test fuzz v1
+[]byte("BEGIN:VCARD\r\nVERSION:4.0\r\nUID:fold\r\nFN:Long name that is intentionally folded across\r\n  multiple physical lines\r\nEND:VCARD\r\n")

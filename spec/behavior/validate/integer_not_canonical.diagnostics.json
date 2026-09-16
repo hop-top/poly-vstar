@@ -1,0 +1,12 @@
+[
+  {
+    "code": "VS055",
+    "severity": "error",
+    "path": "VCALENDAR.VTODO[uid=todo-noncanonical-ints].PRIORITY"
+  },
+  {
+    "code": "VS055",
+    "severity": "error",
+    "path": "VCALENDAR.VTODO[uid=todo-noncanonical-ints].SEQUENCE"
+  }
+]

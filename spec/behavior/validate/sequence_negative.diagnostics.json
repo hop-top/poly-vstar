@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS055",
+    "severity": "error",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-sequence-negative].SEQUENCE"
+  }
+]

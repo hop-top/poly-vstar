@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS053",
+    "severity": "error",
+    "path": "VCALENDAR.VEVENT[uid=event-x-class].CLASS"
+  }
+]

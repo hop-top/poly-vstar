@@ -1,0 +1,10 @@
+[
+  {
+    "alarm_uid": "alarm-value-contradiction",
+    "error": "ErrMalformed"
+  },
+  {
+    "alarm_uid": "alarm-value-contradiction-inverse",
+    "error": "ErrMalformed"
+  }
+]

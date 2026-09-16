@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS055",
+    "severity": "error",
+    "path": "VCALENDAR.VTODO[uid=todo-percent-101].PERCENT-COMPLETE"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS054",
+    "severity": "error",
+    "path": "VCALENDAR.VEVENT[uid=event-busy-transp].TRANSP"
+  }
+]

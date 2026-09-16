@@ -1,0 +1,2 @@
+go test fuzz v1
+[]byte("BEGIN:VCARD\r\nVERSION:4.0\r\nUID:gp\r\nFN:Jad\r\nitem1.TEL:+1-555-0100\r\nitem1.X-LABEL:Mobile\r\nEND:VCARD\r\n")

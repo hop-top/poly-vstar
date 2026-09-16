@@ -1,0 +1,66 @@
+name: CI (PHP)
+
+on:
+  push:
+    branches: [main]
+    # spec/** is in the filter because spec/registry/ renders
+    # php/src/Generated/; the Makefile because the gate runs through it.
+    paths: ["php/**", "spec/**", "Makefile", ".github/workflows/ci-php.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["php/**", "spec/**", "Makefile", ".github/workflows/ci-php.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.2 is the floor declared in php/composer.json; 8.4 is the
+        # newest stable line. PHP is not pinned in mise.toml -- see the
+        # note there; setup-php is the CI half of that decision.
+        php-version: ["8.2", "8.4"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring
+          coverage: none
+          tools: composer
+
+      # setup-php places the binary, not the dependency tree, and takes
+      # no cache input of its own -- unlike setup-node/setup-uv/
+      # rust-cache, which the sibling workflows lean on. So composer's
+      # download cache is spelled out here, keyed on the lockfile hash:
+      # composer.lock pins every resolved version, so a hit is exactly
+      # the tree `composer install` would have produced.
+      #
+      # php-version is in the key because the resolved tree can differ
+      # per interpreter line, and this job is a matrix over two.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('php/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.php-version }}-
+            ${{ runner.os }}-composer-
+
+      - name: Show toolchain
+        run: |
+          php --version
+          composer --version
+
+      - name: Lint
+        run: make lint-php
+
+      - name: Test
+        run: make test-php
+
+      - name: Build
+        run: make build-php

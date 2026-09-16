@@ -1,0 +1,43 @@
+{
+  "CLASS": [
+    "PUBLIC",
+    "PRIVATE",
+    "CONFIDENTIAL"
+  ],
+  "RELTYPE": [
+    "PARENT",
+    "CHILD",
+    "SIBLING",
+    "FINISHTOSTART",
+    "FINISHTOFINISH",
+    "STARTTOFINISH",
+    "STARTTOSTART",
+    "DEPENDS-ON",
+    "FIRST",
+    "NEXT",
+    "CONCEPT",
+    "REFID"
+  ],
+  "STATUS": {
+    "VEVENT": [
+      "TENTATIVE",
+      "CONFIRMED",
+      "CANCELLED"
+    ],
+    "VJOURNAL": [
+      "DRAFT",
+      "FINAL",
+      "CANCELLED"
+    ],
+    "VTODO": [
+      "NEEDS-ACTION",
+      "IN-PROCESS",
+      "COMPLETED",
+      "CANCELLED"
+    ]
+  },
+  "TRANSP": [
+    "OPAQUE",
+    "TRANSPARENT"
+  ]
+}

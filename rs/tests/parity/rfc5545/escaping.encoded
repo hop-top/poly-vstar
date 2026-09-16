@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//V*\, Inc.//conformance\; escaping//EN
+BEGIN:VEVENT
+UID:evt-escaping-001
+DTSTAMP:20260101T000000Z
+DTSTART:20260101T000000Z
+SUMMARY:Review\, then ship\; no excuses
+DESCRIPTION:line one\nline two
+LOCATION:C:\\temp\\reports
+ATTACH:https://example.com/a\,b
+END:VEVENT
+END:VCALENDAR

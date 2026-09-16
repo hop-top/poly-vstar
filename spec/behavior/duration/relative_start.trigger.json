@@ -1,0 +1,10 @@
+[
+  {
+    "alarm_uid": "alarm-start-explicit",
+    "fires_at": "20260601T084500Z"
+  },
+  {
+    "alarm_uid": "alarm-start-implicit",
+    "fires_at": "20260601T083000Z"
+  }
+]

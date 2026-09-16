@@ -1,0 +1,2 @@
+go test fuzz v1
+string("\r\n\r\nBEGIN:VCALENDAR\r\n\r\nVERSION:2.0\r\nPRODID:p\r\n\r\nEND:VCALENDAR\r\n")

@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS050",
+    "severity": "warning",
+    "path": "VCALENDAR.VEVENT[uid=event-secondly].RRULE"
+  }
+]

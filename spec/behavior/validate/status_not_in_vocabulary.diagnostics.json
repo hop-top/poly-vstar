@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS044",
+    "severity": "error",
+    "path": "VCALENDAR.VEVENT[uid=event-draft-status].STATUS"
+  }
+]

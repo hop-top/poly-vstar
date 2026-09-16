@@ -1,0 +1,53 @@
+The V* specification tree is dual-licensed. Paths below are relative
+to THIS FILE, so they hold both in the source repository (where this
+file is `spec/LICENSE`) and on the published mirror (where this
+directory is the repository root).
+
+  Spec text — the normative Markdown under a version directory
+  (`v*/**/*.md`, excluding `v*/conformance/**` and `v*/CHANGELOG.md`):
+  Creative Commons Attribution 4.0 International (CC-BY-4.0). Full
+  text: https://creativecommons.org/licenses/by/4.0/legalcode
+  Each such file also carries an SPDX-License-Identifier header, so
+  the scoping survives a file being copied out of the tree.
+
+  Everything else in this tree: MIT License, text below. That is the
+  conformance corpus (`v*/conformance/**` — the corpus glob wins over
+  the spec-text glob, so the READMEs and `.notes.md` files inside it
+  are MIT too), the behavior fixtures (`behavior/**`), the registry
+  tables (`registry/**`), the release tooling (`.github/scripts/**`)
+  and its output (`v*/CHANGELOG.md`), and this tree's own front
+  matter and lint configuration (`README.md`,
+  `.markdownlint-cli2.jsonc`). These are test data, generated
+  artifacts, tooling and repository front matter, not normative text.
+  None of them carries an SPDX-License-Identifier header: the fixtures
+  are byte-exact test data, JSON has no comment syntax, and the
+  scripts and Markdown follow the same rule — so a file in this tree
+  with no header is MIT, not unscoped.
+
+Anything outside this tree — the reference implementations and the
+contributor documentation — is MIT; see the LICENSE at the root of
+the source repository, https://github.com/hop-top/poly-vstar.
+
+---
+
+MIT License
+
+Copyright (c) 2026 Jad Bitar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

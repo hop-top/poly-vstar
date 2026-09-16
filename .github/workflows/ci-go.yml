@@ -1,0 +1,129 @@
+name: CI (Go)
+
+on:
+  push:
+    branches: [main]
+    # The workflow file, mise.toml and the Makefile are in the filter so
+    # toolchain and workflow repairs verify themselves instead of waiting
+    # for the next .go push. go.mod/go.sum/.golangci.yml moved under go/
+    # with the module. spec/** is the authored conformance corpus and
+    # go/testdata/** its generated mirror; fixtures-verify diffs both, so
+    # an edit to either must re-run it. spec/registry/** and
+    # tools/registry/** feed registry-check, which regenerates the
+    # per-language constants and docs and fails on drift.
+    paths: ["**.go", "go/go.mod", "go/go.sum", "go/.golangci.yml", "go/testdata/**", "spec/**", "spec/registry/**", "tools/registry/**", "mise.toml", "Makefile", ".github/workflows/ci-go.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["**.go", "go/go.mod", "go/go.sum", "go/.golangci.yml", "go/testdata/**", "spec/**", "spec/registry/**", "tools/registry/**", "mise.toml", "Makefile", ".github/workflows/ci-go.yml"]
+
+permissions:
+  contents: read
+
+# Both jobs run against stable and oldstable. actions/setup-go resolves
+# those aliases; MISE_DISABLE_TOOLS keeps mise from shadowing that Go
+# with the mise.toml pin (mise still installs golangci-lint and runs
+# `mise run install`).
+env:
+  MISE_DISABLE_TOOLS: go
+
+jobs:
+  lint:
+    name: Lint (${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: [stable, oldstable]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          check-latest: true
+          cache: true
+          cache-dependency-path: go/go.sum
+
+      # >>> kit-managed: toolchain >>>
+      - uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+      - run: mise run install
+      # <<< kit-managed: toolchain <<<
+
+      - name: Install gofumpt
+        run: go install mvdan.cc/gofumpt@latest
+
+      - name: Show toolchain
+        run: |
+          go version
+          make --version | head -1
+          mise exec -- golangci-lint version
+          gofumpt -version
+
+      - name: Vet
+        run: make vet
+
+      - name: Format check
+        run: make fmt-check
+
+      - name: Lint
+        # Runs via the Makefile so the working directory and config
+        # location stay defined in exactly one place.
+        run: make lint
+
+      - name: Registry check
+        # spec/registry/ is the source of truth for the diagnostic code
+        # catalog, the RFC property allow-list and the value
+        # vocabularies. This regenerates every language's constants and
+        # docs/validate-codes.md and fails when the committed files have
+        # drifted from the registry. Standard-library Python only, so the
+        # runner's preinstalled python3 is enough.
+        run: make registry-check
+
+  test:
+    name: Test (${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: [stable, oldstable]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          check-latest: true
+          cache: true
+          cache-dependency-path: go/go.sum
+
+      # >>> kit-managed: toolchain >>>
+      - uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+      - run: mise run install
+      # <<< kit-managed: toolchain <<<
+
+      - name: Run tests
+        # -race requires cgo. `mise exec` re-applies its own [env] over
+        # the job/step env, so a step-level CGO_ENABLED would be silently
+        # clobbered: env(1) after mise exec is the layer that wins over
+        # any mise [env] entry.
+        # `go -C go` puts the module root in scope; -coverprofile is
+        # resolved relative to that directory, so the profile lands at
+        # go/coverage.out and the upload path matches.
+        run: mise exec -- env CGO_ENABLED=1 go -C go test -race -coverprofile=coverage.out ./...
+
+      - name: Fixtures parity
+        run: make fixtures-verify
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.go-version }}
+          path: go/coverage.out
+          if-no-files-found: warn
+          retention-days: 14

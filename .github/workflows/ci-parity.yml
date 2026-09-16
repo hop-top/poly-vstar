@@ -1,0 +1,148 @@
+name: CI (parity)
+
+# The cross-language parity harness. Every language port ships an
+# emitter that reads spec/ and prints one JSON document; the
+# orchestrator diffs every language in its LANGUAGES roster against
+# the Go reference. All five are in it, so this job is the check that
+# a value is not wrong identically in five independent codecs.
+#
+# The path filter covers every tree a mismatch can originate in: the
+# fixture corpus the emitters read, the harness itself, and every
+# language's sources. The port trees are listed before their emitters
+# exist so that, the moment a port lands, its changes already trigger
+# this workflow rather than waiting for a filter edit.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "spec/**"
+      - "tools/parity/**"
+      - "go/**"
+      - "ts/**"
+      - "py/**"
+      - "rs/**"
+      - "php/**"
+      - "Makefile"
+      - ".github/workflows/ci-parity.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "spec/**"
+      - "tools/parity/**"
+      - "go/**"
+      - "ts/**"
+      - "py/**"
+      - "rs/**"
+      - "php/**"
+      - "Makefile"
+      - ".github/workflows/ci-parity.yml"
+
+permissions:
+  contents: read
+
+# actions/setup-go resolves the toolchain; MISE_DISABLE_TOOLS keeps
+# mise from shadowing it with the mise.toml pin, matching ci-go.yml.
+env:
+  MISE_DISABLE_TOOLS: go
+
+jobs:
+  parity:
+    name: Parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # One setup step per language in tools/parity/parity.py's
+      # LANGUAGES roster. Go is the reference emitter; a port added
+      # there adds its toolchain, and a cache keyed on its lockfile,
+      # here. Every toolchain below is cached: the harness builds four
+      # of the five emitters, so an uncached dependency tree is paid
+      # on every run of the repo's slowest job.
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          check-latest: true
+          cache: true
+          cache-dependency-path: go/go.sum
+
+      # TypeScript. The emitter is compiled by the harness' own build
+      # step (ts/tsconfig.parity.json), so this only has to place node
+      # and pnpm.
+      #
+      # package_json_file: the repo root has no package.json (this is a
+      # polyglot monorepo); without it the action cannot find the
+      # packageManager field and fails with "No pnpm version is specified".
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: ts/package.json
+
+      # node-version matches the floor in ts/package.json engines.node.
+      # The port's own matrix in ci-ts.yml covers the newer line; this
+      # workflow is about cross-language agreement, which does not vary
+      # by runtime version.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: ts/pnpm-lock.yaml
+
+      # Rust. The harness runs `cargo build --bin parity` itself, so
+      # this only has to place the toolchain.
+      #
+      # Pinned to the MSRV in rs/Cargo.toml rather than `stable`, so a
+      # parity failure is never confused with an MSRV break; ci-rs.yml
+      # covers the newer line.
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98"
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rs
+
+      # PHP. The emitter loads the port through composer's autoloader,
+      # so vendor/ must exist; the harness' own build step installs it.
+      #
+      # php-version matches the floor in php/composer.json, for the same
+      # reason node-version does above.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring
+          coverage: none
+          tools: composer
+
+      # Composer is the one toolchain here with no cache of its own:
+      # setup-php places the binary, not the dependency tree, and
+      # unlike setup-go/setup-node/rust-cache it takes no cache input.
+      # So the cache is spelled out. The key is the lockfile hash --
+      # composer.lock pins every resolved version, so a hit is exactly
+      # the tree `composer install` would have produced.
+      #
+      # ~/.composer/cache is the download cache rather than
+      # php/vendor: restoring vendor/ directly would skip composer's
+      # own integrity check, and the install is fast once it has no
+      # network fetches left to make.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-8.2-${{ hashFiles('php/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-8.2-
+            ${{ runner.os }}-composer-
+
+      - name: Show toolchain
+        run: |
+          go version
+          node --version
+          pnpm --version
+          python3 --version
+          cargo --version
+          php --version
+
+      - name: Parity
+        # No setup-python step: the orchestrator is standard-library
+        # Python, and the Python emitter imports the port from py/src
+        # via PYTHONPATH — the port itself declares no dependencies —
+        # so the runner's preinstalled python3 covers both.
+        run: make test-parity
