@@ -2,7 +2,7 @@
   "go": "0.5.0-alpha.0",
   "ts": "0.1.0-alpha.0",
   "py": "0.1.0-alpha.0",
-  "rs": "0.1.0-alpha.0",
+  "rs": "0.1.0-alpha.1",
   "php": "0.1.0-alpha.0",
   "spec/v0.1": "0.1.0-alpha.0"
 }
