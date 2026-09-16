@@ -6,7 +6,8 @@ five implementations, byte-identical output.
 > **Status:** Active development. Usable today, with some rough edges as features evolve.
 
 [![Latest tag](https://img.shields.io/github/v/tag/hop-top/poly-vstar?filter=vstar/*&label=release&color=00ADD8&sort=semver)](https://github.com/hop-top/poly-vstar/releases)
-[![CI](https://img.shields.io/github/actions/workflow/status/hop-top/poly-vstar/ci-go.yml?branch=main&label=ci)](https://github.com/hop-top/poly-vstar/actions/workflows/ci-go.yml?query=branch%3Amain)
+[![CI (Go)](https://img.shields.io/github/actions/workflow/status/hop-top/poly-vstar/ci-go.yml?branch=main&label=ci%20%28go%29)](https://github.com/hop-top/poly-vstar/actions/workflows/ci-go.yml?query=branch%3Amain)
+[![Parity](https://img.shields.io/github/actions/workflow/status/hop-top/poly-vstar/ci-parity.yml?branch=main&label=parity)](https://github.com/hop-top/poly-vstar/actions/workflows/ci-parity.yml?query=branch%3Amain)
 [![Spec](https://img.shields.io/badge/spec-draft%20v0.1-blue)](spec/)
 [![Code](https://img.shields.io/badge/code-MIT-green)](LICENSE)
 
@@ -177,7 +178,8 @@ versions per component are in
 ## Related projects
 
 - [`hop-top/tlc`](https://github.com/hop-top/tlc) — IDE-agnostic todo
-  list with full syncing with any issue-tracking tool.
+  list with full syncing with any issue tracking tool for tasks
+  created remotely.
 
 More coming soon.
 
