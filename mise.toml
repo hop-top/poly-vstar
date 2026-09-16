@@ -1,0 +1,45 @@
+# Pin the toolchain for vstar.
+# https://mise.jdx.dev/
+
+[tools]
+go = "1.25"
+# golangci-lint 2.13 is the first line built with go1.27; older builds
+# crash typechecking the go1.27 standard library.
+golangci-lint = "2.13.2"
+
+# Port toolchains. Each pin is the floor the matching package manifest
+# declares: ts/package.json engines.node, py/pyproject.toml
+# requires-python, rs/Cargo.toml rust-version.
+node = "22"
+pnpm = "latest"
+python = "3.11"
+uv = "latest"
+rust = "stable"
+
+# Notes:
+# - go/go.mod also declares `go 1.25`; keep these in lock-step.
+# - CI's test matrix runs stable + oldstable through actions/setup-go and
+#   sets MISE_DISABLE_TOOLS=go so this pin does not shadow them; the pin
+#   is the primary local development version, so the library never
+#   accidentally adopts a too-new toolchain feature.
+# - On a fresh checkout: `mise install && mise run install`.
+# - PHP is deliberately NOT pinned here: mise has no first-class PHP
+#   backend that builds reliably across macOS and Linux, and the
+#   extensions the port needs (ext-mbstring) are a system concern.
+#   Install it out of band -- `brew install php@8.2 composer` locally,
+#   `shivammathur/setup-php` in CI (.github/workflows/ci-php.yml).
+
+[tasks.install]
+description = "Install ecosystem dependencies (orchestrated by mise)"
+# The Go module lives in go/; `go -C go` avoids a cwd change so the task
+# stays runnable from the repo root (where CI invokes `mise run install`).
+# Each port owns its lockfile, so the task installs from it rather than
+# resolving. PHP is absent for the same reason it is unpinned above:
+# composer may not be on PATH. Run `make lint-php` or `composer install`
+# in php/ to set it up.
+run = [
+  "go -C go mod download",
+  "pnpm --dir ts install --frozen-lockfile --ignore-scripts",
+  "uv sync --project py --all-groups --frozen",
+  "cargo fetch --manifest-path rs/Cargo.toml"
+]

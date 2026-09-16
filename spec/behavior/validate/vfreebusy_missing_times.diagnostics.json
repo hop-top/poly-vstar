@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS042",
+    "severity": "error",
+    "path": "VCALENDAR.VFREEBUSY[uid=freebusy-no-times]"
+  }
+]

@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+// SPDX-License-Identifier: MIT
+
+namespace HopTop\Vstar;
+
+/**
+ * The wire-string STATUS value of a VTODO, per RFC 5545 §3.8.1.11.
+ *
+ * TodoStatus, {@see EventStatus} and {@see JournalStatus} are deliberately
+ * distinct types even though the cancellation value is spelled the same
+ * in all three: the RFC scopes each vocabulary to one component type, so
+ * separate types make a cross-type assignment a type error rather than a
+ * wire-level conformance bug found in production.
+ */
+enum TodoStatus: string
+{
+    case NeedsAction = 'NEEDS-ACTION';
+    case InProcess = 'IN-PROCESS';
+    case Completed = 'COMPLETED';
+    case Cancelled = 'CANCELLED';
+}

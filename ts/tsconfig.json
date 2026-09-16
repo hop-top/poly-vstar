@@ -1,0 +1,33 @@
+{
+  // `module` and `moduleResolution` are both NodeNext on purpose.
+  // `bundler` resolution lets extensionless relative imports typecheck,
+  // then emits them verbatim -- and Node's ESM loader cannot resolve
+  // those at runtime. NodeNext makes the compiler enforce the `.js`
+  // suffixes the emitted code actually needs.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "moduleDetection": "force",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  // This config type-checks both trees; `rootDir` is deliberately NOT
+  // set here, because pinning it to `src` while `test` is in the
+  // program makes every test file a TS6059 error. Emit is governed by
+  // tsconfig.build.json, which narrows to `src` and sets `rootDir`
+  // there -- so the published `dist` layout is unaffected.
+  "include": ["src", "test"]
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "code": "VS001",
+    "severity": "error",
+    "path": "VCALENDAR.VTODO[#0].UID"
+  },
+  {
+    "code": "VS001",
+    "severity": "error",
+    "path": "VCALENDAR.VTODO[#1].UID"
+  }
+]

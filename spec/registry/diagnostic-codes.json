@@ -1,0 +1,92 @@
+[
+  {
+    "code": "VS001",
+    "rule": "Required common property `UID` is missing.",
+    "section": "1",
+    "severity": "error"
+  },
+  {
+    "code": "VS002",
+    "rule": "Required common property `DTSTAMP` is missing.",
+    "section": "1",
+    "severity": "error"
+  },
+  {
+    "code": "VS003",
+    "rule": "Required common property `X-VSTAR-HASH` is missing.",
+    "section": "1",
+    "severity": "error"
+  },
+  {
+    "code": "VS010",
+    "rule": "`X-VSTAR-HASH` is present but does not match the recomputed hash.",
+    "section": "2",
+    "severity": "error"
+  },
+  {
+    "code": "VS020",
+    "rule": "Property name is not on the RFC 5545/6350 allow-list and lacks the `X-` prefix.",
+    "section": "3",
+    "severity": "warning"
+  },
+  {
+    "code": "VS030",
+    "rule": "A supersession `VJOURNAL` (CATEGORIES contains `status-supersession`) is missing a required property: `RELATED-TO` or `X-VSTAR-EFFECTIVE-STATUS`.",
+    "section": "4",
+    "severity": "error"
+  },
+  {
+    "code": "VS031",
+    "rule": "A supersession `VJOURNAL`'s `RELATED-TO` does not resolve to any component in the same Calendar (orphan supersession).",
+    "section": "4",
+    "severity": "error"
+  },
+  {
+    "code": "VS040",
+    "rule": "`VTODO` requires `DUE`, OR `STATUS=COMPLETED` paired with `COMPLETED`.",
+    "section": "5",
+    "severity": "error"
+  },
+  {
+    "code": "VS041",
+    "rule": "`VEVENT` requires `DTSTART`.",
+    "section": "5",
+    "severity": "error"
+  },
+  {
+    "code": "VS042",
+    "rule": "`VFREEBUSY` requires `DTSTART` AND `DTEND`.",
+    "section": "5",
+    "severity": "error"
+  },
+  {
+    "code": "VS043",
+    "rule": "`VCARD` (modeled as `Component{Type: \"VCARD\"}`) requires `VERSION` AND `UID`.",
+    "section": "5",
+    "severity": "error"
+  },
+  {
+    "code": "VS044",
+    "rule": "`STATUS` value is outside the vocabulary RFC 5545 §3.8.1.11 scopes to the component's own type.",
+    "section": "8",
+    "severity": "error"
+  },
+  {
+    "code": "VS050",
+    "rule": "`RRULE` value parses but uses a feature outside the v0.2 rrule scope (FREQ=SECONDLY/MINUTELY, RSCALE — see [spec/03 §RRULE parsing scope](../spec/v0.1/03-canonicalization.md#rrule-parsing-scope)).",
+    "section": "6",
+    "severity": "warning"
+  },
+  {
+    "code": "VS051",
+    "rule": "`RRULE` value is malformed per RFC 5545 §3.3.10 (missing FREQ, INTERVAL≤0, both UNTIL+COUNT, BYMONTHDAY=0, UNTIL not in form #2, etc.).",
+    "section": "6",
+    "severity": "error"
+  },
+  {
+    "code": "VS052",
+    "rule": "A duration-bearing property value is malformed: the `DURATION` property, the relative (`DURATION`-valued) form of `TRIGGER`, or a `REPEAT` count that is not a non-negative integer (RFC 5545 §3.3.6 / §3.8.6.2); or a `TRIGGER` whose `VALUE` parameter contradicts its value, or that carries `RELATED` on an absolute trigger — see [spec/03 §TRIGGER conventions](../spec/v0.1/03-canonicalization.md#trigger-conventions).",
+    "section": "7",
+    "severity": "error"
+  }
+]

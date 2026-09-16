@@ -1,0 +1,55 @@
+name: CI (Python)
+
+on:
+  push:
+    branches: [main]
+    # spec/** is in the filter because spec/registry/ renders
+    # py/src/vstar/_generated/; the Makefile because the gate runs
+    # through it.
+    paths: ["py/**", "spec/**", "Makefile", ".github/workflows/ci-py.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["py/**", "spec/**", "Makefile", ".github/workflows/ci-py.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.11 is the floor declared in py/pyproject.toml
+        # requires-python; 3.13 is the newest release the classifiers
+        # claim.
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: py/uv.lock
+
+      - name: Show toolchain
+        run: uv --version
+
+      # UV_PYTHON pins the interpreter uv resolves the project against,
+      # so the matrix leg is what actually runs rather than whatever uv
+      # would otherwise pick.
+      - name: Lint
+        run: make lint-py
+        env:
+          UV_PYTHON: ${{ matrix.python-version }}
+
+      - name: Test
+        run: make test-py
+        env:
+          UV_PYTHON: ${{ matrix.python-version }}
+
+      - name: Build
+        run: make build-py
+        env:
+          UV_PYTHON: ${{ matrix.python-version }}

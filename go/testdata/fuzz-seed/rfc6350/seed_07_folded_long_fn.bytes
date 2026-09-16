@@ -1,0 +1,6 @@
+BEGIN:VCARD
+VERSION:4.0
+UID:fold
+FN:Long name that is intentionally folded across
+  multiple physical lines
+END:VCARD

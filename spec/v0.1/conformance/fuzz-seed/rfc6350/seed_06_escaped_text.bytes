@@ -1,0 +1,6 @@
+BEGIN:VCARD
+VERSION:4.0
+UID:esc
+FN:Foo\, Bar
+NOTE:line1\nline2\;quoted\\back
+END:VCARD

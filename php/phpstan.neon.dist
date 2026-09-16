@@ -1,0 +1,9 @@
+parameters:
+    level: 9
+    paths:
+        - src
+        - tests
+    # src/Generated/ is rendered by tools/registry/gen.py; a finding
+    # there is a generator bug, not something to fix in place.
+    excludePaths:
+        - src/Generated

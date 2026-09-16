@@ -1,0 +1,87 @@
+[
+  {
+    "name": "X-VSTAR-HASH",
+    "scope": "vstar",
+    "system": null
+  },
+  {
+    "name": "X-VSTAR-EFFECTIVE-STATUS",
+    "scope": "vstar",
+    "system": null
+  },
+  {
+    "name": "x-vstar-hash",
+    "scope": "vstar",
+    "system": null
+  },
+  {
+    "name": "X-AGR-FOO",
+    "scope": "system",
+    "system": "AGR"
+  },
+  {
+    "name": "X-AGR-INTENT",
+    "scope": "system",
+    "system": "AGR"
+  },
+  {
+    "name": "X-ACME-TICKET-ID",
+    "scope": "system",
+    "system": "ACME"
+  },
+  {
+    "name": "X-VSTARLIKE-FOO",
+    "scope": "system",
+    "system": "VSTARLIKE"
+  },
+  {
+    "name": "X-EXP-DRAFT",
+    "scope": "experimental",
+    "system": null
+  },
+  {
+    "name": "X-EXP-A",
+    "scope": "experimental",
+    "system": null
+  },
+  {
+    "name": "DTSTART",
+    "scope": "none",
+    "system": null
+  },
+  {
+    "name": "SUMMARY",
+    "scope": "none",
+    "system": null
+  },
+  {
+    "name": "X",
+    "scope": "none",
+    "system": null
+  },
+  {
+    "name": "",
+    "scope": "none",
+    "system": null
+  },
+  {
+    "name": "X-",
+    "scope": "unknown",
+    "system": null
+  },
+  {
+    "name": "X-FOO",
+    "scope": "unknown",
+    "system": null
+  },
+  {
+    "name": "X-VSTAR-",
+    "scope": "unknown",
+    "system": null
+  },
+  {
+    "name": "X-EXP-",
+    "scope": "unknown",
+    "system": null
+  }
+]

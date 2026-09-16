@@ -1,0 +1,6 @@
+{
+  "dtstart": "20260101T090000Z",
+  "after":   "20260101T090000Z",
+  "expected": [],
+  "error": "ErrIterationCap"
+}

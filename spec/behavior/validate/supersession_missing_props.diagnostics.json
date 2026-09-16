@@ -1,0 +1,12 @@
+[
+  {
+    "code": "VS030",
+    "severity": "error",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-supersession-incomplete].RELATED-TO"
+  },
+  {
+    "code": "VS030",
+    "severity": "error",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-supersession-incomplete].X-VSTAR-EFFECTIVE-STATUS"
+  }
+]

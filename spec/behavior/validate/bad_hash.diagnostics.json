@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS010",
+    "severity": "error",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-bad-hash].X-VSTAR-HASH"
+  }
+]

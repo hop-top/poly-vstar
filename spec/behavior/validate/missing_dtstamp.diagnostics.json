@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS002",
+    "severity": "error",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-no-dtstamp].DTSTAMP"
+  }
+]

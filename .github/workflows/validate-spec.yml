@@ -1,0 +1,47 @@
+name: validate (spec)
+
+# Lints the specification prose and runs the unit tests for the spec's
+# own release/validation scripts. Path-filtered to spec/** so a Go-only
+# change does not spin up Node and Python.
+
+on:
+  push:
+    branches: [main]
+    paths: ["spec/**", ".github/workflows/validate-spec.yml", "Makefile"]
+  pull_request:
+    branches: [main]
+    paths: ["spec/**", ".github/workflows/validate-spec.yml", "Makefile"]
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-lint:
+    name: markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install markdownlint-cli2
+        run: npm install --global markdownlint-cli2@latest
+
+      - name: Run markdownlint
+        run: make lint-spec
+
+  script-tests:
+    name: script unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run unit tests
+        working-directory: spec
+        run: python3 -m unittest discover -s .github/scripts/tests -v

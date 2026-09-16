@@ -1,0 +1,56 @@
+name: CI (Rust)
+
+on:
+  push:
+    branches: [main]
+    # spec/** is in the filter because spec/registry/ renders
+    # rs/src/generated/; the Makefile because the gate runs through it.
+    paths: ["rs/**", "spec/**", "Makefile", ".github/workflows/ci-rs.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["rs/**", "spec/**", "Makefile", ".github/workflows/ci-rs.yml"]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    name: Rust ${{ matrix.toolchain }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # MSRV is rs/Cargo.toml rust-version. dtolnay/rust-toolchain
+        # installs cargo, rustfmt and clippy from one toolchain, so
+        # `cargo clippy` can never resolve to a rustc below the MSRV the
+        # manifest declares.
+        toolchain: [stable, "1.98"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: clippy, rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rs
+
+      - name: Show toolchain
+        run: |
+          cargo --version
+          cargo clippy --version
+          cargo fmt --version
+
+      - name: Lint
+        run: make lint-rs
+
+      - name: Test
+        run: make test-rs
+
+      - name: Build
+        run: make build-rs

@@ -1,0 +1,7 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//V*//Unclosed//EN
+BEGIN:VTODO
+UID:never-closed
+DTSTAMP:20260504T120000Z
+SUMMARY:This block never ends

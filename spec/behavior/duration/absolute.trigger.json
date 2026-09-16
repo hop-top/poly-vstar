@@ -1,0 +1,10 @@
+[
+  {
+    "alarm_uid": "alarm-absolute",
+    "fires_at": "20260531T220000Z"
+  },
+  {
+    "alarm_uid": "alarm-absolute-implicit",
+    "fires_at": "20260531T230000Z"
+  }
+]

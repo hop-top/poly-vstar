@@ -1,0 +1,38 @@
+name: release-status-line
+
+# Updates the `**Status:**` line in spec markdown files when
+# release-please opens a release PR for the spec component. Channel is
+# derived from the version suffix in the PR title: -alpha.N → Draft,
+# -beta.N → Pre-release, -rc.N → Release Candidate, unsuffixed →
+# General Availability.
+
+on:
+  pull_request:
+    types: [labeled, opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  patch-status:
+    # Only run on PRs carrying release-please's pending label. The label
+    # name is pinned (matches `label` in
+    # .github/release-please-config.json) so arbitrary labels cannot
+    # trigger this job.
+    if: contains(github.event.pull_request.labels.*.name, 'status:release-pending')
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout by SHA (format-validated by GitHub) rather than by ref.
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          token: ${{ secrets.GH_RELEASE_PLEASE_PAT }}
+          fetch-depth: 0
+
+      - name: Patch status lines and push if changed
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: python3 spec/.github/scripts/update_status_lines.py

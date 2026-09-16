@@ -1,0 +1,8 @@
+# `files` in package.json is the allow-list; this file only keeps stray
+# tooling out of a `pnpm pack` run when npm falls back to .gitignore.
+node_modules
+src
+test
+tsconfig*.json
+eslint.config.js
+vitest.config.ts

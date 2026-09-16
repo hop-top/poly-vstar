@@ -1,0 +1,7 @@
+BEGIN:VCARD
+VERSION:4.0
+FN:Last\, Comma Test
+N:Last\,Comma\;Jad\;\;\;
+NOTE:line one\nline two
+UID:urn:uuid:33333333-3333-3333-3333-333333333333
+END:VCARD

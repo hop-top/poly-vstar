@@ -1,0 +1,26 @@
+[
+  {
+    "uid": "todo-param",
+    "path": "VCALENDAR.VTODO[uid=todo-param]",
+    "ops": [
+      {
+        "op": "change",
+        "property": "DUE",
+        "before": "20260101T000000",
+        "after": "20260101T000000",
+        "before_params": [
+          {
+            "name": "TZID",
+            "value": "America/Montreal"
+          }
+        ],
+        "after_params": [
+          {
+            "name": "TZID",
+            "value": "Europe/Paris"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,104 @@
+[
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260104T133045",
+    "utc": "20260104T183045Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260704T133045",
+    "utc": "20260704T173045Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260315T013000",
+    "utc": "20260315T053000Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260315T020000",
+    "utc": "20260315T060000Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260315T030000",
+    "utc": "20260315T070000Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20261101T013000",
+    "utc": "20261101T053000Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20261101T020000",
+    "utc": "20261101T070000Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20261101T030000",
+    "utc": "20261101T080000Z"
+  },
+  {
+    "calendar": "utc_only",
+    "tzid": "UTC",
+    "value": "20260504T183045",
+    "utc": "20260504T183045Z"
+  },
+  {
+    "calendar": "utc_only",
+    "tzid": "UTC",
+    "value": "20260704T133045",
+    "utc": "20260704T133045Z"
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Toronto",
+    "value": "20260104T133045",
+    "utc": null
+  },
+  {
+    "calendar": "utc_only",
+    "tzid": "America/Montreal",
+    "value": "20260104T133045",
+    "utc": null
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "",
+    "value": "20260104T133045",
+    "utc": null
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260315T060000Z",
+    "utc": null
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "20260315",
+    "utc": null
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "2026-03-15T02:00:00",
+    "utc": null
+  },
+  {
+    "calendar": "america_montreal",
+    "tzid": "America/Montreal",
+    "value": "",
+    "utc": null
+  }
+]

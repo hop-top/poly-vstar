@@ -1,0 +1,32 @@
+[
+  {
+    "uid": "todo-new",
+    "path": "VCALENDAR.VTODO[uid=todo-new]",
+    "ops": [
+      {
+        "op": "add",
+        "property": "DTSTAMP",
+        "before": null,
+        "after": "20260504T120000Z"
+      },
+      {
+        "op": "add",
+        "property": "DUE",
+        "before": null,
+        "after": "20260301T000000Z"
+      },
+      {
+        "op": "add",
+        "property": "SUMMARY",
+        "before": null,
+        "after": "Ship the fixtures"
+      },
+      {
+        "op": "add",
+        "property": "UID",
+        "before": null,
+        "after": "todo-new"
+      }
+    ]
+  }
+]

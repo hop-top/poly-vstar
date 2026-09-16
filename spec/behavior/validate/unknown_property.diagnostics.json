@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS020",
+    "severity": "warning",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-unknown-prop].NOTAREALPROPERTY"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS041",
+    "severity": "error",
+    "path": "VCALENDAR.VEVENT[uid=event-no-dtstart].DTSTART"
+  }
+]

@@ -1,0 +1,2 @@
+go test fuzz v1
+string("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//V*//Fold//EN\r\nBEGIN:VTODO\r\nUID:fold-1\r\nDTSTAMP:20260504T120000Z\r\nDESCRIPTION:This is a long descrip\r\n tion that has been folded\r\nEND:VTODO\r\nEND:VCALENDAR\r\n")

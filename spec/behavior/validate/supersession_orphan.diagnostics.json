@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS031",
+    "severity": "error",
+    "path": "VCALENDAR.VJOURNAL[uid=journal-supersession-orphan].RELATED-TO"
+  }
+]

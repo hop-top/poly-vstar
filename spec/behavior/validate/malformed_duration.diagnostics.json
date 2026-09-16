@@ -1,0 +1,7 @@
+[
+  {
+    "code": "VS052",
+    "severity": "error",
+    "path": "VCALENDAR.VEVENT[uid=event-bad-duration].DURATION"
+  }
+]

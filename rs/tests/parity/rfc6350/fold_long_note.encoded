@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:4.0
+UID:urn:uuid:44444444-4444-4444-4444-444444444444
+FN:Fold Test
+NOTE:V* folds at seventy-five octets and every continuation line spends one
+  of them on its leading space. This note is long enough to need four physi
+ cal lines\, so a codec that alternates its chunk widths overruns on the se
+ cond continuation. Padding follows to push the logical line well past thre
+ e folds. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+END:VCARD

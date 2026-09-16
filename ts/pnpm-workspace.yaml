@@ -1,0 +1,15 @@
+# ts/ is its own pnpm workspace root. Without this file pnpm walks up
+# past the repository into any ancestor workspace and resolves against
+# that lockfile instead of ts/pnpm-lock.yaml.
+packages:
+  - .
+# pnpm 11 refuses to install while any dependency's build script is
+# undecided, and its deps-status precheck runs a plain `pnpm install`
+# that no --ignore-scripts flag reaches. Deciding esbuild here is what
+# lets the parity harness install on a cold runner.
+#
+# false: esbuild arrives only under vitest, which runs it through its
+# own JS fallback. Nothing in this package bundles with it, so the
+# postinstall that fetches a platform binary buys nothing.
+allowBuilds:
+  esbuild: false

@@ -1,0 +1,32 @@
+[
+  {
+    "uid": "todo-gone",
+    "path": "VCALENDAR.VTODO[uid=todo-gone]",
+    "ops": [
+      {
+        "op": "remove",
+        "property": "DTSTAMP",
+        "before": "20260504T120000Z",
+        "after": null
+      },
+      {
+        "op": "remove",
+        "property": "DUE",
+        "before": "20260301T000000Z",
+        "after": null
+      },
+      {
+        "op": "remove",
+        "property": "SUMMARY",
+        "before": "Ship the fixtures",
+        "after": null
+      },
+      {
+        "op": "remove",
+        "property": "UID",
+        "before": "todo-gone",
+        "after": null
+      }
+    ]
+  }
+]

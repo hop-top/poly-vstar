@@ -1,0 +1,26 @@
+coverage.out
+coverage.html
+*.test
+*.prof
+
+# Port scaffold build output and installed dependencies. Each port's
+# lockfile IS committed; only the resolved trees below are ignored.
+ts/dist
+ts/node_modules
+ts/*.tgz
+ts/tsconfig.build.tsbuildinfo
+# The parity emitter's build output. Kept out of ts/dist so it cannot
+# reach the published tarball, which ships the whole of dist/.
+ts/parity-dist
+ts/tsconfig.parity.tsbuildinfo
+py/dist
+py/.venv
+py/*.egg-info
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+rs/target
+php/vendor
+php/.phpunit.cache
+php/.php-cs-fixer.cache

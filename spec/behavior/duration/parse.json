@@ -1,0 +1,107 @@
+[
+  {
+    "value": "P1W",
+    "seconds": 604800,
+    "negative": false
+  },
+  {
+    "value": "P26W",
+    "seconds": 15724800,
+    "negative": false
+  },
+  {
+    "value": "P7D",
+    "seconds": 604800,
+    "negative": false
+  },
+  {
+    "value": "PT1H",
+    "seconds": 3600,
+    "negative": false
+  },
+  {
+    "value": "PT15M",
+    "seconds": 900,
+    "negative": false
+  },
+  {
+    "value": "PT30S",
+    "seconds": 30,
+    "negative": false
+  },
+  {
+    "value": "P1DT2H30M45S",
+    "seconds": 95445,
+    "negative": false
+  },
+  {
+    "value": "PT1H30M",
+    "seconds": 5400,
+    "negative": false
+  },
+  {
+    "value": "-PT15M",
+    "seconds": -900,
+    "negative": true
+  },
+  {
+    "value": "-P1DT2H",
+    "seconds": -93600,
+    "negative": true
+  },
+  {
+    "value": "PT0S",
+    "seconds": 0,
+    "negative": false
+  },
+  {
+    "value": "-PT0S",
+    "seconds": 0,
+    "negative": false
+  },
+  {
+    "value": "+PT15M",
+    "seconds": 900,
+    "negative": false
+  },
+  {
+    "value": "",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "T15M",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "P",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "P1W2D",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "P1WT1H",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "PT1X",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "PT1M1H",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "P1DT30",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "PT1HM",
+    "error": "ErrMalformed"
+  },
+  {
+    "value": "pt15m",
+    "error": "ErrMalformed"
+  }
+]
