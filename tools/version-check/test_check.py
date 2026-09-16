@@ -84,6 +84,18 @@ class VersionCheckTests(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn("ts/src/version.ts:1: annotated: 1.0.0-alpha.9 != manifest[ts] = 1.0.0-alpha.0", r.stdout)
 
+    def test_annotated_line_with_a_second_pep440_token_fails(self) -> None:
+        # The updater rewrites the first SemVer match only; a PEP 440
+        # spelling elsewhere on the line would go stale unseen.
+        self.write(".github/release-please-config.json", _config({"py": ["README.md"]}))
+        self.write("py/README.md",
+                   "pin `==1.0.0-alpha.0` (pip normalizes it to `1.0.0a0`). "
+                   "<!-- x-release-please-version -->\n")
+        r = self.run_check()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("py/README.md:1: annotated: expected exactly one version literal "
+                      "on the annotated line, found 2", r.stdout)
+
     def test_annotation_outside_a_package_fails(self) -> None:
         self.write("docs/a.md", "pin 1.0.0-alpha.0 <!-- x-release-please-version -->\n")
         r = self.run_check()
