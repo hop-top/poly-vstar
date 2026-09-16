@@ -91,7 +91,7 @@ The crate is `hop-top-vstar`; the library is `hop_top_vstar`. MSRV is
 **Rust 1.98**. API documentation:
 [docs.rs/hop-top-vstar](https://docs.rs/hop-top-vstar). Versions are
 prereleases (`1.0.0-alpha.*`); until 1.0.0, pin an exact version
-(`=1.0.0-alpha.0`). <!-- x-release-please-version -->
+(`=1.0.0-alpha.1`). <!-- x-release-please-version -->
 
 ## Usage
 
