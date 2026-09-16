@@ -2,7 +2,7 @@
 
 # V\* v0.1
 
-**Status:** Draft  
+**Status:** Draft
 **Last updated:** 2026-09-14
 
 First published version of the V\* specification. Extracted from the
