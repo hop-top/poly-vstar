@@ -1,6 +1,7 @@
 # V\*
 
-Calendar/Card-shaped data convention for agentic systems.
+Calendar/Card-shaped data convention for agentic systems — one spec,
+five implementations, byte-identical output.
 
 > **Status:** Active development. Usable today, with some rough edges as features evolve.
 
@@ -12,145 +13,194 @@ Calendar/Card-shaped data convention for agentic systems.
 V\* represents agentic-system state — worlds, missions, players, turns,
 observations, decisions — as **iCalendar (RFC 5545) + vCard (RFC 6350)
 components**. Agent work that already has time, identity, and sequence
-semantics gets to ride existing calendar/scheduler/contact tooling
+semantics rides existing calendar, scheduler, and contact tooling
 instead of a bespoke protocol.
 
-This repository is the polyglot home of the spec and its reference
-implementations. The spec is authored here under [`spec/`](spec/); each
-language lives in its own tree and is republished to a per-language
-read-only mirror on release.
+A generic iCalendar library parses an `.ics` and hands back a tree. It
+cannot tell you whether two documents mean the same thing, because the
+RFCs let one logical content be written many ways: properties in any
+order, parameters in any order, datetimes in local or UTC form, folding
+at any column. V\* pins that down with a **canonical form** — one byte
+sequence per logical content — and an `X-VSTAR-HASH` over it, so "did
+this change?" is a string comparison. On top it adds what agent state
+needs and a calendar library does not carry: structural validation
+with stable diagnostic codes, RRULE evaluation, and append-only
+supersession.
 
-## Install
+This repository is the polyglot home of V\*: the specification, its
+conformance corpus, the Go reference implementation, and four ports.
+Nothing at this level is the package you install — that is one tree
+down, and this page tells you which.
 
-| Language | Install | Tree | Mirror |
-|----------|---------|------|--------|
-| Go | `go get hop.top/vstar` | [`go/`](go/) | [`hop-top/vstar`](https://github.com/hop-top/vstar) |
-| TypeScript | `pnpm add @hop-top/vstar` | [`ts/`](ts/) | [`hop-top/vstar-ts`](https://github.com/hop-top/vstar-ts) |
-| Python | `pip install hop-top-vstar` | [`py/`](py/) | [`hop-top/vstar-py`](https://github.com/hop-top/vstar-py) |
-| Rust | `cargo add hop-top-vstar` | [`rs/`](rs/) | [`hop-top/vstar-rs`](https://github.com/hop-top/vstar-rs) |
-| PHP | `composer require hop-top/vstar` | [`php/`](php/) | [`hop-top/vstar-php`](https://github.com/hop-top/vstar-php) |
+## Why one repository, five languages
 
-## Quick start
+- **One change is one pull request.** Spec text, the fixture under
+  [`spec/v0.1/conformance/`](spec/v0.1/conformance/), every
+  implementation, and the regenerated `.canonical` / `.hash` files
+  land together. The corpus cannot drift from the code that
+  reproduces it.
+- **Conformance is not coupled to one runtime's release cycle.** Each
+  tree releases on its own tag and is republished to its own
+  read-only mirror (see [Releases and mirrors](#releases-and-mirrors)).
+  The spec is a document with its own licence and its own mirror,
+  citable independently of any implementation.
+- **Independent implementations get a stable reference point.** Go is
+  the reference; the four ports cross-validate against its bytes over
+  the shared corpus, and the next port follows the same
+  [porting guide](docs/dev/porting-guide.md) instead of negotiating
+  for one.
 
-Parse a VCALENDAR in Go (the other four languages are in
-[Per-language usage](#per-language-usage)):
+### How the five trees are kept in agreement
 
-```go
-import (
-    "strings"
+Every implementation ships a parity emitter: a program that reads
+`spec/` and prints one JSON document describing what it makes of
+every fixture. The harness diffs each port's document against the Go
+reference's, over the entire corpus, and any difference fails the run:
 
-    "hop.top/vstar/codec/rfc5545"
-)
-
-cal, err := rfc5545.Parse(strings.NewReader(input))
+```sh
+make test-parity
 ```
 
-Full walkthrough (parse + hash + walk components):
-[`docs/user/quickstart.md`](docs/user/quickstart.md).
+A green run prints a single `parity: ok` line naming every language in
+the roster and the corpus size; a mismatch exits non-zero. CI runs the
+same command on every push and pull request that touches `spec/`,
+`tools/parity/`, or any language tree, so no port can diverge from the
+reference and merge. The emitter contract is
+[`tools/parity/README.md`](tools/parity/README.md).
+
+Two more gates keep the shared inputs honest: `make fixtures-verify`
+regenerates the corpus and its committed mirror under
+[`go/testdata/`](go/testdata/) and fails on drift, and
+`make registry-check` fails if any language's generated constants
+(diagnostic codes, property allow-list, extension scopes) disagree
+with [`spec/registry/`](spec/registry/). `make ci` runs all of it plus
+each language's own lint, test, and build.
+
+## Pick a tree
+
+| Language | Install | Runtime floor | Source tree | Read-only mirror |
+|----------|---------|---------------|-------------|------------------|
+| Go | `go get hop.top/vstar` | Go 1.25 | [`go/`](go/) | [`hop-top/vstar`](https://github.com/hop-top/vstar) |
+| TypeScript | `pnpm add @hop-top/vstar` | Node 22 | [`ts/`](ts/) | [`hop-top/vstar-ts`](https://github.com/hop-top/vstar-ts) |
+| Python | `pip install hop-top-vstar` | Python 3.11 | [`py/`](py/) | [`hop-top/vstar-py`](https://github.com/hop-top/vstar-py) |
+| Rust | `cargo add hop-top-vstar` | Rust 1.98 | [`rs/`](rs/) | [`hop-top/vstar-rs`](https://github.com/hop-top/vstar-rs) |
+| PHP | `composer require hop-top/vstar` | PHP 8.2 | [`php/`](php/) | [`hop-top/vstar-php`](https://github.com/hop-top/vstar-php) |
+
+Each tree's README is that package's front page — install, a runnable
+example, the API surface. Open the one for your language:
+[Go](go/README.md), [TypeScript](ts/README.md), [Python](py/README.md),
+[Rust](rs/README.md), [PHP](php/README.md). Go is the reference
+implementation; the other four are round-trip ports of it, and each
+port records its class, deviations, and green gates in a
+`VSTAR-CONFORMANCE.md` beside its source.
+
+The mirror column names where each tree is republished on release.
+A mirror is created by the first release of its tree, so a mirror
+whose tree has not shipped yet does not exist. Whether or not it does,
+the source of truth is here: open issues and pull requests against
+this repository, never against a mirror.
 
 ## Use this when
 
 - You emit agent state and want it to interop with calendars,
   schedulers, or contact directories with no custom serialization.
-- You need a stable reference point so multiple runtimes (Go, TS,
-  Python, Racket, …) can produce byte-identical output.
+- You need several runtimes (Go, TypeScript, Python, Rust, PHP, or a
+  port of your own) to produce byte-identical output for the same
+  logical content, and a hash that proves they did.
 - You want a published spec, conformance fixtures, and a reference
   implementation — not a vendored file inside someone else's runtime.
 
 **Skip this if:** you need a streaming wire protocol, or your data
 has no time / identity / sequence semantics.
 
-## Per-language usage
-
-Each implementation has its own README with install and idiomatic
-examples:
-
-- [Go](go/README.md) — `hop.top/vstar`, the reference implementation
-  every other language cross-validates against.
-- [TypeScript](ts/README.md) — `@hop-top/vstar`, ESM-only, Node 22+.
-- [Python](py/README.md) — `hop-top-vstar`, pure standard library,
-  3.11+.
-- [Rust](rs/README.md) — `hop-top-vstar`, `#![forbid(unsafe_code)]`,
-  MSRV 1.98.
-- [PHP](php/README.md) — `hop-top/vstar`, PSR-4 under `HopTop\Vstar\`,
-  PHP 8.2+.
-
-Every port is verified byte-identical to the Go reference over the
-shared corpus by `make test-parity`.
-
 ## How it's organized
 
 | Path | Purpose |
 | --- | --- |
-| `spec/` | The V\* specification — normative text, conformance corpus, and spec-side CI; published on `vstar-v0.1/v*` tags to the read-only mirror [`hop-top/spec-vstar`](https://github.com/hop-top/spec-vstar) |
-| `go/` | Go reference implementation (module `hop.top/vstar`), its tests, lint config and changelog |
-| `go/testdata/` | Generated, committed mirror of [`spec/v0.1/conformance/`](spec/v0.1/conformance/), kept in sync by `make fixtures-verify` so the published Go module stays self-contained |
-| `go/cmd/fixtures-*` | Corpus generators and the `fixtures-verify` drift gate |
-| `docs/` | Adopter guides, contributor guides, diagnostic code catalog — shared across languages |
-| `Makefile`, `mise.toml` | Root build targets and toolchain pins; every Go target runs through `go -C go` |
-| `.github/` | CI, release-please, publish-on-tag mirroring |
+| [`spec/`](spec/) | The V\* specification: normative text, the conformance corpus, and the registry tables every port carries. Its own [README](spec/README.md) is the spec's front page. |
+| [`go/`](go/) | Go reference implementation (module `hop.top/vstar`), its tests, and the `cmd/fixtures-*` corpus generators. |
+| [`go/testdata/`](go/testdata/) | Generated, committed mirror of [`spec/v0.1/conformance/`](spec/v0.1/conformance/), kept in sync by `make fixtures-verify` so the published Go module stays self-contained. Nobody hand-edits it. |
+| [`ts/`](ts/), [`py/`](py/), [`rs/`](rs/), [`php/`](php/) | The four ports. Each carries its own manifest, lockfile, toolchain, changelog, and conformance statement. |
+| [`tools/parity/`](tools/parity/) | The cross-language parity harness and the emitter contract. |
+| [`tools/registry/`](tools/registry/) | Renders [`spec/registry/`](spec/registry/) into per-language constants and [`docs/validate-codes.md`](docs/validate-codes.md), so a table is authored once and never retyped per port. |
+| [`docs/`](docs/INDEX.md) | Adopter how-tos, contributor guides, the porting guide, and the diagnostic code catalog — shared across languages. |
+| `Makefile`, `mise.toml` | Root build targets and toolchain pins. `make ci` is the full cross-language gate; `make ci-<lang>` is one language's slice of it. |
+| `.github/` | CI per language, parity CI, release-please, and publish-on-tag mirroring. |
 
 ## Spec
 
-The spec is authored here under [`spec/`](spec/) and is the source of
-truth; its [`spec/v0.1/conformance/`](spec/v0.1/conformance/) corpus is
-the canonical conformance set. [`go/testdata/`](go/testdata/) is a
-generated mirror of it — `make fixtures-verify` regenerates both trees
-and fails on any drift, so the two MUST stay byte-identical. Nobody
-hand-edits `go/testdata/`.
+The spec is authored under [`spec/`](spec/) and is the source of
+truth. [`spec/v0.1/`](spec/v0.1/) holds the numbered sections — read
+[`spec/README.md`](spec/README.md) for the order — and
+[`spec/v0.1/conformance/`](spec/v0.1/conformance/) is the canonical
+fixture set every implementation must reproduce: same input, same
+`.canonical` bytes, same `.hash`. Versions are independent
+directories; a breaking change opens a new one.
 
-| Layer | State |
-|-------|-------|
-| Spec ([`spec/`](spec/)) | Draft v0.1 |
-| Go reference (`hop.top/vstar`) | `go/`, tagged `vstar/v*` |
-| TypeScript port (`@hop-top/vstar`) | [`ts/`](ts/), tagged `vstar-ts/v*` |
-| Python port (`hop-top-vstar`) | [`py/`](py/), tagged `vstar-py/v*` |
-| Rust port (`hop-top-vstar`) | [`rs/`](rs/), tagged `vstar-rs/v*` |
-| PHP port (`hop-top/vstar`) | [`php/`](php/), tagged `vstar-php/v*` |
-| Racket emitter (in `hop-top/agr`) | Downstream, cross-validates against Go |
+An implementation is conformant when it meets every MUST in
+[`05-conformance.md`](spec/v0.1/05-conformance.md) and reproduces the
+whole corpus. [`docs/user/how-to-implement-vstar.md`](docs/user/how-to-implement-vstar.md)
+walks through the rules with worked examples.
+
+## Releases and mirrors
+
+Each component releases on its own tag, cut by release-please from
+the commits that touch its tree, and is republished on that tag — the
+tree alone, promoted to the mirror's root — by
+[`publish.yml`](.github/workflows/publish.yml).
+
+| Component | Tree | Tag | Mirror |
+|-----------|------|-----|--------|
+| Spec | `spec/` | `vstar-v0.1/v*` | [`hop-top/spec-vstar`](https://github.com/hop-top/spec-vstar) |
+| Go reference | `go/` | `vstar/v*` | [`hop-top/vstar`](https://github.com/hop-top/vstar) |
+| TypeScript port | `ts/` | `vstar-ts/v*` | [`hop-top/vstar-ts`](https://github.com/hop-top/vstar-ts) |
+| Python port | `py/` | `vstar-py/v*` | [`hop-top/vstar-py`](https://github.com/hop-top/vstar-py) |
+| Rust port | `rs/` | `vstar-rs/v*` | [`hop-top/vstar-rs`](https://github.com/hop-top/vstar-rs) |
+| PHP port | `php/` | `vstar-php/v*` | [`hop-top/vstar-php`](https://github.com/hop-top/vstar-php) |
+
+Mirrors are distribution channels, not places to send changes, and
+each one comes into existence with its tree's first release. Current
+versions per component are in
+[`.github/.release-please-manifest.json`](.github/.release-please-manifest.json).
 
 ## Where to go next
 
 | You are… | Start here |
 |----------|------------|
-| **Adopting `hop.top/vstar`** | [`go/README.md`](go/README.md) → [`docs/user/quickstart.md`](docs/user/quickstart.md) → [`docs/INDEX.md`](docs/INDEX.md) for how-tos and reference |
-| **Building a sister implementation** (TS / Python / …) | [`05-conformance.md`](spec/v0.1/05-conformance.md) + [`conformance/`](spec/v0.1/conformance/) + [`docs/user/how-to-implement-vstar.md`](docs/user/how-to-implement-vstar.md) |
-| **Changing vstar itself** | [`CONTRIBUTING.md`](CONTRIBUTING.md) → [`docs/dev/setup.md`](docs/dev/setup.md) → [`docs/dev/contributing-flow.md`](docs/dev/contributing-flow.md) |
+| **Adding V\* to a project** | The README for your language: [Go](go/README.md), [TypeScript](ts/README.md), [Python](py/README.md), [Rust](rs/README.md), [PHP](php/README.md). Then [`docs/INDEX.md`](docs/INDEX.md) for how-tos and reference. |
+| **Building a sister implementation** | [`docs/dev/porting-guide.md`](docs/dev/porting-guide.md) → [`05-conformance.md`](spec/v0.1/05-conformance.md) → [`docs/user/how-to-implement-vstar.md`](docs/user/how-to-implement-vstar.md) |
+| **Changing V\* itself** | [`CONTRIBUTING.md`](CONTRIBUTING.md) → [`docs/dev/setup.md`](docs/dev/setup.md) → [`docs/dev/contributing-flow.md`](docs/dev/contributing-flow.md) |
 | **Understanding a canonical-form rule** | [spec/03 — canonicalization](spec/v0.1/03-canonicalization.md) |
-
-## Why this exists as its own repo
-
-- The convention is reusable — any agent-protocol or orchestration
-  system can emit V\*.
-- Conformance must not be coupled to one runtime's release cycle.
-- Independent implementations need a stable reference point — five
-  already do, and the next one should not have to negotiate for it.
-- Foundation conversations are easier with an independent spec.
+| **Looking up a diagnostic code** | [`docs/validate-codes.md`](docs/validate-codes.md), generated from [`spec/registry/`](spec/registry/) |
+| **Mapping a Go symbol to another language** | [`docs/dev/api-mapping.md`](docs/dev/api-mapping.md) |
 
 ## Related projects
 
-- **AGR** — downstream consumer. Its compiler converts
-  Racket-described worlds into V\* component sequences. AGR-internal
-  extensions live in `X-AGR-*`.
-- **AGNTCY TS SDK** — candidate consumer; agents can emit V\* as
-  their canonical action log. Not yet wired.
+- [`hop-top/tlc`](https://github.com/hop-top/tlc) — IDE-agnostic todo
+  list with full syncing with any issue-tracking tool.
+
+More coming soon.
 
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for repo-wide rules
 (licensing, commit conventions, TDD posture, shared `go/testdata/`
-discipline) and [`docs/dev/`](docs/dev/) for the dev loop.
+discipline) and [`docs/dev/`](docs/INDEX.md#for-developers) for the
+dev loop. `make ci` is the gate a pull request must pass; it needs
+every toolchain, so `make ci-<lang>` is the shortcut while you work
+in one tree.
 
 Security reports: until `SECURITY.md` lands, see
 [`CONTRIBUTING.md`](CONTRIBUTING.md) for the private-report path.
 
 ## License
 
-The repository is MIT, except the spec text.
+Every language tree is MIT. The spec tree is the one exception, and
+it is dual-licensed.
 
 | What | Paths | Licence |
 | --- | --- | --- |
-| Code — reference implementations, build tooling, docs | everything outside `spec/` | MIT, see [`LICENSE`](LICENSE) |
+| Code — the Go reference, the four ports, build tooling, docs | everything outside `spec/` | MIT, see [`LICENSE`](LICENSE) |
 | Spec text — normative Markdown | `spec/v*/**/*.md` | CC-BY-4.0, see [`spec/LICENSE`](spec/LICENSE) |
 | Conformance corpus and spec-side scripts | `spec/v*/conformance/**`, `spec/.github/scripts/**` | MIT, see [`spec/LICENSE`](spec/LICENSE) |
 
