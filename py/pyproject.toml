@@ -8,7 +8,7 @@ name = "hop-top-vstar"
 # release with its own SemVer rendering ("0.1.0-alpha.1"), which
 # PEP 440 accepts and normalizes back to "0.1.0a1" -- the built
 # artifacts are named identically either way.
-version = "0.1.0a0"
+version = "0.1.0-alpha.1"
 description = "V* calendar and contact interchange — Python port of the Go reference implementation."
 readme = "README.md"
 requires-python = ">=3.11"
