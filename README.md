@@ -204,7 +204,7 @@ it is dual-licensed.
 | --- | --- | --- |
 | Code — the Go reference, the four ports, build tooling, docs | everything outside `spec/` | MIT, see [`LICENSE`](LICENSE) |
 | Spec text — the normative Markdown under a version directory | `spec/v*/**/*.md`, excluding `spec/v*/conformance/**` and `spec/v*/CHANGELOG.md` | CC-BY-4.0, see [`spec/LICENSE`](spec/LICENSE) |
-| Conformance corpus, behavior fixtures, registry tables, spec-side scripts and their changelog output, spec front matter | `spec/v*/conformance/**` (its READMEs and notes included), `spec/behavior/**`, `spec/registry/**`, `spec/.github/scripts/**`, `spec/v*/CHANGELOG.md`, `spec/README.md`, `spec/.markdownlint-cli2.jsonc` | MIT, see [`spec/LICENSE`](spec/LICENSE) |
+| Conformance corpus, behavior fixtures, registry tables, release changelog output, spec front matter | `spec/v*/conformance/**` (its READMEs and notes included), `spec/behavior/**`, `spec/registry/**`, `spec/v*/CHANGELOG.md`, `spec/README.md`, `spec/.markdownlint-cli2.jsonc` | MIT, see [`spec/LICENSE`](spec/LICENSE) |
 
 Every CC-BY-4.0 file carries an `SPDX-License-Identifier` header, so
 the scoping travels with a file copied out of the repository. The MIT

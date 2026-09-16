@@ -1,9 +1,13 @@
 name: version-check
 
-# Guards every release-version literal and every spec/vX.Y path against
-# the release-please manifest (tools/version-check/check.py), and runs
-# the guard's own unit tests. No path filter: literals live everywhere,
-# and the run is a few seconds of standard-library Python.
+# Guard over release-version literals and spec version paths: annotated
+# literals equal the manifest, annotated files and `extra-files` are one
+# set, no stray version literal, every `spec/vX.Y` path names a manifest
+# version, and no language-tagged version-bearing PRODID default
+# (`vstar-<lang> vX.Y.Z` -- PRODID is hashed, so the default is
+# version-free and identical in every port). The rules and the script
+# live in hop-top/.github. No path filter: literals live everywhere, and
+# the run is a few seconds of standard-library Python.
 #
 # Release PRs stay green by construction: release-please bumps the
 # manifest and the annotated extra-files together in one commit. A
@@ -20,18 +24,9 @@ permissions:
   contents: read
 
 jobs:
-  version-check:
+  guard:
     name: version-check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Guard unit tests
-        run: python3 -m unittest discover -s tools/version-check -v
-
-      - name: Run version-check
-        run: make version-check
+    uses: hop-top/.github/.github/workflows/version-check.yml@v0
+    with:
+      forbid-literal: |
+        vstar-(go|ts|py|rs|php) v\d

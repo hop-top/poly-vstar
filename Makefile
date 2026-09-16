@@ -169,14 +169,30 @@ registry-check: ## Verify the generated files match spec/registry/; fail on drif
 
 # release-please owns every version: the manifest, each package's
 # native version file, and the four annotated literals it rewrites
-# through extra-files. tools/version-check/check.py fails on an
-# annotated literal that disagrees with the manifest, an annotation
-# without its extra-files entry (or the reverse), a hand-typed release
-# version anywhere else, a spec/vX.Y path the manifest does not know,
-# and a language-tagged PRODID default. Standard-library Python, like
-# the registry generator.
+# through extra-files. The guard fails on an annotated literal that
+# disagrees with the manifest, an annotation without its extra-files
+# entry (or the reverse), a hand-typed release version anywhere else,
+# a spec/vX.Y path the manifest does not know, and a language-tagged
+# PRODID default (the forbid-literal pattern below, the same one
+# .github/workflows/version-check.yml passes).
+#
+# The guard is the org's shared version_check.py, run from a shallow
+# clone of hop-top/.github at tag v0 -- the pin the workflow uses, so
+# the local run and the CI run resolve the same commit. The clone is
+# cached under $XDG_CACHE_HOME (default ~/.cache) and refreshed on
+# every run; standard-library Python, like the registry generator.
+DOTGITHUB_CACHE := $(or $(XDG_CACHE_HOME),$(HOME)/.cache)/hop-top-dotgithub
+DOTGITHUB_REF   := v0
+VERSION_CHECK_FORBID := vstar-(go|ts|py|rs|php) v\d
+
 version-check: ## Verify release-version literals and spec/vX.Y paths against the release-please manifest
-	$(PYTHON) tools/version-check/check.py
+	@if [ -d "$(DOTGITHUB_CACHE)/.git" ]; then \
+		git -C "$(DOTGITHUB_CACHE)" fetch -q --depth 1 origin tag $(DOTGITHUB_REF) && \
+		git -C "$(DOTGITHUB_CACHE)" checkout -q $(DOTGITHUB_REF); \
+	else \
+		git clone -q --depth 1 --branch $(DOTGITHUB_REF) https://github.com/hop-top/.github "$(DOTGITHUB_CACHE)"; \
+	fi
+	$(PYTHON) "$(DOTGITHUB_CACHE)/scripts/spec/version_check.py" --root . --forbid-literal '$(VERSION_CHECK_FORBID)'
 
 # tools/parity/ is the cross-language parity harness. Every language
 # port ships an emitter that reads spec/ and prints one JSON document;
