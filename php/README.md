@@ -86,7 +86,7 @@ composer require hop-top/vstar
 ```
 
 The API may change between alpha tags; until 1.0.0, pin an exact
-version: `"hop-top/vstar": "1.0.0-alpha.0"` <!-- x-release-please-version -->
+version: `"hop-top/vstar": "1.0.0-alpha.1"` <!-- x-release-please-version -->
 
 Requirements:
 
