@@ -4,7 +4,13 @@
     "type": "library",
     "license": "MIT",
     "homepage": "https://hop.top/vstar",
-    "keywords": ["vstar", "icalendar", "vcard", "rfc5545", "rfc6350"],
+    "keywords": [
+        "vstar",
+        "icalendar",
+        "vcard",
+        "rfc5545",
+        "rfc6350"
+    ],
     "authors": [
         {
             "name": "Jad Bitar"
