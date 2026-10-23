@@ -13,7 +13,12 @@
     ],
     "authors": [
         {
-            "name": "Jad Bitar"
+            "name": "Idea Crafters LLC",
+            "email": "open@ideacrafters.com"
+        },
+        {
+            "name": "Jad Bitar",
+            "homepage": "https://github.com/jadb"
         }
     ],
     "support": {

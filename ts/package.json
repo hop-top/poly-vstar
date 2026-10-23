@@ -3,7 +3,10 @@
   "version": "1.0.0-alpha.1",
   "description": "V* calendar and contact interchange — TypeScript port of the Go reference implementation.",
   "license": "MIT",
-  "author": "Jad Bitar",
+  "author": "Idea Crafters LLC <open@ideacrafters.com>",
+  "contributors": [
+    "Jad Bitar (https://github.com/jadb)"
+  ],
   "type": "module",
   "homepage": "https://hop.top/vstar",
   "repository": {

@@ -14,7 +14,10 @@ description = "V* calendar and contact interchange — Python port of the Go ref
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
-authors = [{ name = "Jad Bitar" }]
+authors = [
+  { name = "Idea Crafters LLC", email = "open@ideacrafters.com" },
+  { name = "Jad Bitar" },
+]
 keywords = ["vstar", "icalendar", "vcard", "rfc5545", "rfc6350"]
 classifiers = [
   "Development Status :: 3 - Alpha",
