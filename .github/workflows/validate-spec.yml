@@ -1,8 +1,9 @@
 name: validate (spec)
 
-# Lints the specification prose and runs the unit tests for the spec's
-# own release/validation scripts. Path-filtered to spec/** so a Go-only
-# change does not spin up Node and Python.
+# Lints the specification prose. Path-filtered to spec/** so a Go-only
+# change does not spin up Node. The spec-versioning gates (commit rules,
+# status lines, the version-literal guard) are the org's shared
+# workflows, called from their own files in this directory.
 
 on:
   push:
@@ -32,16 +33,3 @@ jobs:
       - name: Run markdownlint
         run: make lint-spec
 
-  script-tests:
-    name: script unit tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Run unit tests
-        working-directory: spec
-        run: python3 -m unittest discover -s .github/scripts/tests -v

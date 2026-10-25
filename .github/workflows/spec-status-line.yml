@@ -1,0 +1,24 @@
+name: spec-status-line
+
+# Rewrites the `**Status:**` line of every spec document from the release
+# channel when release-please opens or updates a labelled release PR
+# (-alpha.N → Draft, -beta.N → Pre-release, -rc.N → Release Candidate,
+# unsuffixed → General Availability) and pushes the change to the PR
+# branch as the release bot. The job is gated on the release label; a
+# release PR for one of the five package components (`vstar`,
+# `vstar-ts`, ...) is a no-op because its package path is not a spec
+# directory. The script lives in hop-top/.github.
+
+on:
+  pull_request:
+    types: [labeled, opened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  status-line:
+    uses: hop-top/.github/.github/workflows/spec-status-line.yml@v0
+    secrets:
+      RELEASE_BOT_APP_ID: ${{ secrets.RELEASE_BOT_APP_ID }}
+      RELEASE_BOT_PRIVATE_KEY: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}

@@ -45,13 +45,12 @@ are normative in the spec.
   **MIT**: the conformance corpus (`spec/v*/conformance/**`, its
   READMEs and notes included), the behavior fixtures
   (`spec/behavior/**`), the registry tables (`spec/registry/**`),
-  the release tooling (`spec/.github/scripts/**`) and its output,
-  and the tree's front matter — so an implementation can vendor the
-  fixtures and tables on the same terms as the code that consumes
-  them. MIT files under `spec/` carry **no** SPDX header: fixtures
-  are byte-exact test data, JSON has no comment syntax, and the
-  scripts and Markdown follow suit; a headerless file there is MIT,
-  not unscoped.
+  the release changelog output (`spec/v*/CHANGELOG.md`), and the
+  tree's front matter — so an implementation can vendor the fixtures
+  and tables on the same terms as the code that consumes them. MIT
+  files under `spec/` carry **no** SPDX header: fixtures are
+  byte-exact test data, JSON has no comment syntax, and the Markdown
+  follows suit; a headerless file there is MIT, not unscoped.
 - **Inbound = outbound.** By opening a PR you agree your
   contribution is licensed under the same terms as the file you're
   touching — the default convention for public repositories, and

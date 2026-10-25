@@ -14,15 +14,14 @@ directory is the repository root).
   conformance corpus (`v*/conformance/**` — the corpus glob wins over
   the spec-text glob, so the READMEs and `.notes.md` files inside it
   are MIT too), the behavior fixtures (`behavior/**`), the registry
-  tables (`registry/**`), the release tooling (`.github/scripts/**`)
-  and its output (`v*/CHANGELOG.md`), and this tree's own front
-  matter and lint configuration (`README.md`,
-  `.markdownlint-cli2.jsonc`). These are test data, generated
-  artifacts, tooling and repository front matter, not normative text.
-  None of them carries an SPDX-License-Identifier header: the fixtures
-  are byte-exact test data, JSON has no comment syntax, and the
-  scripts and Markdown follow the same rule — so a file in this tree
-  with no header is MIT, not unscoped.
+  tables (`registry/**`), the release changelog output
+  (`v*/CHANGELOG.md`), and this tree's own front matter and lint
+  configuration (`README.md`, `.markdownlint-cli2.jsonc`). These are
+  test data, generated artifacts and repository front matter, not
+  normative text. None of them carries an SPDX-License-Identifier
+  header: the fixtures are byte-exact test data, JSON has no comment
+  syntax, and the Markdown follows the same rule — so a file in this
+  tree with no header is MIT, not unscoped.
 
 Anything outside this tree — the reference implementations and the
 contributor documentation — is MIT; see the LICENSE at the root of

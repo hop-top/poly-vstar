@@ -56,21 +56,21 @@ and what "conformant" means for a document and for an implementation.
 
 Versions are independent directories. A breaking change opens a new
 version directory; it never bumps within an existing one. CI enforces
-both halves of that rule with
-[`.github/scripts/validate_spec_commits.py`](.github/scripts/validate_spec_commits.py):
-a commit may touch only one `vX.Y/` directory, and a commit touching
-one may not carry Conventional Commits breaking-change syntax. The
-one admitted shape across two directories is a whole-directory
-rename: every file moves byte-identical to the same relative path
-and nothing is left behind, so the commit counts as touching only
-the destination.
+both halves of that rule with the `spec-commit-rules` workflow shared
+from [`hop-top/.github`][spec-versioning]: a commit may touch only
+one `vX.Y/` directory, and a commit touching one may not carry
+Conventional Commits breaking-change syntax. The one admitted shape
+across two directories is a whole-directory rename: every file moves
+byte-identical to the same relative path and nothing is left behind,
+so the commit counts as touching only the destination.
 
 The `**Status:**` line at the top of this file and of each version's
-documents is written by release automation
-([`.github/scripts/update_status_lines.py`](.github/scripts/update_status_lines.py))
-from the release channel: `alpha` is Draft, `beta` is Pre-release,
-`rc` is Release Candidate, and an unsuffixed version is General
-Availability.
+documents is written by release automation (the `spec-status-line`
+workflow from the same repository) from the release channel: `alpha`
+is Draft, `beta` is Pre-release, `rc` is Release Candidate, and an
+unsuffixed version is General Availability.
+
+[spec-versioning]: https://github.com/hop-top/.github/blob/main/references/how-to/spec-versioning.md
 
 ## How to read v1.0
 
@@ -229,7 +229,7 @@ hold in both the source repository and the mirror. See
 | What | Paths | Licence |
 |------|-------|---------|
 | Spec text — the normative Markdown under a version directory | `v*/**/*.md`, excluding `v*/conformance/**` and `v*/CHANGELOG.md` | CC-BY-4.0 |
-| Conformance corpus, behavior fixtures, registry tables, release tooling and its changelog output, and this tree's front matter | `v*/conformance/**` (its READMEs and notes included), `behavior/**`, `registry/**`, `.github/scripts/**`, `v*/CHANGELOG.md`, `README.md`, `.markdownlint-cli2.jsonc` | MIT |
+| Conformance corpus, behavior fixtures, registry tables, release changelog output, and this tree's front matter | `v*/conformance/**` (its READMEs and notes included), `behavior/**`, `registry/**`, `v*/CHANGELOG.md`, `README.md`, `.markdownlint-cli2.jsonc` | MIT |
 
 Every CC-BY-4.0 file carries an `SPDX-License-Identifier` header, so
 the scoping survives a file being copied out of the tree. The MIT

@@ -5,9 +5,9 @@ and `spec/v*/CHANGELOG.md`) is CC-BY-4.0 — each such file carries an
 SPDX-License-Identifier header — while everything else under `spec/`
 is MIT: the conformance corpus (`spec/v*/conformance/**`, its READMEs
 and notes included), the behavior fixtures (`spec/behavior/**`), the
-registry tables (`spec/registry/**`), the release tooling
-(`spec/.github/scripts/**`) and its output, and the tree's own front
-matter. See `spec/LICENSE` for the spec tree's full terms.
+registry tables (`spec/registry/**`), the release changelog output
+(`spec/v*/CHANGELOG.md`), and the tree's own front matter. See
+`spec/LICENSE` for the spec tree's full terms.
 
 The MIT text below governs everything else, including the reference
 implementation, the four ports, the build tooling and the
