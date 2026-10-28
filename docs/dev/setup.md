@@ -107,7 +107,7 @@ mise current go
 ```
 
 Expected: a single line printing the pinned version (e.g.
-`go 1.25.x`).
+`go 1.27.3`).
 
 ### 3. Build and test
 

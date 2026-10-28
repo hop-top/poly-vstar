@@ -15,7 +15,7 @@ The repository-wide rules — licensing, Conventional Commits, the
 RED / GREEN / REFACTOR posture, the shared conformance corpus — are
 in the monorepo's
 [CONTRIBUTING.md](https://github.com/hop-top/poly-vstar/blob/main/CONTRIBUTING.md).
-The Go conventions (gofumpt, golangci-lint, the `go 1.25` floor, no
+The Go conventions (gofumpt, golangci-lint, the `go 1.27.3` floor, no
 dependency beyond the standard library and `golang.org/x/text`) are its
 [per-language section](https://github.com/hop-top/poly-vstar/blob/main/CONTRIBUTING.md#per-language-conventions).
 

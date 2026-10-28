@@ -8,7 +8,7 @@ every other implementation is measured against.
 [![Release](https://img.shields.io/github/v/tag/hop-top/poly-vstar?filter=vstar/*&label=release&color=00ADD8&sort=semver)](https://github.com/hop-top/poly-vstar/releases)
 [![CI (Go)](https://img.shields.io/github/actions/workflow/status/hop-top/poly-vstar/ci-go.yml?branch=main&label=ci)](https://github.com/hop-top/poly-vstar/actions/workflows/ci-go.yml?query=branch%3Amain)
 [![Go Reference](https://pkg.go.dev/badge/hop.top/vstar.svg)](https://pkg.go.dev/hop.top/vstar)
-[![Go](https://img.shields.io/badge/go-1.25-00ADD8)](https://github.com/hop-top/poly-vstar/blob/main/go/go.mod)
+[![Go](https://img.shields.io/badge/go-1.27.3-00ADD8)](https://github.com/hop-top/poly-vstar/blob/main/go/go.mod)
 [![Spec](https://img.shields.io/badge/spec-draft%20v0.1-blue)](https://github.com/hop-top/poly-vstar/tree/main/spec)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/hop-top/poly-vstar/blob/main/LICENSE)
 
@@ -86,7 +86,7 @@ you need.
 go get hop.top/vstar
 ```
 
-Requires **Go 1.25 or newer**. The module depends on the standard
+Requires **Go 1.27.3 or newer**. The module depends on the standard
 library and one external module, `golang.org/x/text` (NFC
 normalization in the canonical form); it takes no other dependency.
 Versions are prereleases (`1.0.0-alpha.*`); pin an exact version until

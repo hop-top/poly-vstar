@@ -13,7 +13,7 @@ another language that must agree byte-for-byte with the Go reference.
   five minutes.
 - [Go module](../go/README.md) — `hop.top/vstar`, the reference
   implementation every port is measured against: install, package
-  layout, and the API surface for Go 1.25+.
+  layout, and the API surface for Go 1.27.3+.
 - [TypeScript package](../ts/README.md) — `@hop-top/vstar`: install,
   subpath exports, and the API surface for Node 22+. Its
   [conformance statement](../ts/VSTAR-CONFORMANCE.md) records which
