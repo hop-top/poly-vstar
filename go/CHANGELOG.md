@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0-alpha.2](https://github.com/hop-top/poly-vstar/compare/vstar/v1.0.0-alpha.1...vstar/v1.0.0-alpha.2) (2026-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **go:** hop.top/vstar requires Go 1.27.3 or newer (was 1.25).
+
+### Build
+
+* **go:** Go 1.27.3 toolchain and module floor ([40cd33f](https://github.com/hop-top/poly-vstar/commit/40cd33f2ba59ba07e5327c5f45154ecb71895625))
+
 ## [1.0.0-alpha.1](https://github.com/hop-top/poly-vstar/compare/vstar/v1.0.0-alpha.0...vstar/v1.0.0-alpha.1) (2026-09-16)
 
 
