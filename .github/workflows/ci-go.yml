@@ -19,10 +19,13 @@ on:
 permissions:
   contents: read
 
-# Both jobs run against stable and oldstable. actions/setup-go resolves
-# those aliases; MISE_DISABLE_TOOLS keeps mise from shadowing that Go
-# with the mise.toml pin (mise still installs golangci-lint and runs
-# `mise run install`).
+# Both jobs run against stable and the module floor (the `go` directive
+# in go/go.mod, also the mise.toml pin). oldstable is not a leg: it sits
+# below the floor, so it would either fail to build or silently switch
+# to the floor toolchain. actions/setup-go resolves the versions;
+# MISE_DISABLE_TOOLS keeps mise from shadowing that Go with the
+# mise.toml pin (mise still installs golangci-lint and runs
+# `mise run install`). Bump the floor leg with go/go.mod.
 env:
   MISE_DISABLE_TOOLS: go
 
@@ -33,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go-version: [stable, oldstable]
+        go-version: [stable, "1.27.3"]
     steps:
       - uses: actions/checkout@v4
 
@@ -88,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go-version: [stable, oldstable]
+        go-version: [stable, "1.27.3"]
     steps:
       - uses: actions/checkout@v4
 

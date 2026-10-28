@@ -19,8 +19,9 @@ rust = "stable"
 
 # Notes:
 # - go/go.mod also declares `go 1.27.3`; keep these in lock-step.
-# - CI's test matrix runs stable + oldstable through actions/setup-go and
-#   sets MISE_DISABLE_TOOLS=go so this pin does not shadow them; the pin
+# - CI's test matrix runs stable + this floor (1.27.3) through
+#   actions/setup-go and sets MISE_DISABLE_TOOLS=go so this pin does not
+#   shadow them; bump the ci-go.yml floor leg with it. The pin
 #   is the primary local development version, so the library never
 #   accidentally adopts a too-new toolchain feature.
 # - On a fresh checkout: `mise install && mise run install`.

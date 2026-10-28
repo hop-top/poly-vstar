@@ -252,9 +252,9 @@ remain.
 Two more things the workflows do that are easy to undo by accident:
 
 - `ci-go.yml` and `ci-parity.yml` set `MISE_DISABLE_TOOLS=go` so the
-  `mise.toml` Go pin does not shadow the `stable` / `oldstable`
-  matrix `actions/setup-go` installs. The pin is the local floor;
-  the matrix is what CI tests.
+  `mise.toml` Go pin does not shadow the `stable` / floor (`1.27.3`)
+  matrix `actions/setup-go` installs. The pin is the local floor and
+  the matrix's floor leg; bump both with `go/go.mod`.
 - `pnpm/action-setup` is given `package_json_file: ts/package.json`.
   It reads `packageManager` from the repository root by default, and
   a polyglot root has no `package.json`, so without it the step
@@ -346,10 +346,11 @@ JSON
 
 The context strings are GitHub *check-run* names — the rendered
 `jobs.<id>.name`, not the workflow or job id. The list above pins
-each language's floor leg (the oldest supported toolchain line);
-the newer legs (`Node 24`, `Python 3.13`, `Rust stable`,
-`PHP 8.4`, `Lint (oldstable)`, `Test (oldstable)`) still run and
-still report, they are just not required to merge.
+each language's floor leg (the oldest supported toolchain line),
+except Go, which pins its `stable` leg; the other legs (`Node 24`,
+`Python 3.13`, `Rust stable`, `PHP 8.4`, `Lint (1.27.3)`,
+`Test (1.27.3)`) still run and still report, they are just not
+required to merge.
 
 Because every workflow is path-filtered, a check that does not run
 for a given PR reports nothing. With `strict: true` a required
@@ -365,7 +366,7 @@ only when you are ready for that.
 | `make: command not found` | macOS minimal install. | Install Xcode Command Line Tools: `xcode-select --install`. |
 | `golangci-lint: command not found` on `make lint` | mise pin not installed. | `mise install` (the version is pinned in `mise.toml`). |
 | `make fixtures-verify` shows drift on a fresh checkout | Implementation behavior diverged on `main`. | Open an issue — fixtures should be clean on `main` per CI. |
-| `make ci` passes locally but fails on CI | Different Go version, OS, or linter rule version. | Compare versions: `go version` vs the GitHub Actions log. CI runs `stable` and `oldstable`; the mise pin is the oldest supported line. |
+| `make ci` passes locally but fails on CI | Different Go version, OS, or linter rule version. | Compare versions: `go version` vs the GitHub Actions log. CI runs `stable` and the module floor (`1.27.3`); the mise pin is that floor. |
 | `make ci` fails on `lint-ts` / `test-py` / … with `command not found` | A port's toolchain is not installed. | Install it (`pnpm`, `uv`, `cargo`, `php`+`composer`), or run `make ci-<lang>` for the one language you are changing. |
 | `make test-parity` says a language `differs from go` | Two implementations disagree about a fixture. | The per-key diff names every differing fixture. Fix the port — or, if the reference is wrong, change it and regenerate every emitter. |
 | `make test-parity` exits 2 | The harness could not reach a verdict: the Go reference failed, printed invalid JSON, or has no `LANGUAGES` entry. | Fix the reference first. Exit 2 is never a mismatch, and the harness never promotes another language to reference. |
