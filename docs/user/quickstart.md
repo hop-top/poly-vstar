@@ -21,7 +21,7 @@ a VCALENDAR, walks its components, and computes the canonical
 
 You need:
 
-- Go 1.25 or later.
+- Go 1.27.3 or later.
 - A Go module (`go mod init` if you do not have one yet).
 
 ## Quick version

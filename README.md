@@ -81,7 +81,7 @@ each language's own lint, test, and build.
 
 | Language | Install | Runtime floor | Source tree | Read-only mirror |
 |----------|---------|---------------|-------------|------------------|
-| Go | `go get hop.top/vstar` | Go 1.25 | [`go/`](go/) | [`hop-top/vstar`](https://github.com/hop-top/vstar) |
+| Go | `go get hop.top/vstar` | Go 1.27.3 | [`go/`](go/) | [`hop-top/vstar`](https://github.com/hop-top/vstar) |
 | TypeScript | `pnpm add @hop-top/vstar` | Node 22 | [`ts/`](ts/) | [`hop-top/vstar-ts`](https://github.com/hop-top/vstar-ts) |
 | Python | `pip install hop-top-vstar` | Python 3.11 | [`py/`](py/) | [`hop-top/vstar-py`](https://github.com/hop-top/vstar-py) |
 | Rust | `cargo add hop-top-vstar` | Rust 1.98 | [`rs/`](rs/) | [`hop-top/vstar-rs`](https://github.com/hop-top/vstar-rs) |

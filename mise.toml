@@ -2,7 +2,7 @@
 # https://mise.jdx.dev/
 
 [tools]
-go = "1.25"
+go = "1.27.3"
 # golangci-lint 2.14 is the first line that typechecks the go1.27.3
 # standard library; 2.13 builds fail on its export data and older
 # builds crash outright.
@@ -18,7 +18,7 @@ uv = "latest"
 rust = "stable"
 
 # Notes:
-# - go/go.mod also declares `go 1.25`; keep these in lock-step.
+# - go/go.mod also declares `go 1.27.3`; keep these in lock-step.
 # - CI's test matrix runs stable + oldstable through actions/setup-go and
 #   sets MISE_DISABLE_TOOLS=go so this pin does not shadow them; the pin
 #   is the primary local development version, so the library never
