@@ -3,9 +3,10 @@
 
 [tools]
 go = "1.25"
-# golangci-lint 2.13 is the first line built with go1.27; older builds
-# crash typechecking the go1.27 standard library.
-golangci-lint = "2.13.2"
+# golangci-lint 2.14 is the first line that typechecks the go1.27.3
+# standard library; 2.13 builds fail on its export data and older
+# builds crash outright.
+golangci-lint = "2.14.0"
 
 # Port toolchains. Each pin is the floor the matching package manifest
 # declares: ts/package.json engines.node, py/pyproject.toml
